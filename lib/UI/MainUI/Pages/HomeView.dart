@@ -31,59 +31,6 @@ class _HomeViewState extends State<HomeViewWidget> {
                 },
               ),
             ),
-            Material(
-              color: Colors.transparent,
-              child: PopupMenuButton<String>(
-                icon: Icon(
-                  Icons.more_vert,
-                  color: Colors.white,
-                ),
-                itemBuilder: (BuildContext context) {
-                  return [
-                    PopupMenuItem(
-                      value: 'scan',
-                      child: Row(
-                        children: <Widget>[
-                          Icon(AntDesign.scan1),
-                          Spacer(),
-                          Text('扫一扫'),
-                        ],
-                      ),
-                    ),
-                    PopupMenuItem(
-                      value: 'add',
-                      child: Row(
-                        children: <Widget>[
-                          Icon(AntDesign.adduser),
-                          Spacer(),
-                          Text('添加'),
-                        ],
-                      ),
-                    ),
-                    PopupMenuItem(
-                      value: 'settings',
-                      child: Row(
-                        children: <Widget>[
-                          Icon(AntDesign.setting),
-                          Spacer(),
-                          Text('设置'),
-                        ],
-                      ),
-                    ),
-                  ];
-                },
-                onSelected: (value) {
-                  switch (value) {
-                    case 'scan':
-                      Navigator.of(context).pushNamed('scan');
-                      break;
-                    case 'settings':
-                      Navigator.of(context).pushNamed('settings');
-                      break;
-                  }
-                },
-              ),
-            ),
           ],
           flexibleSpace: FlexibleSpaceBar(
             background: CarouselSlider.builder(
