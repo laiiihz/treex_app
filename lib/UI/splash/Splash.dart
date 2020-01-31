@@ -20,9 +20,11 @@ class _SplashState extends State<SplashPage> {
       Shared.readCurvedMode(context);
       Shared.readColoredNavi(context);
       Shared.readSlideBackMode(context);
-    });
-    Future.delayed(Duration(milliseconds: 2500), () {
-      Navigator.of(context).pushReplacementNamed('login');
+      Shared.readDevTools(context);
+    }).then((_){
+      Future.delayed(Duration(milliseconds: 2500), () {
+        Navigator.of(context).pushReplacementNamed('login');
+      });
     });
   }
 

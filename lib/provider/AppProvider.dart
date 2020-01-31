@@ -73,4 +73,11 @@ class AppProvider extends ChangeNotifier {
     _showFAB = state;
     notifyListeners();
   }
+
+  bool _devTool = false;
+  get devTool => _devTool;
+  changeDevTool(bool state){
+    _devTool= state;
+    notifyListeners();
+  }
 }

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:treex_app/UI/MainUI/Home.dart';
+import 'package:treex_app/UI/MainUI/extra/DevTool.dart';
 import 'package:treex_app/UI/MainUI/extra/Profiles.dart';
 import 'package:treex_app/UI/MainUI/extra/Settings.dart';
 import 'package:treex_app/UI/MainUI/extra/About.dart';
@@ -60,6 +61,7 @@ class MyApp extends StatelessWidget {
         'filesAll': (context) => FilesAllPage(),
         'filesType': (context) => FilesTypePage(),
         'friendsList': (context) => FriendsListPage(),
+        'devTool': (context) => DevToolPage()
       },
     );
   }

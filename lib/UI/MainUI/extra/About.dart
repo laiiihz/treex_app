@@ -1,6 +1,10 @@
+import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:flutter_miui/flutter_miui.dart';
+import 'package:provider/provider.dart';
+import 'package:treex_app/Utils/SharedPreferenceUtils.dart';
+import 'package:treex_app/provider/AppProvider.dart';
 
 class AboutPage extends StatefulWidget {
   @override
@@ -8,8 +12,12 @@ class AboutPage extends StatefulWidget {
 }
 
 class _AboutState extends State<AboutPage> {
+  int _devToolOn = 10;
+
   @override
   Widget build(BuildContext context) {
+    final provider = Provider.of<AppProvider>(context);
+
     return Scaffold(
       body: CustomScrollView(
         physics: MIUIScrollPhysics(),
@@ -40,6 +48,24 @@ class _AboutState extends State<AboutPage> {
                   Navigator.of(context).pushNamed('licenses_gpl');
                 },
                 leading: Icon(AntDesign.codesquareo),
+              ),
+              ListTile(
+                leading: Icon(AntDesign.github),
+                title: Text('github@laiiihz'),
+                subtitle: Text("Author"),
+                onTap: provider.devTool
+                    ? (){
+                  BotToast.showText(text: '已开启开发者模式');
+                }
+                    : () {
+                        if (_devToolOn != 0) {
+                          BotToast.showText(text: '再点击$_devToolOn次开启开发者模式');
+                          _devToolOn--;
+                        } else {
+                          Shared.writeDevTools(true);
+                          BotToast.showText(text: '已开启开发者模式');
+                        }
+                      },
               ),
             ]),
           ),

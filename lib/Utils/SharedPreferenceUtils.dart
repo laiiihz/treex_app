@@ -93,8 +93,19 @@ class Shared {
   static Future readColoredNavi(BuildContext context) async {
     final provider = Provider.of<AppProvider>(context, listen: false);
     await getShared();
-    provider
-        .changeBottomBarColored(_sharedPreferences.getBool('NaviColored') ?? false);
+    provider.changeBottomBarColored(
+        _sharedPreferences.getBool('NaviColored') ?? false);
+  }
+
+  static Future writeDevTools(bool state) async {
+    await getShared();
+    _sharedPreferences.setBool('devTool', state);
+  }
+
+  static Future readDevTools(BuildContext context) async {
+    final provider = Provider.of<AppProvider>(context, listen: false);
+    await getShared();
+    provider.changeDevTool(_sharedPreferences.getBool('devTool') ?? false);
   }
 }
 

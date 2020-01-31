@@ -175,7 +175,15 @@ class _ProfileViewState extends State<ProfileViewWidget> {
               contentPadding: edgeInsetsGeometryCurved(context),
               leading: Icon(AntDesign.questioncircle),
               title: Text('常见问题'),
-            )
+            ),
+            provider.devTool?ListTile(
+              onTap: () {
+                Navigator.of(context).pushNamed('devTool');
+              },
+              contentPadding: edgeInsetsGeometryCurved(context),
+              leading: Icon(Icons.developer_mode),
+              title: Text('开发者工具'),
+            ):SizedBox(),
           ]),
         ),
       ],
