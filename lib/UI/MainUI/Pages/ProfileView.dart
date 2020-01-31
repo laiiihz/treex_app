@@ -127,7 +127,7 @@ class _ProfileViewState extends State<ProfileViewWidget> {
                       },
                       icon: Hero(
                         tag: 'network',
-                        child: Icon(Icons.network_cell),
+                        child: Icon(Icons.wifi),
                       ),
                       text: '网络设置',
                     ),

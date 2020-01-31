@@ -23,7 +23,7 @@ class _LargeIconBackgroundState extends State<LargeIconBackgroundWidget> {
           opacity: 0.7,
           child: Icon(
             widget.icon,
-            size: 200,
+            size: 170,
           ),
         ),
       ),

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:flutter_miui/flutter_miui.dart';
 import 'package:treex_app/UI/MainUI/extraPages/friends/SingleFriendView.dart';
+import 'package:treex_app/UI/widget/LargeIconBackground.dart';
 
 class MessageViewWidget extends StatefulWidget {
   @override
@@ -27,6 +28,8 @@ class _MessageViewState extends State<MessageViewWidget> {
           ],
           flexibleSpace: FlexibleSpaceBar(
             title: Text('消息'),
+            background:
+                LargeIconBackgroundWidget(tag: 'message', icon: Icons.message),
           ),
           expandedHeight: 200,
         ),

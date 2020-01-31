@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:flutter_miui/flutter_miui.dart';
 import 'package:treex_app/UI/widget/CardBar.dart';
+import 'package:treex_app/UI/widget/LargeIconBackground.dart';
 import 'package:treex_app/UI/widget/ProfileGrid.dart';
 
 class FileViewWidget extends StatefulWidget {
@@ -16,6 +17,7 @@ class _FileViewState extends State<FileViewWidget> {
       physics: MIUIScrollPhysics(),
       slivers: <Widget>[
         SliverAppBar(
+          pinned: true,
           expandedHeight: 200,
           actions: <Widget>[
             Tooltip(
@@ -31,7 +33,11 @@ class _FileViewState extends State<FileViewWidget> {
               ),
             ),
           ],
-          flexibleSpace: FlexibleSpaceBar(),
+          flexibleSpace: FlexibleSpaceBar(
+            title: Text('云盘'),
+            background: LargeIconBackgroundWidget(
+                tag: 'file_background', icon: Icons.cloud),
+          ),
         ),
         SliverToBoxAdapter(
           child: CardBarWidget(
