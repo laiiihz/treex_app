@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_miui/flutter_miui.dart';
 import 'package:treex_app/UI/widget/LargeIconBackground.dart';
+import 'package:treex_app/UI/widget/file/FilesType.dart';
 
 class FilesTypePage extends StatefulWidget {
   @override
@@ -8,6 +9,7 @@ class FilesTypePage extends StatefulWidget {
 }
 
 class _FilesTypeState extends State<FilesTypePage> {
+  int _currentExpand = -1;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -27,6 +29,63 @@ class _FilesTypeState extends State<FilesTypePage> {
             ),
             expandedHeight: 200,
           ),
+          SliverToBoxAdapter(
+            child: ExpansionPanelList(
+              expansionCallback: (index, value) {
+                if (index == 0) {
+                  Navigator.of(context).pushNamed('devTool');
+                } else {
+                  setState(() {
+                    _currentExpand = (value ? -1 : index);
+                  });
+                }
+              },
+              children: [
+                ExpansionPanel(
+                  body: genFileType([
+                    'all',
+                    'photo',
+                    'test',
+                    'test',
+                    'test',
+                    'test',
+                    'test',
+                    'test',
+                    'test',
+                    'test'
+                  ]),
+                  headerBuilder: (BuildContext context, bool isExpanded) {
+                    return ListTile(
+                      title: Text('test'),
+                    );
+                  },
+                  isExpanded: _currentExpand == 0,
+                  canTapOnHeader: true,
+                ),
+                ExpansionPanel(
+                  body: genFileType([
+                    'all',
+                    'photo',
+                    'test',
+                    'test',
+                    'test',
+                    'test',
+                    'test',
+                    'test',
+                    'test',
+                    'test'
+                  ]),
+                  headerBuilder: (BuildContext context, bool isExpanded) {
+                    return ListTile(
+                      title: Text('test'),
+                    );
+                  },
+                  isExpanded: _currentExpand == 1,
+                  canTapOnHeader: true,
+                ),
+              ],
+            ),
+          )
         ],
       ),
     );
