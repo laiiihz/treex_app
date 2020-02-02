@@ -8,20 +8,22 @@ class SplashPage extends StatefulWidget {
 }
 
 class _SplashState extends State<SplashPage> {
+  Shared _shared;
   @override
   void initState() {
     super.initState();
     //Time to Live func
     Future.delayed(Duration.zero, () {
-      Shared(context).readTransparent();
-      Shared(context).readPrimaryColor();
-      Shared(context).readSecondaryColor();
-      Shared(context).readThemeMode();
-      Shared(context).readCurvedMode();
-      Shared(context).readColoredNavi();
-      Shared(context).readSlideBackMode();
-      Shared(context).readDevTools();
-    }).then((_){
+      _readShared().then((_) {
+        _shared
+          ..readTransparent()
+          ..readPrimaryColor()
+          ..readSecondaryColor()
+          ..readThemeMode()
+          ..readCurvedMode()
+          ..readColoredNavi();
+      });
+    }).then((_) {
       Future.delayed(Duration(milliseconds: 2500), () {
         Navigator.of(context).pushReplacementNamed('login');
       });
@@ -40,5 +42,9 @@ class _SplashState extends State<SplashPage> {
         ),
       ),
     );
+  }
+
+  Future _readShared() async {
+    _shared = await Shared.init(context);
   }
 }
