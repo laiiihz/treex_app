@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_miui/flutter_miui.dart';
 import 'package:provider/provider.dart';
 import 'package:treex_app/UI/widget/customWidgets.dart';
+import 'package:treex_app/network/AuthUtil.dart';
+import 'package:treex_app/network/Enums.dart';
 import 'package:treex_app/provider/AppProvider.dart';
 import 'package:treex_app/theme/Iconfont.dart';
 
@@ -17,6 +19,13 @@ class _LoginState extends State<LoginPage> {
   @override
   void initState() {
     super.initState();
+    Future.delayed(Duration.zero, () {
+      final provider = Provider.of<AppProvider>(context);
+      AuthUtil(context).checkPassword('admin', 'admin').then((value) {
+        print(value);
+      });
+    });
+    print(LoginResult.SUCCESS.index);
   }
 
   @override
@@ -84,13 +93,6 @@ class _LoginState extends State<LoginPage> {
           ),
           SizedBox(height: 20),
           TextField(
-            onTap: () {
-              _scrollController.animateTo(
-                300,
-                duration: Duration(milliseconds: 500),
-                curve: Curves.easeInOutCubic,
-              );
-            },
             obscureText: !_showPassword,
             decoration: InputDecoration(
               prefixIcon: Icon(Icons.lock),
@@ -119,24 +121,40 @@ class _LoginState extends State<LoginPage> {
             ),
           ),
           SizedBox(height: 20),
-          RaisedButton(
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(20),
-            ),
-            onPressed: () {
-              BotToast.showCustomLoading(toastBuilder: (_) {
-                final provider = Provider.of<AppProvider>(context);
-                return CircularProgressIndicator(
-                  valueColor:
-                      AlwaysStoppedAnimation<Color>(provider.primaryColor),
-                );
-              });
-              Future.delayed(Duration(milliseconds: 1000), () {
-                BotToast.closeAllLoading();
-                Navigator.of(context).pushReplacementNamed('home');
-              });
-            },
-            child: Text('登录'),
+          Row(
+            children: <Widget>[
+              Spacer(),
+              RaisedButton(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(20),
+                ),
+                onPressed: () {
+                  BotToast.showCustomLoading(toastBuilder: (_) {
+                    final provider = Provider.of<AppProvider>(context);
+                    return CircularProgressIndicator(
+                      valueColor:
+                          AlwaysStoppedAnimation<Color>(provider.primaryColor),
+                    );
+                  });
+                  Future.delayed(Duration(milliseconds: 1000), () {
+                    BotToast.closeAllLoading();
+                    Navigator.of(context).pushReplacementNamed('home');
+                  });
+                },
+                child: Text('登录'),
+              ),
+              Expanded(
+                child: Align(
+                  alignment: Alignment.centerRight,
+                  child: IconButton(
+                    icon: Icon(Icons.settings),
+                    onPressed: () {
+                      Navigator.of(context).pushNamed('network');
+                    },
+                  ),
+                ),
+              ),
+            ],
           ),
           Center(
             child: FlatButton(

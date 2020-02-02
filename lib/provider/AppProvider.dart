@@ -76,8 +76,29 @@ class AppProvider extends ChangeNotifier {
 
   bool _devTool = false;
   get devTool => _devTool;
-  changeDevTool(bool state){
-    _devTool= state;
+  changeDevTool(bool state) {
+    _devTool = state;
+    notifyListeners();
+  }
+
+  bool _isHttps = true;
+  get isHttp => _isHttps;
+  changeHttpsStatus(bool state) {
+    _isHttps = state;
+    notifyListeners();
+  }
+
+  String _networkAddr = "";
+  get networkAddr => _networkAddr;
+  changeNetworkAddr(String addr) {
+    _networkAddr = addr;
+    notifyListeners();
+  }
+
+  String _networkPort = "";
+  get networkPort => _networkPort;
+  changeNetworkPort(String port) {
+    _networkPort = port;
     notifyListeners();
   }
 }

@@ -3,8 +3,10 @@ import 'package:connectivity/connectivity.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:flutter_miui/flutter_miui.dart';
+import 'package:provider/provider.dart';
 import 'package:treex_app/UI/widget/CardBar.dart';
 import 'package:treex_app/UI/widget/LargeIconBackground.dart';
+import 'package:treex_app/provider/AppProvider.dart';
 
 class NetworkPage extends StatefulWidget {
   @override
@@ -15,9 +17,16 @@ class _NetworkState extends State<NetworkPage> {
   StreamSubscription<ConnectivityResult> subscription;
   Widget _iconConnection = Icon(AntDesign.close);
   String _connectionDescription = '';
+  TextEditingController _ipTextEditController = TextEditingController();
+  TextEditingController _portEditController = TextEditingController();
   @override
   void initState() {
     super.initState();
+    Future.delayed(Duration.zero, () {
+      final provider = Provider.of<AppProvider>(context, listen: false);
+      _ipTextEditController.text = provider.networkAddr;
+      _portEditController.text = provider.networkPort;
+    });
     subscription = Connectivity()
         .onConnectivityChanged
         .listen((ConnectivityResult result) {
@@ -55,7 +64,28 @@ class _NetworkState extends State<NetworkPage> {
 
   @override
   Widget build(BuildContext context) {
+    final provider = Provider.of<AppProvider>(context);
+
     return Scaffold(
+      floatingActionButton: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: <Widget>[
+          FloatingActionButton(
+            onPressed: () {},
+            child: Icon(Icons.refresh),
+            heroTag: 'test',
+          ),
+          SizedBox(width: 10),
+          FloatingActionButton.extended(
+            onPressed: () {
+              provider.changeNetworkAddr(_ipTextEditController.text);
+              provider.changeNetworkPort(_portEditController.text);
+            },
+            label: Text('保存'),
+            heroTag: 'fab',
+          ),
+        ],
+      ),
       body: Column(
         children: <Widget>[
           Expanded(
@@ -81,14 +111,35 @@ class _NetworkState extends State<NetworkPage> {
                     CardPadding10(
                       child: Padding(
                         padding: EdgeInsets.only(left: 5, right: 5),
-                        child: TextField(),
+                        child: TextField(
+                          controller: _ipTextEditController,
+                          decoration: InputDecoration(
+                            labelText: '服务器地址或IP',
+                          ),
+                        ),
                       ),
                     ),
                     SizedBox(height: 10),
                     CardPadding10(
                       child: Padding(
                         padding: EdgeInsets.only(left: 5, right: 5),
-                        child: TextField(),
+                        child: Row(
+                          children: <Widget>[
+                            Checkbox(
+                                value: provider.isHttp,
+                                onChanged: (value) {
+                                  provider.changeHttpsStatus(value);
+                                }),
+                            Text('HTTPS'),
+                            Spacer(),
+                            Expanded(
+                              child: TextField(
+                                controller: _portEditController,
+                                decoration: InputDecoration(labelText: '端口'),
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                   ]),
