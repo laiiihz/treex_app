@@ -46,10 +46,10 @@ class _SettingsState extends State<SettingsPage> {
                 onChanged: (value) {
                   if (value) {
                     setDarkMode(context, ThemeMode.system);
-                    Shared.writeThemeMode(ThemeMode.system);
+                    Shared(context).writeThemeMode(ThemeMode.system);
                   } else {
                     setDarkMode(context, ThemeMode.light);
-                    Shared.writeThemeMode(ThemeMode.light);
+                    Shared(context).writeThemeMode(ThemeMode.light);
                   }
                 },
               ),
@@ -63,10 +63,10 @@ class _SettingsState extends State<SettingsPage> {
                     : (value) {
                         if (value) {
                           setDarkMode(context, ThemeMode.dark);
-                          Shared.writeThemeMode(ThemeMode.dark);
+                          Shared(context).writeThemeMode(ThemeMode.dark);
                         } else {
                           setDarkMode(context, ThemeMode.light);
-                          Shared.writeThemeMode(ThemeMode.light);
+                          Shared(context).writeThemeMode(ThemeMode.light);
                         }
                       },
               ),
@@ -77,7 +77,7 @@ class _SettingsState extends State<SettingsPage> {
                 value: provider.haveCurved,
                 onChanged: (value) {
                   provider.setCurved(value);
-                  Shared.writeCurvedMode(value);
+                  Shared(context).writeCurvedMode(value);
                 },
               ),
               SwitchListTile(
@@ -86,7 +86,7 @@ class _SettingsState extends State<SettingsPage> {
                 value: provider.immersiveStatusBar,
                 onChanged: (status) {
                   provider.changeImmersiveStatusBar(status);
-                  Shared.writeTransparent(status);
+                  Shared(context).writeTransparent(status);
                 },
               ),
               SwitchListTile(
@@ -94,7 +94,7 @@ class _SettingsState extends State<SettingsPage> {
                 title: Text('开启导航栏背景色'),
                 onChanged: (value) {
                   provider.changeBottomBarColored(value);
-                  Shared.writeColoredNavi(value);
+                  Shared(context).writeColoredNavi(value);
                 },
                 value: provider.bottomBarColored,
               ),
@@ -111,7 +111,7 @@ class _SettingsState extends State<SettingsPage> {
                           physics: MIUIScrollPhysics(),
                           onColorChange: (color) {
                             provider.setPrimaryColor(color);
-                            Shared.writePrimaryColor(color);
+                            Shared(context).writePrimaryColor(color);
                           },
                           selectedColor: provider.primaryColor,
                         ),
@@ -135,7 +135,7 @@ class _SettingsState extends State<SettingsPage> {
                           physics: MIUIScrollPhysics(),
                           onColorChange: (color) {
                             provider.setSecondaryColor(color);
-                            Shared.writeSecondaryColor(color);
+                            Shared(context).writeSecondaryColor(color);
                           },
                           selectedColor: provider.secondaryColor,
                         ),
@@ -153,7 +153,7 @@ class _SettingsState extends State<SettingsPage> {
                 value: provider.iOSPlatform,
                 onChanged: (platform) {
                   provider.changeIOSPlatform(platform);
-                  Shared.writeSlideBackMode(platform);
+                  Shared(context).writeSlideBackMode(platform);
                 },
               ),
             ]),

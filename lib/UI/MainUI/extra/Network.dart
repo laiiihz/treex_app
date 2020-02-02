@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:bot_toast/bot_toast.dart';
 import 'package:connectivity/connectivity.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
@@ -71,7 +72,12 @@ class _NetworkState extends State<NetworkPage> {
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
           FloatingActionButton(
-            onPressed: () {},
+            onPressed: () {
+              BotToast.showCustomLoading(toastBuilder: (_) {
+                return CircularProgressIndicator();
+              });
+
+            },
             child: Icon(Icons.refresh),
             heroTag: 'test',
           ),
@@ -126,7 +132,7 @@ class _NetworkState extends State<NetworkPage> {
                         child: Row(
                           children: <Widget>[
                             Checkbox(
-                                value: provider.isHttp,
+                                value: provider.isHttps,
                                 onChanged: (value) {
                                   provider.changeHttpsStatus(value);
                                 }),

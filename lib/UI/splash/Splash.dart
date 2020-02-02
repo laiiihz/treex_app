@@ -13,14 +13,14 @@ class _SplashState extends State<SplashPage> {
     super.initState();
     //Time to Live func
     Future.delayed(Duration.zero, () {
-      Shared.readTransparent(context);
-      Shared.readPrimaryColor(context);
-      Shared.readSecondaryColor(context);
-      Shared.readThemeMode(context);
-      Shared.readCurvedMode(context);
-      Shared.readColoredNavi(context);
-      Shared.readSlideBackMode(context);
-      Shared.readDevTools(context);
+      Shared(context).readTransparent();
+      Shared(context).readPrimaryColor();
+      Shared(context).readSecondaryColor();
+      Shared(context).readThemeMode();
+      Shared(context).readCurvedMode();
+      Shared(context).readColoredNavi();
+      Shared(context).readSlideBackMode();
+      Shared(context).readDevTools();
     }).then((_){
       Future.delayed(Duration(milliseconds: 2500), () {
         Navigator.of(context).pushReplacementNamed('login');

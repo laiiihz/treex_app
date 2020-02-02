@@ -62,7 +62,7 @@ class _AboutState extends State<AboutPage> {
                           BotToast.showText(text: '再点击$_devToolOn次开启开发者模式');
                           _devToolOn--;
                         } else {
-                          Shared.writeDevTools(true);
+                          Shared(context).writeDevTools(true);
                           BotToast.showText(text: '已开启开发者模式');
                         }
                       },

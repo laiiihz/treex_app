@@ -1,113 +1,121 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:treex_app/provider/AppProvider.dart';
 
+class SharedBase {
+  AppProvider provider;
+  SharedBase(BuildContext context) {
+    provider = Provider.of<AppProvider>(context, listen: false);
+  }
+}
+
 ///set and get value form SharedPreferences
-class Shared {
-  static SharedPreferences _sharedPreferences;
-  static Future getShared() async {
+class Shared extends SharedBase {
+  Shared(BuildContext context) : super(context);
+  SharedPreferences _sharedPreferences;
+  Future getShared() async {
     _sharedPreferences = await SharedPreferences.getInstance();
   }
 
-  static Future writeTransparent(bool value) async {
+  Future writeTransparent(bool value) async {
     await getShared();
     _sharedPreferences.setBool('transparent', value);
   }
 
-  static Future readTransparent(BuildContext context) async {
-    final provider = Provider.of<AppProvider>(context, listen: false);
+  Future readTransparent() async {
     await getShared();
     provider.changeImmersiveStatusBar(
         _sharedPreferences.getBool('transparent') ?? false);
     print(provider.immersiveStatusBar);
   }
 
-  static Future writePrimaryColor(Color color) async {
+  Future writePrimaryColor(Color color) async {
     await getShared();
     _sharedPreferences.setInt('primaryColor', color.value);
   }
 
-  static Future readPrimaryColor(BuildContext context) async {
-    final provider = Provider.of<AppProvider>(context, listen: false);
+  Future readPrimaryColor() async {
     await getShared();
     provider.setPrimaryColor(Color(
         _sharedPreferences.getInt('primaryColor') ?? Colors.lightBlue.value));
   }
 
-  static Future writeSecondaryColor(Color color) async {
+  Future writeSecondaryColor(Color color) async {
     await getShared();
     _sharedPreferences.setInt('secondaryColor', color.value);
   }
 
-  static Future readSecondaryColor(BuildContext context) async {
-    final provider = Provider.of<AppProvider>(context, listen: false);
+  Future readSecondaryColor() async {
     await getShared();
     provider.setSecondaryColor(Color(
         _sharedPreferences.getInt('secondaryColor') ?? Colors.pink.value));
   }
 
-  static Future writeThemeMode(ThemeMode themeMode) async {
+  Future writeThemeMode(ThemeMode themeMode) async {
     await getShared();
     int mode = themeMode2Int(themeMode);
 
     _sharedPreferences.setInt('themeMode', mode);
   }
 
-  static Future readThemeMode(BuildContext context) async {
-    final provider = Provider.of<AppProvider>(context, listen: false);
+  Future readThemeMode() async {
     await getShared();
     provider.setThemeMode(
         int2ThemeMode(_sharedPreferences.getInt('themeMode') ?? 0));
   }
 
-  static Future writeCurvedMode(bool curved) async {
+  Future writeCurvedMode(bool curved) async {
     await getShared();
     _sharedPreferences.setBool('curved', curved);
   }
 
-  static Future readCurvedMode(BuildContext context) async {
-    final provider = Provider.of<AppProvider>(context, listen: false);
+  Future readCurvedMode() async {
     await getShared();
     provider.setCurved(_sharedPreferences.getBool('curved') ?? false);
   }
 
-  static Future writeSlideBackMode(bool mode) async {
+  Future writeSlideBackMode(bool mode) async {
     await getShared();
     _sharedPreferences.setBool('slideBack', mode);
   }
 
-  static Future readSlideBackMode(BuildContext context) async {
-    final provider = Provider.of<AppProvider>(context, listen: false);
+  Future readSlideBackMode() async {
     await getShared();
     provider
         .changeIOSPlatform(_sharedPreferences.getBool('slideBack') ?? false);
   }
 
-  static Future writeColoredNavi(bool colored) async {
+  Future writeColoredNavi(bool colored) async {
     await getShared();
     _sharedPreferences.setBool('NaviColored', colored);
   }
 
-  static Future readColoredNavi(BuildContext context) async {
-    final provider = Provider.of<AppProvider>(context, listen: false);
+  Future readColoredNavi() async {
     await getShared();
     provider.changeBottomBarColored(
         _sharedPreferences.getBool('NaviColored') ?? false);
   }
 
-  static Future writeDevTools(bool state) async {
+  Future writeDevTools(bool state) async {
     await getShared();
     _sharedPreferences.setBool('devTool', state);
   }
 
-  static Future readDevTools(BuildContext context) async {
-    final provider = Provider.of<AppProvider>(context, listen: false);
+  Future readDevTools() async {
     await getShared();
     provider.changeDevTool(_sharedPreferences.getBool('devTool') ?? false);
   }
+
+  Future writeIsHttps(bool isHttps) async {
+    await getShared();
+    _sharedPreferences.setBool('https', isHttps);
+  }
 }
+
+class Test {}
 
 ///system 0
 ///
