@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -14,8 +16,12 @@ class SharedBase {
 
 ///set and get value form SharedPreferences
 class Shared extends SharedBase {
-  Shared(BuildContext context) : super(context);
+  Shared._(BuildContext context,SharedPreferences sharedPreferences) : super(context);
   SharedPreferences _sharedPreferences;
+  static Future<Shared> init(BuildContext context)async{
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    return Shared._(context,sharedPreferences);
+  }
   Future getShared() async {
     _sharedPreferences = await SharedPreferences.getInstance();
   }

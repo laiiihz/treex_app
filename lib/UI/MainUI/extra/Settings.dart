@@ -15,6 +15,17 @@ class SettingsPage extends StatefulWidget {
 }
 
 class _SettingsState extends State<SettingsPage> {
+  Shared _shared;
+  @override
+  void initState() {
+    super.initState();
+    _initShared() async {
+      _shared = await Shared.init(context);
+    }
+
+    _initShared();
+  }
+
   @override
   Widget build(BuildContext context) {
     final provider = Provider.of<AppProvider>(context);
@@ -46,10 +57,10 @@ class _SettingsState extends State<SettingsPage> {
                 onChanged: (value) {
                   if (value) {
                     setDarkMode(context, ThemeMode.system);
-                    Shared(context).writeThemeMode(ThemeMode.system);
+                    _shared.writeThemeMode(ThemeMode.system);
                   } else {
                     setDarkMode(context, ThemeMode.light);
-                    Shared(context).writeThemeMode(ThemeMode.light);
+                    _shared.writeThemeMode(ThemeMode.light);
                   }
                 },
               ),
@@ -63,10 +74,10 @@ class _SettingsState extends State<SettingsPage> {
                     : (value) {
                         if (value) {
                           setDarkMode(context, ThemeMode.dark);
-                          Shared(context).writeThemeMode(ThemeMode.dark);
+                          _shared.writeThemeMode(ThemeMode.dark);
                         } else {
                           setDarkMode(context, ThemeMode.light);
-                          Shared(context).writeThemeMode(ThemeMode.light);
+                          _shared.writeThemeMode(ThemeMode.light);
                         }
                       },
               ),
@@ -77,7 +88,7 @@ class _SettingsState extends State<SettingsPage> {
                 value: provider.haveCurved,
                 onChanged: (value) {
                   provider.setCurved(value);
-                  Shared(context).writeCurvedMode(value);
+                  _shared.writeCurvedMode(value);
                 },
               ),
               SwitchListTile(
@@ -86,7 +97,7 @@ class _SettingsState extends State<SettingsPage> {
                 value: provider.immersiveStatusBar,
                 onChanged: (status) {
                   provider.changeImmersiveStatusBar(status);
-                  Shared(context).writeTransparent(status);
+                  _shared.writeTransparent(status);
                 },
               ),
               SwitchListTile(
@@ -94,7 +105,7 @@ class _SettingsState extends State<SettingsPage> {
                 title: Text('开启导航栏背景色'),
                 onChanged: (value) {
                   provider.changeBottomBarColored(value);
-                  Shared(context).writeColoredNavi(value);
+                  _shared.writeColoredNavi(value);
                 },
                 value: provider.bottomBarColored,
               ),
@@ -111,7 +122,7 @@ class _SettingsState extends State<SettingsPage> {
                           physics: MIUIScrollPhysics(),
                           onColorChange: (color) {
                             provider.setPrimaryColor(color);
-                            Shared(context).writePrimaryColor(color);
+                            _shared.writePrimaryColor(color);
                           },
                           selectedColor: provider.primaryColor,
                         ),
@@ -135,7 +146,7 @@ class _SettingsState extends State<SettingsPage> {
                           physics: MIUIScrollPhysics(),
                           onColorChange: (color) {
                             provider.setSecondaryColor(color);
-                            Shared(context).writeSecondaryColor(color);
+                            _shared.writeSecondaryColor(color);
                           },
                           selectedColor: provider.secondaryColor,
                         ),
@@ -153,7 +164,7 @@ class _SettingsState extends State<SettingsPage> {
                 value: provider.iOSPlatform,
                 onChanged: (platform) {
                   provider.changeIOSPlatform(platform);
-                  Shared(context).writeSlideBackMode(platform);
+                  _shared.writeSlideBackMode(platform);
                 },
               ),
             ]),

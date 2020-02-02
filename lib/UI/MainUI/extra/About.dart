@@ -13,7 +13,16 @@ class AboutPage extends StatefulWidget {
 
 class _AboutState extends State<AboutPage> {
   int _devToolOn = 10;
+  Shared _shared;
+  @override
+  void initState() {
+    super.initState();
+    _initShred()async{
+      _shared =await Shared.init(context);
+    }
+    _initShred();
 
+  }
   @override
   Widget build(BuildContext context) {
     final provider = Provider.of<AppProvider>(context);
@@ -54,15 +63,15 @@ class _AboutState extends State<AboutPage> {
                 title: Text('github@laiiihz'),
                 subtitle: Text("Author"),
                 onTap: provider.devTool
-                    ? (){
-                  BotToast.showText(text: '已开启开发者模式');
-                }
+                    ? () {
+                        BotToast.showText(text: '已开启开发者模式');
+                      }
                     : () {
                         if (_devToolOn != 0) {
                           BotToast.showText(text: '再点击$_devToolOn次开启开发者模式');
                           _devToolOn--;
                         } else {
-                          Shared(context).writeDevTools(true);
+                          _shared.writeDevTools(true);
                           BotToast.showText(text: '已开启开发者模式');
                         }
                       },
