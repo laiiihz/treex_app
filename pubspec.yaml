@@ -37,6 +37,11 @@ dependencies:
   connectivity:
   shared_preferences:
   dio:
+  flutter_staggered_animations:
+  video_player:
+  permission_handler:
+  url_launcher:
+  image_picker:
 
 dev_dependencies:
   flutter_test:
