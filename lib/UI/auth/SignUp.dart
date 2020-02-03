@@ -20,6 +20,7 @@ class SignUpPage extends StatefulWidget {
 }
 
 class _SignUpState extends State<SignUpPage> {
+  int _licensesIndex = -1;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -84,9 +85,32 @@ class _SignUpState extends State<SignUpPage> {
   }
 
   Widget _buildBody(BuildContext context) {
-    return Markdown(
-      data: Licenses.UserAgreement,
-      physics: MIUIScrollPhysics(),
+    return ListView(
+      children: <Widget>[
+        ExpansionPanelList(
+          expansionCallback: (index, state) {
+            setState(() {
+              _licensesIndex = !state ? index : -1;
+            });
+          },
+          children: [
+            ExpansionPanel(
+              canTapOnHeader: true,
+              isExpanded: _licensesIndex == 0,
+              headerBuilder: (context, state) {
+                return ListTile(
+                  title: Text('GPL'),
+                );
+              },
+              body: Markdown(
+                data: Licenses.UserAgreement,
+                shrinkWrap: true,
+                physics: NeverScrollableScrollPhysics(),
+              ),
+            ),
+          ],
+        ),
+      ],
     );
   }
 }

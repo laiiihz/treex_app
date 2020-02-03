@@ -138,6 +138,14 @@ class _SignUpNextStepState extends State<SignUpNextStepPage> {
                   ),
                 ),
               ),
+              CardPadding10(
+                child: Card(
+                  child: Padding(
+                    padding: EdgeInsets.all(5),
+                    child: SelectableText('注册即代表您同意用户使用协议'),
+                  ),
+                ),
+              ),
             ]),
           ),
         ],
@@ -175,10 +183,19 @@ class _SignUpNextStepState extends State<SignUpNextStepPage> {
           });
           break;
         case SignupResult.FAIL:
+          BotToast.showNotification(
+            title: (_) => Text('未知错误'),
+            trailing: (_) => Icon(Icons.clear, color: Colors.red),
+          );
           break;
         case SignupResult.PASSWORD_NULL:
           break;
         case SignupResult.SUCCESS:
+          Navigator.of(context).pop();
+          BotToast.showNotification(
+            title: (_) => Text('注册成功'),
+            trailing: (_) => Icon(Icons.check_circle, color: Colors.green),
+          );
           break;
       }
     });
