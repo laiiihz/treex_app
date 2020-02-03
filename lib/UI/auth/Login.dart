@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_miui/flutter_miui.dart';
 import 'package:provider/provider.dart';
 import 'package:treex_app/UI/widget/customWidgets.dart';
+import 'package:treex_app/Utils/SharedPreferenceUtils.dart';
 import 'package:treex_app/network/AuthUtil.dart';
 import 'package:treex_app/network/Enums.dart';
 import 'package:treex_app/provider/AppProvider.dart';
@@ -16,16 +17,14 @@ class LoginPage extends StatefulWidget {
 class _LoginState extends State<LoginPage> {
   bool _showPassword = false;
   ScrollController _scrollController = ScrollController();
+  Shared _shared;
   @override
   void initState() {
     super.initState();
-    Future.delayed(Duration.zero, () {
-      final provider = Provider.of<AppProvider>(context);
-      AuthUtil(context).checkPassword('admin', 'admin').then((value) {
-        print(value);
-      });
-    });
-    print(LoginResult.SUCCESS.index);
+    _initShard()async{
+      _shared =await Shared.init(context);
+    }
+    _initShard();
   }
 
   @override

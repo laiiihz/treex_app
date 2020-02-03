@@ -102,9 +102,29 @@ class Shared extends SharedBase {
   Future writeIsHttps(bool isHttps) async {
     _sharedPreferences.setBool('https', isHttps);
   }
-}
 
-class Test {}
+  Future readIsHttps() async {
+    provider.changeHttpsStatus(_sharedPreferences.getBool('https') ?? true);
+  }
+
+  Future writeNetworkAddr(String addr) async {
+    _sharedPreferences.setString('networkAddr', addr);
+  }
+
+  Future readNetworkAddr() async {
+    provider.changeNetworkAddr(
+        _sharedPreferences.getString('networkAddr') ?? '127.0.0.1');
+  }
+
+  Future writeNetworkPort(String port) async {
+    _sharedPreferences.setString('networkPort', port);
+  }
+
+  Future readNetworkPort() async {
+    provider
+        .changeNetworkPort(_sharedPreferences.getString('networkPort') ?? '');
+  }
+}
 
 ///system 0
 ///

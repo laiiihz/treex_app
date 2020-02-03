@@ -7,6 +7,9 @@ import 'package:flutter_miui/flutter_miui.dart';
 import 'package:provider/provider.dart';
 import 'package:treex_app/UI/widget/CardBar.dart';
 import 'package:treex_app/UI/widget/LargeIconBackground.dart';
+import 'package:treex_app/Utils/SharedPreferenceUtils.dart';
+import 'package:treex_app/network/AuthUtil.dart';
+import 'package:treex_app/network/CheckConnection.dart';
 import 'package:treex_app/provider/AppProvider.dart';
 
 class NetworkPage extends StatefulWidget {
@@ -20,13 +23,22 @@ class _NetworkState extends State<NetworkPage> {
   String _connectionDescription = '';
   TextEditingController _ipTextEditController = TextEditingController();
   TextEditingController _portEditController = TextEditingController();
+  Shared _shared;
+  bool _isHttpsOn = true;
   @override
   void initState() {
     super.initState();
+
     Future.delayed(Duration.zero, () {
       final provider = Provider.of<AppProvider>(context, listen: false);
+      _initShared() async {
+        _shared = await Shared.init(context);
+      }
+
+      _initShared();
       _ipTextEditController.text = provider.networkAddr;
       _portEditController.text = provider.networkPort;
+      _isHttpsOn = provider.isHttps;
     });
     subscription = Connectivity()
         .onConnectivityChanged
@@ -76,7 +88,15 @@ class _NetworkState extends State<NetworkPage> {
               BotToast.showCustomLoading(toastBuilder: (_) {
                 return CircularProgressIndicator();
               });
-
+              CheckConnection(
+                https: _isHttpsOn,
+                addr: _ipTextEditController.text,
+                port: _portEditController.text,
+              ).check().then((value) {
+                BotToast.closeAllLoading();
+                BotToast.showNotification(
+                    title: (_) => Text(value ? '连接成功' : '连接失败'));
+              });
             },
             child: Icon(Icons.refresh),
             heroTag: 'test',
@@ -84,6 +104,10 @@ class _NetworkState extends State<NetworkPage> {
           SizedBox(width: 10),
           FloatingActionButton.extended(
             onPressed: () {
+              _shared.writeIsHttps(_isHttpsOn);
+              _shared.writeNetworkAddr(_ipTextEditController.text);
+              _shared.writeNetworkPort(_portEditController.text);
+              provider.changeHttpsStatus(_isHttpsOn);
               provider.changeNetworkAddr(_ipTextEditController.text);
               provider.changeNetworkPort(_portEditController.text);
             },
@@ -132,9 +156,11 @@ class _NetworkState extends State<NetworkPage> {
                         child: Row(
                           children: <Widget>[
                             Checkbox(
-                                value: provider.isHttps,
+                                value: _isHttpsOn,
                                 onChanged: (value) {
-                                  provider.changeHttpsStatus(value);
+                                  setState(() {
+                                    _isHttpsOn = value;
+                                  });
                                 }),
                             Text('HTTPS'),
                             Spacer(),

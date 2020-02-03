@@ -82,7 +82,7 @@ class AppProvider extends ChangeNotifier {
   }
 
   bool _isHttps = true;
-  get isHttp => _isHttps;
+  get isHttps => _isHttps;
   changeHttpsStatus(bool state) {
     _isHttps = state;
     notifyListeners();
