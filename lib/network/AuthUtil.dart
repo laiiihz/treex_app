@@ -37,4 +37,21 @@ class AuthUtil extends NetworkUtil {
     }
     return _code;
   }
+
+  Future<SignupResult> signup({
+    String name,
+    String password,
+  }) async {
+    Response response;
+    await _dio.put('/api/signup?name=$name&password=$password').then((value) {
+      response = value;
+    }).catchError((err) {
+      print(err);
+    });
+    if (response == null) {
+      return SignupResult.FAIL;
+    } else {
+      return signupResultMap[response.data['signupResult']['code']];
+    }
+  }
 }

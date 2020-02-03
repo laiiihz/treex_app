@@ -23,6 +23,7 @@ class _LoginState extends State<LoginPage> {
   bool _nameNull = false;
   bool _passwordNull = false;
   bool _canLoginPressed = false;
+  bool _passwordWrong = false;
   FocusNode _nameFocusNode = new FocusNode();
   FocusNode _passwordFocusNode = new FocusNode();
 
@@ -107,8 +108,10 @@ class _LoginState extends State<LoginPage> {
                 icon: Icon(Icons.account_circle),
                 onPressed: () {
                   _nameController.clear();
-                  _nameNull = true;
-                  _canLoginPressed = (!_nameNull && !_passwordNull);
+                  setState(() {
+                    _nameNull = true;
+                    _canLoginPressed = (!_nameNull && !_passwordNull);
+                  });
                 },
               ),
               labelText: '用户名',
@@ -121,19 +124,24 @@ class _LoginState extends State<LoginPage> {
             obscureText: !_showPassword,
             onChanged: (value) {
               setState(() {
+                _passwordWrong = false;
                 _passwordNull = value.isEmpty;
                 _nameNull = _nameController.text.isEmpty;
                 _canLoginPressed = (!_nameNull && !_passwordNull);
               });
             },
             decoration: InputDecoration(
-              errorText: _passwordNull ? '密码不能为空' : null,
+              errorText:
+                  _passwordNull ? '密码不能为空' : _passwordWrong ? '密码错误' : null,
               prefixIcon: IconButton(
                   icon: Icon(Icons.lock),
                   onPressed: () {
                     _passwordController.clear();
-                    _passwordNull = true;
-                    _canLoginPressed = (!_nameNull && !_passwordNull);
+                    setState(() {
+                      _passwordWrong = false;
+                      _passwordNull = true;
+                      _canLoginPressed = (!_nameNull && !_passwordNull);
+                    });
                   }),
               labelText: '密码',
               suffixIcon: IconButton(
@@ -251,10 +259,12 @@ class _LoginState extends State<LoginPage> {
           );
           break;
         case LoginResult.SUCCESS:
-          final provider = Provider.of<AppProvider>(context, listen: false);
-          BotToast.showNotification(title: (_) => Text(provider.token));
+          Navigator.of(context).pushReplacementNamed('home');
           break;
         case LoginResult.PASSWORD_WRONG:
+          setState(() {
+            _passwordWrong = true;
+          });
           BotToast.showNotification(title: (_) => Text('密码错误'));
           break;
       }

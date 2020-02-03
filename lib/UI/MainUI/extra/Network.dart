@@ -137,10 +137,9 @@ class _NetworkState extends State<NetworkPage> {
                 ),
                 SliverList(
                   delegate: SliverChildListDelegate([
-                    SizedBox(height: 10),
                     CardPadding10(
                       child: Padding(
-                        padding: EdgeInsets.only(left: 5, right: 5),
+                        padding: EdgeInsets.only(left: 5, right: 5, top: 10),
                         child: TextField(
                           controller: _ipTextEditController,
                           decoration: InputDecoration(
@@ -149,10 +148,9 @@ class _NetworkState extends State<NetworkPage> {
                         ),
                       ),
                     ),
-                    SizedBox(height: 10),
                     CardPadding10(
                       child: Padding(
-                        padding: EdgeInsets.only(left: 5, right: 5),
+                        padding: EdgeInsets.only(left: 5, right: 5, top: 10),
                         child: Row(
                           children: <Widget>[
                             Checkbox(
