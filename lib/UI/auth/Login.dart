@@ -20,6 +20,11 @@ class _LoginState extends State<LoginPage> {
   ScrollController _scrollController = ScrollController();
   TextEditingController _nameController = TextEditingController();
   TextEditingController _passwordController = TextEditingController();
+  bool _nameNull = false;
+  bool _passwordNull = false;
+  bool _canLoginPressed = false;
+  FocusNode _nameFocusNode = new FocusNode();
+  FocusNode _passwordFocusNode = new FocusNode();
 
   @override
   void initState() {
@@ -85,11 +90,25 @@ class _LoginState extends State<LoginPage> {
           ),
           TextField(
             controller: _nameController,
+            focusNode: _nameFocusNode,
+            onSubmitted: (value) {
+              FocusScope.of(context).requestFocus(_passwordFocusNode);
+            },
+            onChanged: (value) {
+              setState(() {
+                _nameNull = value.isEmpty;
+                _passwordNull = _passwordController.text.isEmpty;
+                _canLoginPressed = (!_nameNull && !_passwordNull);
+              });
+            },
             decoration: InputDecoration(
+              errorText: _nameNull ? '用户名不能为空' : null,
               prefixIcon: IconButton(
                 icon: Icon(Icons.account_circle),
                 onPressed: () {
                   _nameController.clear();
+                  _nameNull = true;
+                  _canLoginPressed = (!_nameNull && !_passwordNull);
                 },
               ),
               labelText: '用户名',
@@ -97,13 +116,24 @@ class _LoginState extends State<LoginPage> {
           ),
           SizedBox(height: 20),
           TextField(
+            focusNode: _passwordFocusNode,
             controller: _passwordController,
             obscureText: !_showPassword,
+            onChanged: (value) {
+              setState(() {
+                _passwordNull = value.isEmpty;
+                _nameNull = _nameController.text.isEmpty;
+                _canLoginPressed = (!_nameNull && !_passwordNull);
+              });
+            },
             decoration: InputDecoration(
+              errorText: _passwordNull ? '密码不能为空' : null,
               prefixIcon: IconButton(
                   icon: Icon(Icons.lock),
                   onPressed: () {
                     _passwordController.clear();
+                    _passwordNull = true;
+                    _canLoginPressed = (!_nameNull && !_passwordNull);
                   }),
               labelText: '密码',
               suffixIcon: IconButton(
@@ -129,7 +159,13 @@ class _LoginState extends State<LoginPage> {
               ),
             ),
             onSubmitted: (value) {
-              checkLogin(context);
+              if (_nameController.text.isEmpty) {
+                setState(() {
+                  _nameNull = true;
+                });
+              } else {
+                checkLogin(context);
+              }
             },
           ),
           SizedBox(height: 20),
@@ -140,9 +176,11 @@ class _LoginState extends State<LoginPage> {
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(20),
                 ),
-                onPressed: () {
-                  checkLogin(context);
-                },
+                onPressed: _canLoginPressed
+                    ? () {
+                        checkLogin(context);
+                      }
+                    : null,
                 child: Text('登录'),
               ),
               Expanded(
@@ -213,7 +251,7 @@ class _LoginState extends State<LoginPage> {
           );
           break;
         case LoginResult.SUCCESS:
-          final provider = Provider.of<AppProvider>(context,listen: false);
+          final provider = Provider.of<AppProvider>(context, listen: false);
           BotToast.showNotification(title: (_) => Text(provider.token));
           break;
         case LoginResult.PASSWORD_WRONG:
