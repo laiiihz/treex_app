@@ -24,7 +24,8 @@ class _SplashState extends State<SplashPage> {
           ..readColoredNavi()
           ..readIsHttps()
           ..readNetworkAddr()
-          ..readNetworkPort();
+          ..readNetworkPort()
+          ..readToken();
       });
     }).then((_) {
       Future.delayed(Duration(milliseconds: 2500), () {

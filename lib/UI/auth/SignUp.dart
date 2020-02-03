@@ -3,10 +3,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:flutter_miui/flutter_miui.dart';
+import 'package:treex_app/UI/auth/SignUpNextStep.dart';
 import 'package:treex_app/UI/widget/customWidgets.dart';
 import 'package:treex_app/licenses/licenses.dart';
 
 class SignUpPage extends StatefulWidget {
+  SignUpPage({
+    Key key,
+    this.userName = '',
+    this.password = '',
+  }) : super(key: key);
+  final String userName;
+  final String password;
   @override
   State<StatefulWidget> createState() => _SignUpState();
 }
@@ -17,6 +25,12 @@ class _SignUpState extends State<SignUpPage> {
     return Scaffold(
       appBar: AppBar(
         title: Text('用户使用协议'),
+        actions: <Widget>[
+          IconButton(
+            icon: buildLogo(),
+            onPressed: () {},
+          ),
+        ],
       ),
       body: OrientationBuilder(
         builder: (BuildContext context, Orientation orientation) {
@@ -54,7 +68,13 @@ class _SignUpState extends State<SignUpPage> {
                 : Spacer(),
             FlatButton(
                 onPressed: () {
-                  Navigator.of(context).pushReplacementNamed('signUpNextStep');
+                  Navigator.of(context).pushReplacement(
+                    MaterialPageRoute(
+                        builder: (context) => SignUpNextStepPage(
+                              userName: widget.userName,
+                              password: widget.password,
+                            )),
+                  );
                 },
                 child: Text('同意')),
           ],

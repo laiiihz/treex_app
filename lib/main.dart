@@ -46,9 +46,7 @@ class MyApp extends StatelessWidget {
       routes: {
         'splash': (context) => SplashPage(),
         'login': (context) => LoginPage(),
-        'signUp': (context) => SignUpPage(),
         'home': (context) => HomePage(),
-        'signUpNextStep': (context) => SignUpNextStepPage(),
         'scan': (context) => ScanToolPage(),
         'settings': (context) => SettingsPage(),
         'profile': (context) => ProfilesPage(),

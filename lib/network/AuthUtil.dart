@@ -31,6 +31,10 @@ class AuthUtil extends NetworkUtil {
   AuthUtil(BuildContext context) : super(context);
   Future<LoginResult> checkPassword(String name, String password) async {
     dynamic result = await _dio.get('/api/login?name=$name&password=$password');
-    return loginResultMap[result.data['loginResult']['code']];
+    LoginResult _code = loginResultMap[result.data['loginResult']['code']];
+    if (_code == LoginResult.SUCCESS) {
+      provider.setToken(result.data['token']);
+    }
+    return _code;
   }
 }

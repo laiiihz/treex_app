@@ -101,4 +101,11 @@ class AppProvider extends ChangeNotifier {
     _networkPort = port;
     notifyListeners();
   }
+
+  String _token = "";
+  get token => _token;
+  setToken(String tokenStr) {
+    _token = tokenStr;
+    notifyListeners();
+  }
 }

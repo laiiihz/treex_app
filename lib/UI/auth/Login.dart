@@ -2,6 +2,7 @@ import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_miui/flutter_miui.dart';
 import 'package:provider/provider.dart';
+import 'package:treex_app/UI/auth/SignUp.dart';
 import 'package:treex_app/UI/widget/customWidgets.dart';
 import 'package:treex_app/Utils/SharedPreferenceUtils.dart';
 import 'package:treex_app/network/AuthUtil.dart';
@@ -17,14 +18,12 @@ class LoginPage extends StatefulWidget {
 class _LoginState extends State<LoginPage> {
   bool _showPassword = false;
   ScrollController _scrollController = ScrollController();
-  Shared _shared;
+  TextEditingController _nameController = TextEditingController();
+  TextEditingController _passwordController = TextEditingController();
+
   @override
   void initState() {
     super.initState();
-    _initShard()async{
-      _shared =await Shared.init(context);
-    }
-    _initShard();
   }
 
   @override
@@ -85,16 +84,27 @@ class _LoginState extends State<LoginPage> {
             height: 50,
           ),
           TextField(
+            controller: _nameController,
             decoration: InputDecoration(
-              prefixIcon: Icon(Icons.account_circle),
+              prefixIcon: IconButton(
+                icon: Icon(Icons.account_circle),
+                onPressed: () {
+                  _nameController.clear();
+                },
+              ),
               labelText: '用户名',
             ),
           ),
           SizedBox(height: 20),
           TextField(
+            controller: _passwordController,
             obscureText: !_showPassword,
             decoration: InputDecoration(
-              prefixIcon: Icon(Icons.lock),
+              prefixIcon: IconButton(
+                  icon: Icon(Icons.lock),
+                  onPressed: () {
+                    _passwordController.clear();
+                  }),
               labelText: '密码',
               suffixIcon: IconButton(
                 icon: AnimatedCrossFade(
@@ -118,6 +128,9 @@ class _LoginState extends State<LoginPage> {
                 },
               ),
             ),
+            onSubmitted: (value) {
+              checkLogin(context);
+            },
           ),
           SizedBox(height: 20),
           Row(
@@ -128,17 +141,7 @@ class _LoginState extends State<LoginPage> {
                   borderRadius: BorderRadius.circular(20),
                 ),
                 onPressed: () {
-                  BotToast.showCustomLoading(toastBuilder: (_) {
-                    final provider = Provider.of<AppProvider>(context);
-                    return CircularProgressIndicator(
-                      valueColor:
-                          AlwaysStoppedAnimation<Color>(provider.primaryColor),
-                    );
-                  });
-                  Future.delayed(Duration(milliseconds: 1000), () {
-                    BotToast.closeAllLoading();
-                    Navigator.of(context).pushReplacementNamed('home');
-                  });
+                  checkLogin(context);
                 },
                 child: Text('登录'),
               ),
@@ -158,7 +161,9 @@ class _LoginState extends State<LoginPage> {
           Center(
             child: FlatButton(
                 onPressed: () {
-                  Navigator.of(context).pushNamed('signUp');
+                  Navigator.of(context).push(
+                    MaterialPageRoute(builder: (context) => SignUpPage()),
+                  );
                 },
                 child: Text('没有账号？现在注册')),
           ),
@@ -175,5 +180,46 @@ class _LoginState extends State<LoginPage> {
         ],
       ),
     );
+  }
+
+  checkLogin(BuildContext context) {
+    BotToast.showCustomLoading(toastBuilder: (_) {
+      final provider = Provider.of<AppProvider>(context);
+      return CircularProgressIndicator(
+        valueColor: AlwaysStoppedAnimation<Color>(provider.primaryColor),
+      );
+    });
+    AuthUtil(context)
+        .checkPassword(_nameController.text, _passwordController.text)
+        .then((result) {
+      BotToast.closeAllLoading();
+      switch (result) {
+        case LoginResult.NO_USER:
+          showMIUIConfirmDialog(
+            context: context,
+            child: SizedBox(),
+            title: '创建新用户?',
+            confirm: () {
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                    builder: (context) => SignUpPage(
+                          userName: _nameController.text,
+                          password: _passwordController.text,
+                        )),
+              );
+            },
+            cancelString: '取消',
+            confirmString: '确定',
+          );
+          break;
+        case LoginResult.SUCCESS:
+          final provider = Provider.of<AppProvider>(context,listen: false);
+          BotToast.showNotification(title: (_) => Text(provider.token));
+          break;
+        case LoginResult.PASSWORD_WRONG:
+          BotToast.showNotification(title: (_) => Text('密码错误'));
+          break;
+      }
+    });
   }
 }

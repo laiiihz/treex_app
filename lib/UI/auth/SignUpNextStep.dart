@@ -1,6 +1,13 @@
 import 'package:flutter/material.dart';
 
 class SignUpNextStepPage extends StatefulWidget {
+  SignUpNextStepPage({
+    Key key,
+    this.userName = '',
+    this.password = '',
+  }) : super(key: key);
+  final String userName;
+  final String password;
   @override
   State<StatefulWidget> createState() => _SignUpNextStepState();
 }

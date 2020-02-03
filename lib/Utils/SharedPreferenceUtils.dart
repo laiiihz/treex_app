@@ -124,6 +124,14 @@ class Shared extends SharedBase {
     provider
         .changeNetworkPort(_sharedPreferences.getString('networkPort') ?? '');
   }
+
+  Future writeToken(String token) async {
+    _sharedPreferences.setString('token', token);
+  }
+
+  Future readToken() async {
+    provider.setToken(_sharedPreferences.getString('token') ?? '');
+  }
 }
 
 ///system 0
