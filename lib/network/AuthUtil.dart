@@ -7,7 +7,7 @@ import 'package:treex_app/provider/AppProvider.dart';
 
 class NetworkUtil {
   AppProvider provider;
-  Dio _dio;
+  Dio dio;
 
   NetworkUtil(BuildContext context) {
     provider = Provider.of<AppProvider>(context, listen: false);
@@ -16,8 +16,8 @@ class NetworkUtil {
     String port = (provider.networkPort as String).isEmpty
         ? '/'
         : ':${provider.networkPort}/';
-    _dio = Dio()..options.baseUrl = 'http${https ? 's' : ''}://$addr$port/';
-    (_dio.httpClientAdapter as DefaultHttpClientAdapter).onHttpClientCreate =
+    dio = Dio()..options.baseUrl = 'http${https ? 's' : ''}://$addr$port/';
+    (dio.httpClientAdapter as DefaultHttpClientAdapter).onHttpClientCreate =
         (client) {
       client.badCertificateCallback = (cert, host, port) {
         return true;
@@ -30,7 +30,7 @@ class NetworkUtil {
 class AuthUtil extends NetworkUtil {
   AuthUtil(BuildContext context) : super(context);
   Future<LoginResult> checkPassword(String name, String password) async {
-    dynamic result = await _dio.get('/api/login?name=$name&password=$password');
+    dynamic result = await dio.get('/api/login?name=$name&password=$password');
     LoginResult _code = loginResultMap[result.data['loginResult']['code']];
     if (_code == LoginResult.SUCCESS) {
       provider.setToken(result.data['token']);
@@ -43,7 +43,7 @@ class AuthUtil extends NetworkUtil {
     String password,
   }) async {
     Response response;
-    await _dio.put('/api/signup?name=$name&password=$password').then((value) {
+    await dio.put('/api/signup?name=$name&password=$password').then((value) {
       response = value;
     }).catchError((err) {
       print(err);

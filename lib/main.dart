@@ -11,12 +11,11 @@ import 'package:treex_app/UI/MainUI/extra/Network.dart';
 import 'package:treex_app/UI/MainUI/extraPages/Transfer.dart';
 import 'package:treex_app/UI/MainUI/extraPages/file/FilesAll.dart';
 import 'package:treex_app/UI/MainUI/extraPages/file/FilesType.dart';
+import 'package:treex_app/UI/MainUI/extraPages/file/FilesShared.dart';
 import 'package:treex_app/UI/MainUI/extraPages/friends/FriendsList.dart';
 import 'package:treex_app/UI/MainUI/extraPages/file/RecycleBin.dart';
 import 'package:treex_app/UI/MainUI/tools/ScanTool.dart';
 import 'package:treex_app/UI/auth/Login.dart';
-import 'package:treex_app/UI/auth/SignUp.dart';
-import 'package:treex_app/UI/auth/SignUpNextStep.dart';
 import 'package:treex_app/UI/splash/Splash.dart';
 import 'package:treex_app/licenses/GPLView.dart';
 import 'package:treex_app/provider/AppProvider.dart';
@@ -58,8 +57,9 @@ class MyApp extends StatelessWidget {
         'recycle': (context) => RecycleBinPage(),
         'filesAll': (context) => FilesAllPage(),
         'filesType': (context) => FilesTypePage(),
+        'filesShared': (context) => FilesSharedPage(),
         'friendsList': (context) => FriendsListPage(),
-        'devTool': (context) => DevToolPage()
+        'devTool': (context) => DevToolPage(),
       },
     );
   }

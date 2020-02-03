@@ -42,18 +42,7 @@ class _FilesTypeState extends State<FilesTypePage> {
               },
               children: [
                 ExpansionPanel(
-                  body: genFileType([
-                    'all',
-                    'photo',
-                    'test',
-                    'test',
-                    'test',
-                    'test',
-                    'test',
-                    'test',
-                    'test',
-                    'test'
-                  ]),
+                  body: Text(''),
                   headerBuilder: (BuildContext context, bool isExpanded) {
                     return ListTile(
                       title: Text('test'),
@@ -66,7 +55,7 @@ class _FilesTypeState extends State<FilesTypePage> {
                   body: genFileType([
                     'all',
                     'photo',
-                    'test',
+                    'testasfgawhregouiharawefrawefe',
                     'test',
                     'test',
                     'test',

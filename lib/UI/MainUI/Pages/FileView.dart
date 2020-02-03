@@ -45,6 +45,14 @@ class _FileViewState extends State<FileViewWidget> {
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: <Widget>[
                 ProfileGridWidget(
+                  text: '共享',
+                  icon: Hero(tag: 'share', child: Icon(Icons.people)),
+                  onTap: () {
+                    Navigator.of(context).pushNamed('filesShared');
+                  },
+                ),
+                VerticalDivider(width: 2, indent: 10, endIndent: 10),
+                ProfileGridWidget(
                   text: '文件',
                   icon: Hero(tag: 'filesAll', child: Icon(Icons.folder_open)),
                   onTap: () {
