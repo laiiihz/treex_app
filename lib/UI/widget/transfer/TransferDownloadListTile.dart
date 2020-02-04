@@ -4,6 +4,11 @@ import 'package:flutter_miui/flutter_miui.dart';
 import 'package:treex_app/UI/widget/CardBar.dart';
 
 class TransferDownloadListTileWidget extends StatefulWidget {
+  TransferDownloadListTileWidget({
+    Key key,
+    this.value,
+  }) : super(key: key);
+  final double value;
   @override
   State<StatefulWidget> createState() => _TransferDownloadListTileState();
 }
@@ -28,7 +33,7 @@ class _TransferDownloadListTileState
       ),
       title: Text('FILE XXX'),
       subtitle: LinearProgressIndicator(
-        value: 0.2,
+        value: widget.value,
       ),
       contentPadding: edgeInsetsGeometryCurved(context),
       onLongPress: () {

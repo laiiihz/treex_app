@@ -1,6 +1,7 @@
 import 'package:connectivity/connectivity.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:treex_app/network/NetworkProfileUtil.dart';
 
 class AppProvider extends ChangeNotifier {
   ThemeMode _themeMode = ThemeMode.system;
@@ -106,6 +107,13 @@ class AppProvider extends ChangeNotifier {
   get token => _token;
   setToken(String tokenStr) {
     _token = tokenStr;
+    notifyListeners();
+  }
+
+  UserProfile _userProfile = UserProfile();
+   UserProfile get userProfile => _userProfile;
+  changeProfile(UserProfile profile) {
+    _userProfile = profile;
     notifyListeners();
   }
 }

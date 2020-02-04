@@ -3,6 +3,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:provider/provider.dart';
 import 'package:treex_app/network/Enums.dart';
+import 'package:treex_app/network/NetworkProfileUtil.dart';
 import 'package:treex_app/provider/AppProvider.dart';
 
 class NetworkUtil {
@@ -34,6 +35,7 @@ class AuthUtil extends NetworkUtil {
     LoginResult _code = loginResultMap[result.data['loginResult']['code']];
     if (_code == LoginResult.SUCCESS) {
       provider.setToken(result.data['token']);
+      provider.changeProfile(UserProfile.fromDynamic(result.data['user']));
     }
     return _code;
   }

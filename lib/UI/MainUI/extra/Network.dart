@@ -95,7 +95,12 @@ class _NetworkState extends State<NetworkPage> {
               ).check().then((value) {
                 BotToast.closeAllLoading();
                 BotToast.showNotification(
-                    title: (_) => Text(value ? '连接成功' : '连接失败'));
+                  title: (_) => Text(value ? '连接成功' : '连接失败'),
+                  trailing: (_) => Icon(
+                    value ? Icons.check_circle : Icons.remove_circle,
+                    color: value ? Colors.green : Colors.red,
+                  ),
+                );
               });
             },
             child: Icon(Icons.refresh),

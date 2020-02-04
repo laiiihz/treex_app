@@ -28,7 +28,7 @@ class _ProfileViewState extends State<ProfileViewWidget> {
           stretch: true,
           pinned: true,
           expandedHeight: 350,
-          title: Text('laiiihz'),
+          title: Text(provider.userProfile.name),
           flexibleSpace: FlexibleSpaceBar(
             background: buildWaveWithAvatar(
               context: context,
@@ -176,15 +176,22 @@ class _ProfileViewState extends State<ProfileViewWidget> {
               leading: Icon(AntDesign.questioncircle),
               title: Text('常见问题'),
             ),
-            provider.devTool?ListTile(
-              onTap: () {
-                Navigator.of(context).pushNamed('devTool');
-              },
-              contentPadding: edgeInsetsGeometryCurved(context),
-              leading: Icon(Icons.developer_mode),
-              title: Text('开发者工具'),
-            ):SizedBox(),
+            provider.devTool
+                ? ListTile(
+                    onTap: () {
+                      Navigator.of(context).pushNamed('devTool');
+                    },
+                    contentPadding: edgeInsetsGeometryCurved(context),
+                    leading: Icon(Icons.developer_mode),
+                    title: Text('开发者工具'),
+                  )
+                : SizedBox(),
           ]),
+        ),
+        SliverToBoxAdapter(
+          child: Container(
+            height: 300,
+          ),
         ),
       ],
     );
@@ -219,6 +226,8 @@ Widget buildWaveWithAvatar({@required BuildContext context, Widget child}) {
 }
 
 Widget buildWaveFrontAvatar(BuildContext context) {
+  final provider = Provider.of<AppProvider>(context);
+
   return Center(
     child: Padding(
       padding: EdgeInsets.only(left: 20, right: 0, top: 20, bottom: 20),
@@ -227,14 +236,20 @@ Widget buildWaveFrontAvatar(BuildContext context) {
           Hero(
             tag: 'avatar',
             child: Material(
+              shadowColor: provider.userProfile.backgroundColor,
               borderRadius: BorderRadius.circular(40),
               elevation: 10,
               child: CircleAvatar(
+                backgroundColor: isDark(context)
+                    ? null
+                    : provider.userProfile.backgroundColor,
                 maxRadius: 40,
-                child: Text(
-                  'L',
-                  style: TextStyle(fontSize: 30),
-                ),
+                child: provider.userProfile.avatar.isEmpty
+                    ? Text(
+                        provider.userProfile.name[0],
+                        style: TextStyle(fontSize: 30),
+                      )
+                    : SizedBox(),
               ),
             ),
           ),
@@ -244,7 +259,7 @@ Widget buildWaveFrontAvatar(BuildContext context) {
             child: Material(
               color: Colors.transparent,
               child: Text(
-                'laiiihz ',
+                provider.userProfile.name,
                 style: TextStyle(fontSize: 30),
               ),
             ),

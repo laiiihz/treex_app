@@ -1,8 +1,14 @@
+import 'dart:io';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_miui/flutter_miui.dart';
+import 'package:provider/provider.dart';
 import 'package:treex_app/UI/widget/CardBar.dart';
 import 'package:treex_app/UI/widget/LOGO.dart';
+import 'package:treex_app/Utils/brightnessUtil.dart';
+import 'package:treex_app/network/NetworkProfileUtil.dart';
+import 'package:treex_app/provider/AppProvider.dart';
 
 class ProfilesPage extends StatefulWidget {
   @override
@@ -11,7 +17,13 @@ class ProfilesPage extends StatefulWidget {
 
 class _ProfilesState extends State<ProfilesPage> {
   @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
+    final provider = Provider.of<AppProvider>(context);
     return Scaffold(
       body: CustomScrollView(
         physics: MIUIScrollPhysics(),
@@ -43,12 +55,18 @@ class _ProfilesState extends State<ProfilesPage> {
                             child: Material(
                               borderRadius: BorderRadius.circular(40),
                               elevation: 10,
+                              shadowColor: provider.userProfile.backgroundColor,
                               child: CircleAvatar(
                                 maxRadius: 40,
-                                child: Text(
-                                  'L',
-                                  style: TextStyle(fontSize: 30),
-                                ),
+                                backgroundColor: isDark(context)
+                                    ? null
+                                    : provider.userProfile.backgroundColor,
+                                child: provider.userProfile.avatar.isEmpty
+                                    ? Text(
+                                        provider.userProfile.name[0],
+                                        style: TextStyle(fontSize: 30),
+                                      )
+                                    : SizedBox(),
                               ),
                             ),
                           ),
@@ -58,7 +76,7 @@ class _ProfilesState extends State<ProfilesPage> {
                             child: Material(
                               color: Colors.transparent,
                               child: Text(
-                                'laiiihz ',
+                                provider.userProfile.name,
                                 style: TextStyle(fontSize: 30),
                               ),
                             ),

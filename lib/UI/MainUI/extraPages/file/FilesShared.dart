@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_miui/flutter_miui.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
+import 'package:treex_app/UI/MainUI/extraPages/file/widget/FileListTile.dart';
 import 'package:treex_app/UI/widget/CardBar.dart';
 import 'package:treex_app/UI/widget/LargeIconBackground.dart';
 import 'package:treex_app/network/NetworkFileEntity.dart';
@@ -185,17 +186,13 @@ class _FilesSharedState extends State<FilesSharedPage> {
                                   verticalOffset: 100,
                                   child: FadeInAnimation(
                                     delay: Duration(milliseconds: 100),
-                                    child: ListTile(
+                                    child: FileListTileWidget(
+                                      file: files[index],
                                       onLongPress: () {
                                         setState(() {
                                           _showSelectTool = true;
                                         });
                                       },
-                                      title: Text(
-                                        files[index].name,
-                                        overflow: TextOverflow.fade,
-                                      ),
-                                      subtitle: Text(files[index].path),
                                     ),
                                   ),
                                 ),
