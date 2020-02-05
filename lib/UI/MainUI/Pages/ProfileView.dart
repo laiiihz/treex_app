@@ -269,7 +269,7 @@ Widget buildWaveFrontAvatar(BuildContext context) {
             child: Material(
               color: Colors.transparent,
               child: Text(
-                provider.userProfile.name,
+                '${provider.userProfile.name} ',
                 style: TextStyle(fontSize: 30),
               ),
             ),

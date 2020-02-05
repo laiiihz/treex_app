@@ -1,8 +1,11 @@
 import 'package:bot_toast/bot_toast.dart';
+import 'package:flare_flutter/flare_actor.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:flutter_miui/flutter_miui.dart';
 import 'package:provider/provider.dart';
+import 'package:treex_app/UI/widget/LargeIconBackground.dart';
 import 'package:treex_app/Utils/SharedPreferenceUtils.dart';
 import 'package:treex_app/provider/AppProvider.dart';
 
@@ -17,12 +20,13 @@ class _AboutState extends State<AboutPage> {
   @override
   void initState() {
     super.initState();
-    _initShred()async{
-      _shared =await Shared.init(context);
+    _initShred() async {
+      _shared = await Shared.init(context);
     }
-    _initShred();
 
+    _initShred();
   }
+
   @override
   Widget build(BuildContext context) {
     final provider = Provider.of<AppProvider>(context);
@@ -32,8 +36,15 @@ class _AboutState extends State<AboutPage> {
         physics: MIUIScrollPhysics(),
         slivers: <Widget>[
           SliverAppBar(
+            pinned: true,
+            stretch: true,
+            floating: true,
             flexibleSpace: FlexibleSpaceBar(
               title: Text('关于'),
+              background: LargeIconBackgroundWidget(
+                tag: 'about',
+                icon: MaterialCommunityIcons.tree,
+              ),
             ),
             expandedHeight: 200,
           ),
@@ -59,9 +70,9 @@ class _AboutState extends State<AboutPage> {
                 leading: Icon(AntDesign.codesquareo),
               ),
               ListTile(
-                leading: Icon(AntDesign.github),
-                title: Text('github@laiiihz'),
-                subtitle: Text("Author"),
+                leading: Icon(Icons.account_circle),
+                title: Text('laiiihz'),
+                subtitle: Text("作者"),
                 onTap: provider.devTool
                     ? () {
                         BotToast.showText(text: '已开启开发者模式');
@@ -75,6 +86,23 @@ class _AboutState extends State<AboutPage> {
                           BotToast.showText(text: '已开启开发者模式');
                         }
                       },
+              ),
+              Container(
+                height: 100,
+                child: ListView.builder(
+                  padding: EdgeInsets.only(left: 10),
+                  physics: MIUIScrollPhysics(),
+                  scrollDirection: Axis.horizontal,
+                  itemBuilder: (BuildContext context, int index) {
+                    return Card(
+                      child: Padding(
+                        padding: EdgeInsets.only(
+                            left: 20, right: 20, top: 20, bottom: 20),
+                        child: Text('test'),
+                      ),
+                    );
+                  },
+                ),
               ),
             ]),
           ),

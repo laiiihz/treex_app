@@ -26,10 +26,9 @@ class _SplashState extends State<SplashPage> {
           ..readIsHttps()
           ..readNetworkAddr()
           ..readNetworkPort()
-          ..readToken();
-      }).then((_) async {
-
-      });
+          ..readToken()
+          ..readDevTools();
+      }).then((_) async {});
 
       return;
     }

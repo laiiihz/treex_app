@@ -15,9 +15,24 @@ class ProfilesPage extends StatefulWidget {
 }
 
 class _ProfilesState extends State<ProfilesPage> {
+  TextEditingController _nameController = TextEditingController();
+  TextEditingController _phoneController = TextEditingController();
+  TextEditingController _emailController = TextEditingController();
+  double _avatarInitValueEdit = -50;
   @override
   void initState() {
     super.initState();
+    Future.delayed(Duration.zero, () {
+      final provider = Provider.of<AppProvider>(context, listen: false);
+      _phoneController.text = provider.userProfile.phone;
+      _emailController.text = provider.userProfile.email;
+      _nameController.text = provider.userProfile.name;
+    });
+    Future.delayed(Duration(milliseconds: 200), () {
+      setState(() {
+        _avatarInitValueEdit = 16;
+      });
+    });
   }
 
   @override
@@ -78,8 +93,9 @@ class _ProfilesState extends State<ProfilesPage> {
                                   ),
                                 ),
                               ),
-                              Positioned(
-                                top: 16,
+                              AnimatedPositioned(
+                                curve: Curves.easeInOutCubic,
+                                bottom: _avatarInitValueEdit,
                                 left: 16,
                                 child: Material(
                                   child: InkWell(
@@ -92,6 +108,7 @@ class _ProfilesState extends State<ProfilesPage> {
                                   ),
                                   color: Colors.transparent,
                                 ),
+                                duration: Duration(milliseconds: 500),
                               ),
                             ],
                           ),
@@ -101,7 +118,7 @@ class _ProfilesState extends State<ProfilesPage> {
                             child: Material(
                               color: Colors.transparent,
                               child: Text(
-                                provider.userProfile.name,
+                                '${provider.userProfile.name} ',
                                 style: TextStyle(fontSize: 30),
                               ),
                             ),
@@ -116,7 +133,40 @@ class _ProfilesState extends State<ProfilesPage> {
           ),
           SliverList(
             delegate: SliverChildListDelegate([
-              CardBarWidget(child: Text('test')),
+              CardPadding10(
+                child: Padding(
+                  padding: EdgeInsets.only(left: 5, right: 5, top: 10),
+                  child: TextField(
+                    enabled: false,
+                    controller: _nameController,
+                    decoration: InputDecoration(
+                      labelText: '用户名',
+                    ),
+                  ),
+                ),
+              ),
+              CardPadding10(
+                child: Padding(
+                  padding: EdgeInsets.only(left: 5, right: 5, top: 10),
+                  child: TextField(
+                    controller: _phoneController,
+                    decoration: InputDecoration(
+                      labelText: '电话号码',
+                    ),
+                  ),
+                ),
+              ),
+              CardPadding10(
+                child: Padding(
+                  padding: EdgeInsets.only(left: 5, right: 5, top: 10),
+                  child: TextField(
+                    controller: _emailController,
+                    decoration: InputDecoration(
+                      labelText: '邮箱',
+                    ),
+                  ),
+                ),
+              ),
             ]),
           ),
         ],
