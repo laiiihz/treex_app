@@ -43,7 +43,6 @@ dependencies:
   url_launcher:
   image_picker:
   path_provider:
-  flutter_downloader:
 
 dev_dependencies:
   flutter_test:
