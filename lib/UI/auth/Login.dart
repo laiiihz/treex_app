@@ -1,11 +1,17 @@
+import 'dart:io';
+
 import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_miui/flutter_miui.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:treex_app/UI/auth/SignUp.dart';
 import 'package:treex_app/UI/widget/customWidgets.dart';
+import 'package:treex_app/Utils/FileUtil.dart';
 import 'package:treex_app/network/AuthUtil.dart';
 import 'package:treex_app/network/Enums.dart';
+import 'package:treex_app/network/NetworkAvatarOrBackground.dart';
+import 'package:treex_app/network/NetworkFileUtil.dart';
 import 'package:treex_app/provider/AppProvider.dart';
 import 'package:treex_app/theme/Iconfont.dart';
 
@@ -236,7 +242,7 @@ class _LoginState extends State<LoginPage> {
     });
     AuthUtil(context)
         .checkPassword(_nameController.text, _passwordController.text)
-        .then((result) {
+        .then((result) async {
       BotToast.closeAllLoading();
       switch (result) {
         case LoginResult.NO_USER:
@@ -258,7 +264,19 @@ class _LoginState extends State<LoginPage> {
           );
           break;
         case LoginResult.SUCCESS:
-          Navigator.of(context).pushReplacementNamed('home');
+          final provider = Provider.of<AppProvider>(context, listen: false);
+          if (provider.userProfile.avatar.isNotEmpty) {
+            NetworkAvatarOrBackground(context)
+                .build(provider.userProfile.avatar, FileTypeAB.AVATAR)
+                .then((_) {
+              NetworkAvatarOrBackground(context)
+                  .build(provider.userProfile.avatar, FileTypeAB.BACKGROUND)
+                  .then((_) {
+                Navigator.of(context).pushReplacementNamed('home');
+              });
+            });
+          }
+
           break;
         case LoginResult.PASSWORD_WRONG:
           setState(() {

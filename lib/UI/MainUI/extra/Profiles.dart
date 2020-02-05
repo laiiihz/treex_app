@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_miui/flutter_miui.dart';
@@ -39,10 +41,10 @@ class _ProfilesState extends State<ProfilesPage> {
                     decoration: BoxDecoration(
                         color: provider.userProfile.backgroundColor),
                     width: MediaQuery.of(context).size.width,
-                    child: provider.userProfile.avatar.isEmpty
-                        ? null
-                        : Image.asset(
-                            'assets/imgs/nasa-1.webp',
+                    child: provider.userProfile.background.isEmpty
+                        ? SizedBox()
+                        : Image.file(
+                            provider.backgroundFile,
                             fit: BoxFit.cover,
                           ),
                   ),
@@ -52,24 +54,46 @@ class _ProfilesState extends State<ProfilesPage> {
                           top: 40, bottom: 0, left: 20, right: 20),
                       child: Row(
                         children: <Widget>[
-                          Hero(
-                            tag: 'avatar',
-                            child: Material(
-                              borderRadius: BorderRadius.circular(40),
-                              elevation: 10,
-                              child: CircleAvatar(
-                                maxRadius: 40,
-                                backgroundColor: isDark(context)
-                                    ? null
-                                    : provider.userProfile.backgroundColor,
-                                child: provider.userProfile.avatar.isEmpty
-                                    ? Text(
-                                        provider.userProfile.name[0],
-                                        style: TextStyle(fontSize: 30),
-                                      )
-                                    : SizedBox(),
+                          Stack(
+                            children: <Widget>[
+                              Hero(
+                                tag: 'avatar',
+                                child: Material(
+                                  borderRadius: BorderRadius.circular(40),
+                                  elevation: 10,
+                                  child: CircleAvatar(
+                                    maxRadius: 40,
+                                    backgroundImage: provider.avatarFile == null
+                                        ? null
+                                        : FileImage(provider.avatarFile),
+                                    backgroundColor: isDark(context)
+                                        ? null
+                                        : provider.userProfile.backgroundColor,
+                                    child: provider.userProfile.avatar.isEmpty
+                                        ? Text(
+                                            provider.userProfile.name[0],
+                                            style: TextStyle(fontSize: 30),
+                                          )
+                                        : SizedBox(),
+                                  ),
+                                ),
                               ),
-                            ),
+                              Positioned(
+                                top: 16,
+                                left: 16,
+                                child: Material(
+                                  child: InkWell(
+                                    borderRadius: BorderRadius.circular(30),
+                                    child: Padding(
+                                      padding: EdgeInsets.all(12),
+                                      child: Icon(Icons.edit),
+                                    ),
+                                    onTap: () {},
+                                  ),
+                                  color: Colors.transparent,
+                                ),
+                              ),
+                            ],
                           ),
                           Spacer(),
                           Hero(

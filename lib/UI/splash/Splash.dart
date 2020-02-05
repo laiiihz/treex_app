@@ -1,4 +1,3 @@
-import 'package:dio/dio.dart';
 import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/material.dart';
 import 'package:treex_app/Utils/SharedPreferenceUtils.dart';
@@ -29,10 +28,7 @@ class _SplashState extends State<SplashPage> {
           ..readNetworkPort()
           ..readToken();
       }).then((_) async {
-        String avatar = _shared.provider.userProfile.avatar;
-        if (avatar.isEmpty) {
-          await Future.delayed(Duration(milliseconds: 3000), () {});
-        }
+
       });
 
       return;

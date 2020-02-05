@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flip_card/flip_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
@@ -17,6 +19,11 @@ class ProfileViewWidget extends StatefulWidget {
 }
 
 class _ProfileViewState extends State<ProfileViewWidget> {
+  @override
+  void initState() {
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     final provider = Provider.of<AppProvider>(context);
@@ -240,6 +247,9 @@ Widget buildWaveFrontAvatar(BuildContext context) {
               borderRadius: BorderRadius.circular(40),
               elevation: 10,
               child: CircleAvatar(
+                backgroundImage: provider.avatarFile == null
+                    ? null
+                    : FileImage(provider.avatarFile),
                 backgroundColor: isDark(context)
                     ? null
                     : provider.userProfile.backgroundColor,

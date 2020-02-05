@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:connectivity/connectivity.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -111,9 +113,23 @@ class AppProvider extends ChangeNotifier {
   }
 
   UserProfile _userProfile = UserProfile();
-   UserProfile get userProfile => _userProfile;
+  UserProfile get userProfile => _userProfile;
   changeProfile(UserProfile profile) {
     _userProfile = profile;
+    notifyListeners();
+  }
+
+  File _avatarFile;
+  File get avatarFile => _avatarFile;
+  changeAvatarFile(File avatar) {
+    _avatarFile = avatar;
+    notifyListeners();
+  }
+
+  File _backgroundFile;
+  File get backgroundFile => _backgroundFile;
+  changeBackgroundFile(File background) {
+    _backgroundFile = background;
     notifyListeners();
   }
 }

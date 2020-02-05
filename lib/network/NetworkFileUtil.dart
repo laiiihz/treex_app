@@ -8,8 +8,10 @@ import 'package:treex_app/provider/AppProvider.dart';
 class NetworkUtilWithHeader {
   AppProvider provider;
   Dio dio;
+  BuildContext context;
 
   NetworkUtilWithHeader(BuildContext context) {
+    this.context = context;
     provider = Provider.of<AppProvider>(context, listen: false);
     bool https = provider.isHttps;
     String addr = provider.networkAddr;
