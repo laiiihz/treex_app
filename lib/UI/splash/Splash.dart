@@ -1,3 +1,4 @@
+import 'package:dio/dio.dart';
 import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/material.dart';
 import 'package:treex_app/Utils/SharedPreferenceUtils.dart';
@@ -13,8 +14,9 @@ class _SplashState extends State<SplashPage> {
   void initState() {
     super.initState();
     //Time to Live func
-    Future.delayed(Duration.zero, () {
-      _readShared().then((_) {
+    functionInit() async {
+      await Shared.init(context).then((share) {
+        _shared = share;
         _shared
           ..readTransparent()
           ..readPrimaryColor()
@@ -26,11 +28,18 @@ class _SplashState extends State<SplashPage> {
           ..readNetworkAddr()
           ..readNetworkPort()
           ..readToken();
+      }).then((_) async {
+        String avatar = _shared.provider.userProfile.avatar;
+        if (avatar.isEmpty) {
+          await Future.delayed(Duration(milliseconds: 3000), () {});
+        }
       });
-    }).then((_) {
-      Future.delayed(Duration(milliseconds: 2500), () {
-        Navigator.of(context).pushReplacementNamed('login');
-      });
+
+      return;
+    }
+
+    functionInit().then((_) {
+      Navigator.of(context).pushReplacementNamed('login');
     });
   }
 
@@ -46,9 +55,5 @@ class _SplashState extends State<SplashPage> {
         ),
       ),
     );
-  }
-
-  Future _readShared() async {
-    _shared = await Shared.init(context);
   }
 }

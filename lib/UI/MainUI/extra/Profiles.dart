@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_miui/flutter_miui.dart';
@@ -7,7 +5,6 @@ import 'package:provider/provider.dart';
 import 'package:treex_app/UI/widget/CardBar.dart';
 import 'package:treex_app/UI/widget/LOGO.dart';
 import 'package:treex_app/Utils/brightnessUtil.dart';
-import 'package:treex_app/network/NetworkProfileUtil.dart';
 import 'package:treex_app/provider/AppProvider.dart';
 
 class ProfilesPage extends StatefulWidget {
@@ -37,12 +34,17 @@ class _ProfilesState extends State<ProfilesPage> {
             flexibleSpace: FlexibleSpaceBar(
               background: Stack(
                 children: <Widget>[
-                  Container(
+                  AnimatedContainer(
+                    duration: Duration(milliseconds: 350),
+                    decoration: BoxDecoration(
+                        color: provider.userProfile.backgroundColor),
                     width: MediaQuery.of(context).size.width,
-                    child: Image.asset(
-                      'assets/imgs/nasa-1.webp',
-                      fit: BoxFit.cover,
-                    ),
+                    child: provider.userProfile.avatar.isEmpty
+                        ? null
+                        : Image.asset(
+                            'assets/imgs/nasa-1.webp',
+                            fit: BoxFit.cover,
+                          ),
                   ),
                   Center(
                     child: Padding(
@@ -55,7 +57,6 @@ class _ProfilesState extends State<ProfilesPage> {
                             child: Material(
                               borderRadius: BorderRadius.circular(40),
                               elevation: 10,
-                              shadowColor: provider.userProfile.backgroundColor,
                               child: CircleAvatar(
                                 maxRadius: 40,
                                 backgroundColor: isDark(context)

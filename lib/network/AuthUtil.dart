@@ -2,6 +2,7 @@ import 'package:dio/adapter.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:provider/provider.dart';
+import 'package:treex_app/Utils/PasswordUtil.dart';
 import 'package:treex_app/network/Enums.dart';
 import 'package:treex_app/network/NetworkProfileUtil.dart';
 import 'package:treex_app/provider/AppProvider.dart';
@@ -31,7 +32,8 @@ class NetworkUtil {
 class AuthUtil extends NetworkUtil {
   AuthUtil(BuildContext context) : super(context);
   Future<LoginResult> checkPassword(String name, String password) async {
-    dynamic result = await dio.get('/api/login?name=$name&password=$password');
+    dynamic result = await dio.get(
+        '/api/login?name=$name&password=${PasswordUtil(name: name, password: password).genPassword()}');
     LoginResult _code = loginResultMap[result.data['loginResult']['code']];
     if (_code == LoginResult.SUCCESS) {
       provider.setToken(result.data['token']);
