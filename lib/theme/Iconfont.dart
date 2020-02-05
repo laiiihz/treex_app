@@ -22,5 +22,12 @@ class Iconfont {
     matchTextDirection: true,
   );
 
+  // iconName: coolapk
+  static const coolapk = IconData(
+    0xe7f2,
+    fontFamily: 'Iconfont',
+    matchTextDirection: true,
+  );
+
 
 }

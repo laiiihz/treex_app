@@ -5,9 +5,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:flutter_miui/flutter_miui.dart';
 import 'package:provider/provider.dart';
+import 'package:treex_app/UI/widget/AuthorDisplay.dart';
 import 'package:treex_app/UI/widget/LargeIconBackground.dart';
 import 'package:treex_app/Utils/SharedPreferenceUtils.dart';
 import 'package:treex_app/provider/AppProvider.dart';
+import 'package:treex_app/theme/Iconfont.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class AboutPage extends StatefulWidget {
   @override
@@ -94,14 +97,11 @@ class _AboutState extends State<AboutPage> {
                   physics: MIUIScrollPhysics(),
                   scrollDirection: Axis.horizontal,
                   itemBuilder: (BuildContext context, int index) {
-                    return Card(
-                      child: Padding(
-                        padding: EdgeInsets.only(
-                            left: 20, right: 20, top: 20, bottom: 20),
-                        child: Text('test'),
-                      ),
+                    return AuthorDisplayWidget(
+                      authorCard: authorCards[index],
                     );
                   },
+                  itemCount: authorCards.length,
                 ),
               ),
             ]),
@@ -110,4 +110,47 @@ class _AboutState extends State<AboutPage> {
       ),
     );
   }
+
+  List<AuthorCard> authorCards = [
+    AuthorCard(
+      background: Color(0xff24292E),
+      text: 'Github',
+      icon: Icon(AntDesign.github),
+      onTap: () {
+        launch('https://github.com/laiiihz');
+      },
+    ),
+    AuthorCard(
+      background: Color(0xff0884FF),
+      text: '知乎',
+      icon: Icon(AntDesign.zhihu),
+      onTap: () {
+        launch('https://zhihu.com/people/laihz');
+      },
+    ),
+    AuthorCard(
+      background: Color(0xff4CAF50),
+      text: '酷安',
+      icon: Transform.translate(
+        offset: Offset(-10, 0),
+        child: Icon(Iconfont.coolapk),
+      ),
+      onTap: () {
+        launch('https://www.coolapk.com/u/748141', universalLinksOnly: true);
+      },
+    ),
+  ];
+}
+
+class AuthorCard {
+  Color background;
+  String text;
+  Widget icon;
+  VoidCallback onTap;
+  AuthorCard({
+    this.background,
+    this.text,
+    this.icon,
+    this.onTap,
+  });
 }

@@ -1,0 +1,1 @@
+iconfont_builder.bat --from ./fonts --to ./lib/theme/iconfont.dart
