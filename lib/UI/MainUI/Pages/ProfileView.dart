@@ -25,6 +25,7 @@ class _ProfileViewState extends State<ProfileViewWidget> {
       physics: MIUIScrollPhysics(),
       slivers: <Widget>[
         SliverAppBar(
+          backgroundColor: provider.userProfile.backgroundColor,
           stretch: true,
           pinned: true,
           expandedHeight: 350,
@@ -236,7 +237,6 @@ Widget buildWaveFrontAvatar(BuildContext context) {
           Hero(
             tag: 'avatar',
             child: Material(
-              shadowColor: provider.userProfile.backgroundColor,
               borderRadius: BorderRadius.circular(40),
               elevation: 10,
               child: CircleAvatar(

@@ -4,7 +4,6 @@ import 'package:flutter_miui/flutter_miui.dart';
 import 'package:provider/provider.dart';
 import 'package:treex_app/UI/auth/SignUp.dart';
 import 'package:treex_app/UI/widget/customWidgets.dart';
-import 'package:treex_app/Utils/SharedPreferenceUtils.dart';
 import 'package:treex_app/network/AuthUtil.dart';
 import 'package:treex_app/network/Enums.dart';
 import 'package:treex_app/provider/AppProvider.dart';

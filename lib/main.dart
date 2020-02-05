@@ -1,7 +1,6 @@
 import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_downloader/flutter_downloader.dart';
 import 'package:provider/provider.dart';
 import 'package:treex_app/UI/MainUI/Home.dart';
 import 'package:treex_app/UI/MainUI/extra/DevTool.dart';
@@ -25,11 +24,6 @@ import 'package:treex_app/theme/ThemeData.dart';
 void main() async {
   SystemChrome.setSystemUIOverlayStyle(
       SystemUiOverlayStyle(systemNavigationBarColor: Colors.black));
-  //TODO：init overlay
-  WidgetsFlutterBinding.ensureInitialized();
-  await FlutterDownloader.initialize().then((_) {
-    print('INIT Downloader');
-  });
 
   runApp(ChangeNotifierProvider(
     create: (_) => AppProvider(),

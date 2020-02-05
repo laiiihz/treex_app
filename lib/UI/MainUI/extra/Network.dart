@@ -8,7 +8,6 @@ import 'package:provider/provider.dart';
 import 'package:treex_app/UI/widget/CardBar.dart';
 import 'package:treex_app/UI/widget/LargeIconBackground.dart';
 import 'package:treex_app/Utils/SharedPreferenceUtils.dart';
-import 'package:treex_app/network/AuthUtil.dart';
 import 'package:treex_app/network/CheckConnection.dart';
 import 'package:treex_app/provider/AppProvider.dart';
 
