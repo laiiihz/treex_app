@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_miui/flutter_miui.dart';
+import 'package:provider/provider.dart';
 import 'package:treex_app/UI/widget/transfer/TransferDownloadListTile.dart';
+import 'package:treex_app/provider/AppProvider.dart';
 
 class TransferDownloadPage extends StatefulWidget {
   @override
@@ -7,26 +10,17 @@ class TransferDownloadPage extends StatefulWidget {
 }
 
 class _TransferDownloadState extends State<TransferDownloadPage> {
-  double _value;
-  @override
-  void initState() {
-    super.initState();
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-  }
-
   @override
   Widget build(BuildContext context) {
+    final provider = Provider.of<AppProvider>(context);
     return ListView.builder(
+      physics: MIUIScrollPhysics(),
       itemBuilder: (BuildContext context, int index) {
         return TransferDownloadListTileWidget(
-          value: _value,
+          value: provider.downloadFiles[index].value,
         );
       },
-      itemCount: 1,
+      itemCount: provider.taskNumber,
     );
   }
 }

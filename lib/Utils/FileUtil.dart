@@ -41,4 +41,11 @@ class FileUtil {
         break;
     }
   }
+
+  Future<File> getFile(String path, {bool share = false}) async {
+    String prefix = appDir.path;
+    String mid = share ? '/SHARE' : '/${provider.userProfile.name}';
+    String pathFile = '/$path';
+    return await File(prefix + mid + pathFile).create(recursive: true);
+  }
 }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_miui/flutter_miui.dart';
 import 'package:treex_app/UI/MainUI/extraPages/TransferDownload.dart';
 import 'package:treex_app/UI/MainUI/extraPages/TransferUpload.dart';
 
@@ -46,6 +47,7 @@ class _TransferState extends State<TransferPage> with TickerProviderStateMixin {
         ),
       ),
       body: TabBarView(
+        physics: MIUIScrollPhysics(),
         controller: _tabController,
         children: <Widget>[
           TransferDownloadPage(),
