@@ -171,7 +171,8 @@ class _ProfileViewState extends State<ProfileViewWidget> {
             ),
             ListTile(
               contentPadding: edgeInsetsGeometryCurved(context),
-              leading: Icon(AntDesign.exclamationcircle),
+              leading:
+                  Hero(tag: 'about', child: Icon(AntDesign.exclamationcircle)),
               title: Text('关于'),
               subtitle: Text('version:0.0.1-master'),
               onTap: () {

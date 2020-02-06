@@ -24,6 +24,7 @@ class _FilesSharedState extends State<FilesSharedPage> {
     super.initState();
     bool _lockDown = false;
     bool _lockUp = false;
+    //action fade animation
     _scrollController.addListener(() {
       double offset = _scrollController.offset;
       //250 offset divide

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:treex_app/Utils/FileParseUtil.dart';
+import 'package:treex_app/download/downloadSystem.dart';
 import 'package:treex_app/network/NetworkFileEntity.dart';
 
 class FileListTileWidget extends StatefulWidget {
@@ -27,11 +28,21 @@ class _FileListTileState extends State<FileListTileWidget> {
       subtitle: Text('${FileParseUtil.parseDate(widget.file.date)}'
           '${widget.file.isDir ? '' : '•'}'
           '${widget.file.isDir ? '' : FileParseUtil.parseLength(widget.file.length)}'),
-      trailing: PopupMenuButton(
+      trailing: PopupMenuButton<String>(
         itemBuilder: (BuildContext context) {
           return [
-            PopupMenuItem(child: Text('test')),
+            PopupMenuItem(
+              child: Text('下载'),
+              value: 'download',
+            ),
           ];
+        },
+        onSelected: (value) {
+          switch (value) {
+            case 'download':
+              DownloadSystem().download(context, widget.file.path, share: true);
+              break;
+          }
         },
       ),
     );

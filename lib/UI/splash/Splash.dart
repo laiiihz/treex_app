@@ -1,6 +1,7 @@
 import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/material.dart';
 import 'package:treex_app/Utils/SharedPreferenceUtils.dart';
+import 'package:treex_app/download/downloadSystem.dart';
 
 class SplashPage extends StatefulWidget {
   @override
@@ -15,6 +16,7 @@ class _SplashState extends State<SplashPage> {
     //Time to Live func
     functionInit() async {
       await Shared.init(context).then((share) {
+
         _shared = share;
         _shared
           ..readTransparent()

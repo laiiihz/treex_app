@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:connectivity/connectivity.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:treex_app/download/downloadFile.dart';
 import 'package:treex_app/network/NetworkProfileUtil.dart';
 
 class AppProvider extends ChangeNotifier {
@@ -130,6 +131,27 @@ class AppProvider extends ChangeNotifier {
   File get backgroundFile => _backgroundFile;
   changeBackgroundFile(File background) {
     _backgroundFile = background;
+    notifyListeners();
+  }
+
+  //TEST VALUE
+  double _downloadValue;
+  get downloadValue => _downloadValue;
+  changeValue(double value) {
+    _downloadValue = value;
+    notifyListeners();
+  }
+
+  List<DownloadFile> _downloadFiles = [];
+  List<DownloadFile> get downloadFiles => _downloadFiles;
+  int get taskNumber => _downloadFiles.length;
+  addTask(DownloadFile downloadFile) {
+    _downloadFiles.add(downloadFile);
+    notifyListeners();
+  }
+
+  setDownloadValue(double value, int index) {
+    _downloadFiles[index].value = value;
     notifyListeners();
   }
 }

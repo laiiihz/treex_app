@@ -21,7 +21,7 @@ import 'package:treex_app/licenses/GPLView.dart';
 import 'package:treex_app/provider/AppProvider.dart';
 import 'package:treex_app/theme/ThemeData.dart';
 
-void main() async {
+void main() {
   SystemChrome.setSystemUIOverlayStyle(
       SystemUiOverlayStyle(systemNavigationBarColor: Colors.black));
 
