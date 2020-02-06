@@ -1,5 +1,7 @@
+import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/material.dart';
 import 'package:treex_app/Utils/FileParseUtil.dart';
+import 'package:treex_app/Utils/FileUtil.dart';
 import 'package:treex_app/download/downloadSystem.dart';
 import 'package:treex_app/network/NetworkFileEntity.dart';
 
@@ -13,6 +15,17 @@ class FileListTileWidget extends StatefulWidget {
 }
 
 class _FileListTileState extends State<FileListTileWidget> {
+  bool _exist = false;
+  @override
+  void initState() {
+    super.initState();
+    FileUtil.build(context).then((fileUtil) {
+      setState(() {
+        _exist = fileUtil.isExist(widget.file.path, share: true);
+      });
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return ListTile(
@@ -21,16 +34,36 @@ class _FileListTileState extends State<FileListTileWidget> {
         widget.file.name,
         overflow: TextOverflow.fade,
       ),
-      leading: Icon(FileParseUtil.parseIcon(
-        name: widget.file.name,
-        isDir: widget.file.isDir,
-      )),
+      leading: Stack(
+        overflow: Overflow.visible,
+        children: <Widget>[
+          Icon(FileParseUtil.parseIcon(
+            name: widget.file.name,
+            isDir: widget.file.isDir,
+          )),
+          _exist
+              ? Positioned(
+                  right: -10,
+                  bottom: -10,
+                  child: Icon(
+                    Icons.check,
+                    color: Colors.green,
+                  ),
+                )
+              : SizedBox(),
+        ],
+      ),
       subtitle: Text('${FileParseUtil.parseDate(widget.file.date)}'
           '${widget.file.isDir ? '' : '•'}'
           '${widget.file.isDir ? '' : FileParseUtil.parseLength(widget.file.length)}'),
       trailing: PopupMenuButton<String>(
         itemBuilder: (BuildContext context) {
           return [
+            widget.file.isDir?
+            PopupMenuItem(
+              child: Text('批量下载'),
+              value: 'downloadAll',
+            ):
             PopupMenuItem(
               child: Text('下载'),
               value: 'download',
@@ -41,6 +74,9 @@ class _FileListTileState extends State<FileListTileWidget> {
           switch (value) {
             case 'download':
               DownloadSystem().download(context, widget.file.path, share: true);
+              break;
+            case 'downloadAll':
+              BotToast.showText(text: 'IN DEVELOPMENT❤');
               break;
           }
         },

@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_material_color_picker/flutter_material_color_picker.dart';
 import 'package:flutter_miui/flutter_miui.dart';
 import 'package:provider/provider.dart';
 import 'package:treex_app/UI/widget/CardBar.dart';
@@ -28,6 +29,7 @@ class _ProfilesState extends State<ProfilesPage> {
       _emailController.text = provider.userProfile.email;
       _nameController.text = provider.userProfile.name;
     });
+    //Avatar Edit Animation
     Future.delayed(Duration(milliseconds: 200), () {
       setState(() {
         _avatarInitValueEdit = 16;
@@ -104,7 +106,7 @@ class _ProfilesState extends State<ProfilesPage> {
                                       padding: EdgeInsets.all(12),
                                       child: Icon(Icons.edit),
                                     ),
-                                    onTap: () {},
+                                    onTap: showAvatarChooser,
                                   ),
                                   color: Colors.transparent,
                                 ),
@@ -167,10 +169,35 @@ class _ProfilesState extends State<ProfilesPage> {
                   ),
                 ),
               ),
+              ListTile(
+                contentPadding: edgeInsetsGeometryCurved(context),
+                onTap: () {},
+                title: Text('我的主题色'),
+                trailing: CircleAvatar(
+                  backgroundColor: provider.userProfile.backgroundColor,
+                ),
+              ),
             ]),
           ),
         ],
       ),
     );
+  }
+
+  showAvatarChooser() {
+    showMIUIDialog(
+        context: context,
+        dyOffset: 0.5,
+        content: Container(
+          height: 100,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: <Widget>[
+              IconButton(icon: Icon(Icons.insert_photo), onPressed: () {}),
+              IconButton(icon: Icon(Icons.camera_alt), onPressed: () {}),
+            ],
+          ),
+        ),
+        label: 'edit');
   }
 }

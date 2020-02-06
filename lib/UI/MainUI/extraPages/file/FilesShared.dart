@@ -125,81 +125,13 @@ class _FilesSharedState extends State<FilesSharedPage> {
                   ),
                 ),
               ),
-              SliverToBoxAdapter(
-                child: files.length == 0
-                    ? Container(
-                        height: 200,
-                        child: Center(
-                          child: Column(
-                            mainAxisSize: MainAxisSize.min,
-                            children: <Widget>[
-                              Icon(
-                                Icons.inbox,
-                                size: 50,
-                              ),
-                              Text('空目录'),
-                            ],
-                          ),
-                        ),
-                      )
-                    : SizedBox(height: 0),
-              ),
+              _buildEmpty(),
               SliverToBoxAdapter(
                 child: AnimatedSwitcher(
                   duration: Duration(milliseconds: 350),
                   child: AnimationLimiter(
                     key: _listKey,
-                    child: _isGridView
-                        ? GridView.builder(
-                            shrinkWrap: true,
-                            physics: NeverScrollableScrollPhysics(),
-                            itemBuilder: (BuildContext context, int index) {
-                              return AnimationConfiguration.staggeredList(
-                                position: index,
-                                child: FadeInAnimation(
-                                  delay: Duration(milliseconds: 100),
-                                  child: SlideAnimation(
-                                    verticalOffset: 50,
-                                    horizontalOffset: 50,
-                                    delay: Duration(milliseconds: 100),
-                                    child: Card(
-                                      child: Text('test'),
-                                    ),
-                                  ),
-                                ),
-                              );
-                            },
-                            itemCount: files.length,
-                            gridDelegate:
-                                SliverGridDelegateWithFixedCrossAxisCount(
-                                    crossAxisCount: 2),
-                          )
-                        : ListView.builder(
-                            physics: NeverScrollableScrollPhysics(),
-                            shrinkWrap: true,
-                            itemCount: files.length,
-                            itemBuilder: (BuildContext context, int index) {
-                              return AnimationConfiguration.staggeredList(
-                                position: index,
-                                duration: Duration(milliseconds: 400),
-                                child: SlideAnimation(
-                                  horizontalOffset: 50,
-                                  verticalOffset: 100,
-                                  child: FadeInAnimation(
-                                    delay: Duration(milliseconds: 100),
-                                    child: FileListTileWidget(
-                                      file: files[index],
-                                      onLongPress: () {
-                                        setState(() {
-                                          _showSelectTool = true;
-                                        });
-                                      },
-                                    ),
-                                  ),
-                                ),
-                              );
-                            },
-                          ),
+                    child: _isGridView ? _buildGrid() : _buildList(),
                   ),
                 ),
               ),
@@ -241,6 +173,83 @@ class _FilesSharedState extends State<FilesSharedPage> {
           ),
         ],
       ),
+    );
+  }
+
+  Widget _buildEmpty() {
+    return SliverToBoxAdapter(
+      child: files.length == 0
+          ? Container(
+              height: 200,
+              child: Center(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: <Widget>[
+                    Icon(
+                      Icons.inbox,
+                      size: 50,
+                    ),
+                    Text('空目录'),
+                  ],
+                ),
+              ),
+            )
+          : SizedBox(height: 0),
+    );
+  }
+
+  Widget _buildGrid() {
+    return GridView.builder(
+      shrinkWrap: true,
+      physics: NeverScrollableScrollPhysics(),
+      itemBuilder: (BuildContext context, int index) {
+        return AnimationConfiguration.staggeredList(
+          position: index,
+          child: FadeInAnimation(
+            delay: Duration(milliseconds: 100),
+            child: SlideAnimation(
+              verticalOffset: 50,
+              horizontalOffset: 50,
+              delay: Duration(milliseconds: 100),
+              child: Card(
+                child: Text('test'),
+              ),
+            ),
+          ),
+        );
+      },
+      itemCount: files.length,
+      gridDelegate:
+          SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
+    );
+  }
+
+  Widget _buildList() {
+    return ListView.builder(
+      physics: NeverScrollableScrollPhysics(),
+      shrinkWrap: true,
+      itemCount: files.length,
+      itemBuilder: (BuildContext context, int index) {
+        return AnimationConfiguration.staggeredList(
+          position: index,
+          duration: Duration(milliseconds: 400),
+          child: SlideAnimation(
+            horizontalOffset: 50,
+            verticalOffset: 100,
+            child: FadeInAnimation(
+              delay: Duration(milliseconds: 100),
+              child: FileListTileWidget(
+                file: files[index],
+                onLongPress: () {
+                  setState(() {
+                    _showSelectTool = true;
+                  });
+                },
+              ),
+            ),
+          ),
+        );
+      },
     );
   }
 }

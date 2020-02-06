@@ -48,4 +48,11 @@ class FileUtil {
     String pathFile = '/$path';
     return await File(prefix + mid + pathFile).create(recursive: true);
   }
+
+  bool isExist(String path, {bool share = false}) {
+    String prefix = appDir.path;
+    String mid = share ? '/SHARE' : '/${provider.userProfile.name}';
+    String pathFile = '/$path';
+    return File(prefix + mid + pathFile).existsSync();
+  }
 }
