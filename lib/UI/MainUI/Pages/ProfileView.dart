@@ -19,16 +19,15 @@ class ProfileViewWidget extends StatefulWidget {
 }
 
 class _ProfileViewState extends State<ProfileViewWidget> {
-  @override
-  void initState() {
-    super.initState();
-  }
+  ScrollController _scrollController =
+      ScrollController(initialScrollOffset: -500);
 
   @override
   Widget build(BuildContext context) {
     final provider = Provider.of<AppProvider>(context);
 
     return CustomScrollView(
+      controller: _scrollController,
       physics: MIUIScrollPhysics(),
       slivers: <Widget>[
         SliverAppBar(

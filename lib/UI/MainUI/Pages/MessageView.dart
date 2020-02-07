@@ -10,9 +10,12 @@ class MessageViewWidget extends StatefulWidget {
 }
 
 class _MessageViewState extends State<MessageViewWidget> {
+  ScrollController _scrollController =
+      ScrollController(initialScrollOffset: -500);
   @override
   Widget build(BuildContext context) {
     return CustomScrollView(
+      controller: _scrollController,
       physics: MIUIScrollPhysics(),
       slivers: <Widget>[
         SliverAppBar(
@@ -20,7 +23,10 @@ class _MessageViewState extends State<MessageViewWidget> {
           stretch: true,
           actions: <Widget>[
             IconButton(
-              icon: Icon(AntDesign.solution1),
+              icon: Hero(
+                tag: 'messageList',
+                child: Icon(AntDesign.solution1),
+              ),
               onPressed: () {
                 Navigator.of(context).pushNamed('friendsList');
               },

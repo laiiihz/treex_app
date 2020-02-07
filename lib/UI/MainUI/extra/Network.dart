@@ -141,39 +141,33 @@ class _NetworkState extends State<NetworkPage> {
                 ),
                 SliverList(
                   delegate: SliverChildListDelegate([
-                    CardPadding10(
-                      child: Padding(
-                        padding: EdgeInsets.only(left: 5, right: 5, top: 10),
-                        child: TextField(
-                          controller: _ipTextEditController,
-                          decoration: InputDecoration(
-                            labelText: '服务器地址或IP',
-                          ),
+                    TextFieldPadding(
+                      child: TextField(
+                        controller: _ipTextEditController,
+                        decoration: InputDecoration(
+                          labelText: '服务器地址或IP',
                         ),
                       ),
                     ),
-                    CardPadding10(
-                      child: Padding(
-                        padding: EdgeInsets.only(left: 5, right: 5, top: 10),
-                        child: Row(
-                          children: <Widget>[
-                            Checkbox(
-                                value: _isHttpsOn,
-                                onChanged: (value) {
-                                  setState(() {
-                                    _isHttpsOn = value;
-                                  });
-                                }),
-                            Text('HTTPS'),
-                            Spacer(),
-                            Expanded(
-                              child: TextField(
-                                controller: _portEditController,
-                                decoration: InputDecoration(labelText: '端口'),
-                              ),
+                    TextFieldPadding(
+                      child: Row(
+                        children: <Widget>[
+                          Checkbox(
+                              value: _isHttpsOn,
+                              onChanged: (value) {
+                                setState(() {
+                                  _isHttpsOn = value;
+                                });
+                              }),
+                          Text('HTTPS'),
+                          Spacer(),
+                          Expanded(
+                            child: TextField(
+                              controller: _portEditController,
+                              decoration: InputDecoration(labelText: '端口'),
                             ),
-                          ],
-                        ),
+                          ),
+                        ],
                       ),
                     ),
                   ]),

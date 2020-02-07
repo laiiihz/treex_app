@@ -1,5 +1,6 @@
 import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_miui/flutter_miui.dart';
 import 'package:treex_app/Utils/FileParseUtil.dart';
 import 'package:treex_app/Utils/FileUtil.dart';
 import 'package:treex_app/download/downloadSystem.dart';
@@ -37,10 +38,10 @@ class _FileListTileState extends State<FileListTileWidget> {
       leading: Stack(
         overflow: Overflow.visible,
         children: <Widget>[
-          Icon(FileParseUtil.parseIcon(
+          FileParseUtil.parseIcon(
             name: widget.file.name,
             isDir: widget.file.isDir,
-          )),
+          ),
           _exist
               ? Positioned(
                   right: -10,
@@ -57,16 +58,21 @@ class _FileListTileState extends State<FileListTileWidget> {
           '${widget.file.isDir ? '' : '•'}'
           '${widget.file.isDir ? '' : FileParseUtil.parseLength(widget.file.length)}'),
       trailing: PopupMenuButton<String>(
+        shape: MIUIMenuShape,
         itemBuilder: (BuildContext context) {
           return [
-            widget.file.isDir?
+            widget.file.isDir
+                ? PopupMenuItem(
+                    child: Text('批量下载'),
+                    value: 'downloadAll',
+                  )
+                : PopupMenuItem(
+                    child: Text('下载'),
+                    value: 'download',
+                  ),
             PopupMenuItem(
-              child: Text('批量下载'),
-              value: 'downloadAll',
-            ):
-            PopupMenuItem(
-              child: Text('下载'),
-              value: 'download',
+              child: Text('删除', style: TextStyle(color: Colors.pink)),
+              value: 'delete',
             ),
           ];
         },

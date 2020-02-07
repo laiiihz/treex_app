@@ -49,6 +49,31 @@ class CardPadding10 extends StatelessWidget {
   }
 }
 
+class TextFieldPadding extends StatelessWidget {
+  TextFieldPadding({Key key, @required this.child}) : super(key: key);
+  final Widget child;
+  @override
+  Widget build(BuildContext context) {
+    final provider = Provider.of<AppProvider>(context);
+    return Padding(
+      padding: EdgeInsets.only(
+        top: 10,
+        left: provider.haveCurved ? 15 : 5,
+        right: provider.haveCurved ? 15 : 5,
+      ),
+      child: this.child,
+    );
+  }
+}
+
+EdgeInsetsGeometry cardPaddingOuter(BuildContext context) {
+  final provider = Provider.of<AppProvider>(context);
+  return EdgeInsets.only(
+    left: provider.haveCurved ? 10 : 0,
+    right: provider.haveCurved ? 10 : 0,
+  );
+}
+
 ShapeBorder roundBorder10 = RoundedRectangleBorder(
   borderRadius: BorderRadius.circular(10),
 );

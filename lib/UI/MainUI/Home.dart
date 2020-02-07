@@ -8,7 +8,6 @@ import 'package:treex_app/UI/MainUI/Pages/MessageView.dart';
 import 'package:treex_app/UI/MainUI/Pages/ProfileView.dart';
 import 'package:treex_app/UI/MainUI/tools/FullTools.dart';
 import 'package:treex_app/UI/widget/HomeLeftBarItem.dart';
-import 'dart:math' as math;
 
 import 'package:treex_app/UI/widget/TransparentPageRoute.dart';
 import 'package:treex_app/provider/AppProvider.dart';
@@ -56,11 +55,7 @@ class _HomeState extends State<HomePage> {
                       setState(() {
                         _nowIndex = 0;
                       });
-                      _pageController.animateToPage(
-                        0,
-                        duration: Duration(milliseconds: 500),
-                        curve: Curves.easeInOutCubic,
-                      );
+                      _pageController.jumpToPage(0);
                     },
                   ),
                   HomeLeftBarItemWidget(
@@ -72,11 +67,7 @@ class _HomeState extends State<HomePage> {
                       setState(() {
                         _nowIndex = 1;
                       });
-                      _pageController.animateToPage(
-                        1,
-                        duration: Duration(milliseconds: 500),
-                        curve: Curves.easeInOutCubic,
-                      );
+                      _pageController.jumpToPage(1);
                     },
                   ),
                   HomeLeftBarItemWidget(
@@ -88,11 +79,7 @@ class _HomeState extends State<HomePage> {
                       setState(() {
                         _nowIndex = 2;
                       });
-                      _pageController.animateToPage(
-                        2,
-                        duration: Duration(milliseconds: 500),
-                        curve: Curves.easeInOutCubic,
-                      );
+                      _pageController.jumpToPage(2);
                     },
                   ),
                   HomeLeftBarItemWidget(
@@ -104,11 +91,7 @@ class _HomeState extends State<HomePage> {
                       setState(() {
                         _nowIndex = 3;
                       });
-                      _pageController.animateToPage(
-                        3,
-                        duration: Duration(milliseconds: 500),
-                        curve: Curves.easeInOutCubic,
-                      );
+                      _pageController.jumpToPage(3);
                     },
                   ),
                 ],
@@ -153,11 +136,7 @@ class _HomeState extends State<HomePage> {
           });
           setState(() {
             _nowIndex = index;
-            _pageController.animateToPage(
-              index,
-              duration: Duration(milliseconds: 500),
-              curve: Curves.easeInOutCubic,
-            );
+            _pageController.jumpToPage(index);
           });
         },
         items: [

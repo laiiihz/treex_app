@@ -1,5 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
+import 'package:intl/intl.dart';
+
+class _IC {
+  IconData icon;
+  Color color;
+  _IC(this.icon, this.color);
+}
 
 class FileParseUtil {
   static String parseDate(int time) {
@@ -17,7 +24,8 @@ class FileParseUtil {
     } else if (timeInterval < TimeMillisecond.day * 15) {
       return '${nowDate.day - fileDate.day}天前';
     } else
-      return DateTime.fromMillisecondsSinceEpoch(time).toIso8601String();
+      return DateFormat('yy年MM月dd日')
+          .format(DateTime.fromMillisecondsSinceEpoch(time));
   }
 
   static String parseLength(int length) {
@@ -30,23 +38,41 @@ class FileParseUtil {
     }
   }
 
-  static IconData parseIcon({
+  static Icon parseIcon({
     String name,
     bool isDir,
   }) {
+    String suffix = FileNameClass.fromName(name).suffix;
     if (isDir) {
-      return AntDesign.folder1;
+      return Icon(MaterialCommunityIcons.folder,
+          color: Colors.yellow, size: 30);
     } else {
-      switch (FileNameClass.fromName(name).suffix) {
-        case 'zip':
-          return FontAwesome5.file_archive;
-          break;
+      switch (suffix) {
         case 'MD':
         case 'md':
-          return AntDesign.file_markdown;
-          break;
+          return Icon(MaterialCommunityIcons.markdown, color: Colors.blue);
+        case 'jpg':
+        case 'png':
+        case 'webp':
+          return Icon(MaterialCommunityIcons.image, color: Colors.green);
+        case 'txt':
+          return Icon(MaterialCommunityIcons.text, color: Colors.grey);
+        case 'pdf':
+          return Icon(MaterialCommunityIcons.file_pdf, color: Colors.lightBlue);
+        case 'aac':
+        case 'mp3':
+          return Icon(MaterialCommunityIcons.music, color: Colors.lightGreen);
+        case 'mp4':
+        case 'mkv':
+        case 'mov':
+          return Icon(MaterialCommunityIcons.video, color: Colors.blueAccent);
+        case 'apk':
+        case 'xapk':
+          return Icon(MaterialCommunityIcons.android, color: Color(0xff3DDC84));
+        case 'exe':
+          return Icon(MaterialCommunityIcons.windows, color: Colors.grey);
         default:
-          return AntDesign.unknowfile1;
+          return Icon(MaterialCommunityIcons.file, color: Colors.blueGrey);
       }
     }
   }

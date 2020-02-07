@@ -11,9 +11,12 @@ class FileViewWidget extends StatefulWidget {
 }
 
 class _FileViewState extends State<FileViewWidget> {
+  ScrollController _scrollController =
+      ScrollController(initialScrollOffset: -500);
   @override
   Widget build(BuildContext context) {
     return CustomScrollView(
+      controller: _scrollController,
       physics: MIUIScrollPhysics(),
       slivers: <Widget>[
         SliverAppBar(

@@ -26,6 +26,7 @@ class _RecycleBinState extends State<RecycleBinPage> {
                     icon: Icon(Icons.delete_forever), onPressed: () {}),
               ),
               PopupMenuButton<String>(
+                shape: MIUIMenuShape,
                 itemBuilder: (BuildContext context) {
                   return [
                     PopupMenuItem(

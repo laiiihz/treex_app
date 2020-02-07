@@ -135,37 +135,28 @@ class _ProfilesState extends State<ProfilesPage> {
           ),
           SliverList(
             delegate: SliverChildListDelegate([
-              CardPadding10(
-                child: Padding(
-                  padding: EdgeInsets.only(left: 5, right: 5, top: 10),
-                  child: TextField(
-                    enabled: false,
-                    controller: _nameController,
-                    decoration: InputDecoration(
-                      labelText: '用户名',
-                    ),
+              TextFieldPadding(
+                child: TextField(
+                  enabled: false,
+                  controller: _nameController,
+                  decoration: InputDecoration(
+                    labelText: '用户名',
                   ),
                 ),
               ),
-              CardPadding10(
-                child: Padding(
-                  padding: EdgeInsets.only(left: 5, right: 5, top: 10),
-                  child: TextField(
-                    controller: _phoneController,
-                    decoration: InputDecoration(
-                      labelText: '电话号码',
-                    ),
+              TextFieldPadding(
+                child: TextField(
+                  controller: _phoneController,
+                  decoration: InputDecoration(
+                    labelText: '电话号码',
                   ),
                 ),
               ),
-              CardPadding10(
-                child: Padding(
-                  padding: EdgeInsets.only(left: 5, right: 5, top: 10),
-                  child: TextField(
-                    controller: _emailController,
-                    decoration: InputDecoration(
-                      labelText: '邮箱',
-                    ),
+              TextFieldPadding(
+                child: TextField(
+                  controller: _emailController,
+                  decoration: InputDecoration(
+                    labelText: '邮箱',
                   ),
                 ),
               ),
