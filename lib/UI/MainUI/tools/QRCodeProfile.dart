@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
+import 'package:provider/provider.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 import 'package:treex_app/Utils/brightnessUtil.dart';
+import 'package:treex_app/provider/AppProvider.dart';
 
 class QRCodeProfilePage extends StatefulWidget {
   @override
@@ -9,85 +11,74 @@ class QRCodeProfilePage extends StatefulWidget {
 }
 
 class _QRCodeProfileState extends State<QRCodeProfilePage> {
-  Widget _initWidget = Container();
-  @override
-  void initState() {
-    super.initState();
-    Future.delayed(Duration(milliseconds: 500), () {
-      setState(() {
-        _initWidget = _buildQrProfileImage(context);
-      });
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-      child: Scaffold(
-        appBar: AppBar(
-          title: Text('二维码名片'),
-          centerTitle: true,
-        ),
-        floatingActionButton: FloatingActionButton.extended(
-          onPressed: () {},
-          label: Text('扫一扫'),
-          icon: Icon(AntDesign.scan1),
-        ),
-        body: Center(
-          child: Hero(
-            tag: 'qrProfile',
-            child: Card(
-              child: Container(
-                height: 400,
-                width: 300,
-                child: AnimatedSwitcher(
-                  duration: Duration(milliseconds: 300),
-                  child: _initWidget,
+    final provider = Provider.of<AppProvider>(context);
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('二维码名片'),
+        centerTitle: true,
+      ),
+      floatingActionButton: FloatingActionButton.extended(
+        onPressed: () {},
+        label: Text('扫一扫'),
+        icon: Icon(AntDesign.scan1),
+        heroTag: 'fab',
+      ),
+      body: Column(
+        children: <Widget>[
+          Row(
+            children: <Widget>[
+              Hero(
+                tag: 'avatar',
+                child: Material(
+                  borderRadius: BorderRadius.circular(40),
+                  elevation: 10,
+                  child: CircleAvatar(
+                    backgroundImage: provider.avatarFile == null
+                        ? null
+                        : FileImage(provider.avatarFile),
+                    backgroundColor: isDark(context)
+                        ? null
+                        : provider.userProfile.backgroundColor,
+                    maxRadius: 40,
+                    child: provider.userProfile.avatar.isEmpty
+                        ? Text(
+                            provider.userProfile.name[0],
+                            style: TextStyle(fontSize: 30),
+                          )
+                        : SizedBox(),
+                  ),
+                ),
+              ),
+              Spacer(),
+              Hero(
+                tag: 'myName',
+                child: Material(
+                  color: Colors.transparent,
+                  child: Text(
+                    '${provider.userProfile.name} ',
+                    style: TextStyle(fontSize: 30),
+                  ),
+                ),
+              ),
+            ],
+          ),
+          Expanded(
+            child: AnimatedSwitcher(
+              duration: Duration(milliseconds: 300),
+              child: Padding(
+                padding: EdgeInsets.all(20),
+                child: QrImage(
+                  foregroundColor: Colors.black,
+                  backgroundColor: Colors.white,
+                  data: 'treex://user:${provider.userProfile.name}',
                 ),
               ),
             ),
           ),
-        ),
+        ],
       ),
-      onWillPop: () async {
-        setState(() {
-          _initWidget = Container();
-        });
-        return true;
-      },
-    );
-  }
-
-  Widget _buildQrProfileImage(BuildContext context) {
-    return Column(
-      children: <Widget>[
-        Padding(
-          padding: EdgeInsets.all(10),
-          child: Row(
-            children: <Widget>[
-              CircleAvatar(
-                minRadius: 20,
-              ),
-              Spacer(),
-              Text('laiiihz'),
-            ],
-          ),
-        ),
-        Divider(),
-        Expanded(
-          child: AnimatedSwitcher(
-            duration: Duration(milliseconds: 300),
-            child: Padding(
-              padding: EdgeInsets.all(20),
-              child: QrImage(
-                foregroundColor: Colors.black,
-                backgroundColor: Colors.white,
-                data: 'awefawefagwyefguiawf',
-              ),
-            ),
-          ),
-        ),
-      ],
     );
   }
 }

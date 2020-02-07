@@ -2,11 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:intl/intl.dart';
 
-class _IC {
-  IconData icon;
-  Color color;
-  _IC(this.icon, this.color);
-}
 
 class FileParseUtil {
   static String parseDate(int time) {

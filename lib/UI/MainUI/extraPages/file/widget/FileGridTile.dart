@@ -1,8 +1,12 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:treex_app/UI/widget/CardBar.dart';
 import 'package:treex_app/Utils/FileParseUtil.dart';
 import 'package:treex_app/Utils/FileUtil.dart';
 import 'package:treex_app/network/NetworkFileEntity.dart';
+import 'package:treex_app/provider/AppProvider.dart';
 
 class FileGridTileWidget extends StatefulWidget {
   FileGridTileWidget({Key key, @required this.file}) : super(key: key);
@@ -13,11 +17,13 @@ class FileGridTileWidget extends StatefulWidget {
 
 class _FileGridTileState extends State<FileGridTileWidget> {
   bool _exist = false;
+  String _path = '';
   @override
   void initState() {
     super.initState();
     FileUtil.build(context).then((fileUtil) {
       setState(() {
+        _path = fileUtil.appDir.path;
         _exist = fileUtil.isExist(widget.file.path);
       });
     });
@@ -25,6 +31,7 @@ class _FileGridTileState extends State<FileGridTileWidget> {
 
   @override
   Widget build(BuildContext context) {
+    final provider = Provider.of<AppProvider>(context);
     return Card(
       shape: roundBorder10,
       child: InkWell(

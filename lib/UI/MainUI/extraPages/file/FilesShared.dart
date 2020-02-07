@@ -1,14 +1,16 @@
-import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:flutter_miui/flutter_miui.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
+import 'package:provider/provider.dart';
 import 'package:treex_app/UI/MainUI/extraPages/file/widget/FileGridTile.dart';
 import 'package:treex_app/UI/MainUI/extraPages/file/widget/FileListTile.dart';
 import 'package:treex_app/UI/widget/CardBar.dart';
 import 'package:treex_app/UI/widget/LargeIconBackground.dart';
 import 'package:treex_app/network/NetworkFileEntity.dart';
 import 'package:treex_app/network/NetworkFileUtil.dart';
+import 'package:treex_app/provider/AppProvider.dart';
 
 class FilesSharedPage extends StatefulWidget {
   @override
@@ -24,7 +26,10 @@ class _FilesSharedState extends State<FilesSharedPage> {
   @override
   void initState() {
     super.initState();
-    SharedFile(context).getSharedFile(path: '.').then((filesFetch) {
+    final provider = Provider.of<AppProvider>(context, listen: false);
+    SharedFile(context)
+        .getSharedFile(path: provider.nowSharePath)
+        .then((filesFetch) {
       setState(() {
         files = filesFetch;
       });
@@ -41,9 +46,9 @@ class _FilesSharedState extends State<FilesSharedPage> {
             physics: MIUIScrollPhysics(),
             slivers: <Widget>[
               SliverAppBar(
-                pinned: true,
                 stretch: true,
                 floating: true,
+                snap: true,
                 expandedHeight: 200,
                 actions: <Widget>[
                   IconButton(
@@ -71,6 +76,7 @@ class _FilesSharedState extends State<FilesSharedPage> {
                       tag: 'share', icon: Icons.people),
                 ),
               ),
+              _buildBackButton(),
               _buildEmpty(),
               SliverToBoxAdapter(
                 child: AnimatedSwitcher(
@@ -144,6 +150,68 @@ class _FilesSharedState extends State<FilesSharedPage> {
     );
   }
 
+  Widget _buildBackButton() {
+    final provider = Provider.of<AppProvider>(context);
+    return SliverToBoxAdapter(
+      child: provider.nowShareParentPath == null
+          ? SizedBox()
+          : CardPadding10(
+              child: Card(
+                clipBehavior: Clip.antiAlias,
+                shape: roundBorder10,
+                child: Row(
+                  children: <Widget>[
+                    Tooltip(
+                      message: '回到上一级',
+                      child: IconButton(
+                        icon: Icon(Icons.more_horiz),
+                        onPressed: () {
+                          _scrollController.animateTo(
+                            -100,
+                            duration: Duration(milliseconds: 300),
+                            curve: Curves.easeInOutCubic,
+                          );
+                          SharedFile(context)
+                              .getSharedFile(path: provider.nowShareParentPath)
+                              .then((netFiles) {
+                            setState(() {
+                              files = netFiles;
+                              _listKey = UniqueKey();
+                            });
+                          });
+                        },
+                      ),
+                    ),
+                    Expanded(
+                      child: Container(
+                        height: 50,
+                        child: ListView.builder(
+                          physics: MIUIScrollPhysics(),
+                          scrollDirection: Axis.horizontal,
+                          itemBuilder: (BuildContext context, int index) {
+                            return Center(
+                              child: Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: <Widget>[
+                                  Text((provider.nowSharePath as String)
+                                      .split('/')[index]),
+                                ],
+                              ),
+                            );
+                          },
+                          itemCount: (provider.nowSharePath as String)
+                              .split('/')
+                              .length,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+    );
+  }
+
   Widget _buildGrid() {
     return GridView.builder(
       shrinkWrap: true,
@@ -192,6 +260,23 @@ class _FilesSharedState extends State<FilesSharedPage> {
                   setState(() {
                     _showSelectTool = true;
                   });
+                },
+                onTap: () {
+                  if (files[index].isDir) {
+                    _scrollController.animateTo(
+                      -50,
+                      duration: Duration(milliseconds: 300),
+                      curve: Curves.easeInOutCubic,
+                    );
+                    SharedFile(context)
+                        .getSharedFile(path: files[index].path)
+                        .then((netFiles) {
+                      setState(() {
+                        files = netFiles;
+                        _listKey = UniqueKey();
+                      });
+                    });
+                  }
                 },
               ),
             ),

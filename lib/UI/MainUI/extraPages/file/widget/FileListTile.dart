@@ -1,16 +1,22 @@
 import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_miui/flutter_miui.dart';
+import 'package:treex_app/UI/widget/CardBar.dart';
 import 'package:treex_app/Utils/FileParseUtil.dart';
 import 'package:treex_app/Utils/FileUtil.dart';
 import 'package:treex_app/download/downloadSystem.dart';
 import 'package:treex_app/network/NetworkFileEntity.dart';
 
 class FileListTileWidget extends StatefulWidget {
-  FileListTileWidget({Key key, @required this.file, this.onLongPress})
-      : super(key: key);
+  FileListTileWidget({
+    Key key,
+    @required this.file,
+    @required this.onLongPress,
+    @required this.onTap,
+  }) : super(key: key);
   final NetFileEntity file;
   final VoidCallback onLongPress;
+  final VoidCallback onTap;
   @override
   State<StatefulWidget> createState() => _FileListTileState();
 }
@@ -31,9 +37,12 @@ class _FileListTileState extends State<FileListTileWidget> {
   Widget build(BuildContext context) {
     return ListTile(
       onLongPress: widget.onLongPress,
+      onTap: widget.onTap,
+      contentPadding: edgeInsetsGeometryCurved(context),
       title: Text(
         widget.file.name,
         overflow: TextOverflow.fade,
+        softWrap: false,
       ),
       leading: Stack(
         overflow: Overflow.visible,

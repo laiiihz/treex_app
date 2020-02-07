@@ -134,14 +134,6 @@ class AppProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  //TEST VALUE
-  double _downloadValue;
-  get downloadValue => _downloadValue;
-  changeValue(double value) {
-    _downloadValue = value;
-    notifyListeners();
-  }
-
   List<DownloadFile> _downloadFiles = [];
   List<DownloadFile> get downloadFiles => _downloadFiles;
   int get taskNumber => _downloadFiles.length;
@@ -152,6 +144,21 @@ class AppProvider extends ChangeNotifier {
 
   setDownloadValue(double value, int index) {
     _downloadFiles[index].value = value;
+    notifyListeners();
+  }
+
+  String _nowShareParentPath;
+  get nowShareParentPath => _nowShareParentPath;
+
+  setShareParentPath(String path) {
+    _nowShareParentPath = path;
+    notifyListeners();
+  }
+
+  String _nowSharePath = '.';
+  get nowSharePath => _nowSharePath;
+  setSharePath(String path) {
+    _nowSharePath = path;
     notifyListeners();
   }
 }

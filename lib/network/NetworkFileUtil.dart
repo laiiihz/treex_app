@@ -39,6 +39,8 @@ class SharedFile extends NetworkUtilWithHeader {
     await dio.get('/api/treex/share?path=$path').then((value) {
       response = value;
       dynamic filesRaw = response.data['files'];
+      provider.setShareParentPath(response.data['parent']);
+      provider.setSharePath(response.data['path']);
       for (dynamic item in filesRaw) {
         files.add(NetFileEntity.fromDynamic(item));
       }

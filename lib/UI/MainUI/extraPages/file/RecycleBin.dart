@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_miui/flutter_miui.dart';
 import 'package:treex_app/UI/widget/LargeIconBackground.dart';
+import 'package:treex_app/Utils/brightnessUtil.dart';
 
 class RecycleBinPage extends StatefulWidget {
   @override
@@ -39,13 +40,13 @@ class _RecycleBinState extends State<RecycleBinPage> {
                   switch (value) {
                     case 'autoDelete':
                       showMIUIConfirmDialog(
-                        color: Colors.white,
                         context: context,
                         title: '自动删除时间设置',
                         child: Container(
                           height: 200,
                           child: CupertinoPicker(
                             itemExtent: 30,
+                            looping: true,
                             onSelectedItemChanged: (value) {
                               print(value);
                             },

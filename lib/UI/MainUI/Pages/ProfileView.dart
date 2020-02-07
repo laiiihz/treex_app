@@ -139,7 +139,14 @@ class _ProfileViewState extends State<ProfileViewWidget> {
                       text: '网络设置',
                     ),
                     ProfileGridWidget(
-                        icon: Icon(Icons.lock), onTap: () {}, text: '安全设置'),
+                        icon: Hero(
+                          tag: 'lock',
+                          child: Icon(Icons.lock),
+                        ),
+                        onTap: () {
+                          Navigator.of(context).pushNamed('safety');
+                        },
+                        text: '安全设置'),
                     ProfileGridWidget(
                         icon: Icon(Icons.message), onTap: () {}, text: '消息设置'),
                     ProfileGridWidget(
@@ -235,7 +242,6 @@ Widget buildWaveWithAvatar({@required BuildContext context, Widget child}) {
 
 Widget buildWaveFrontAvatar(BuildContext context) {
   final provider = Provider.of<AppProvider>(context);
-
   return Center(
     child: Padding(
       padding: EdgeInsets.only(left: 20, right: 0, top: 20, bottom: 20),
