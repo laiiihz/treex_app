@@ -18,6 +18,8 @@ class _FileViewState extends State<FileViewWidget> {
       slivers: <Widget>[
         SliverAppBar(
           pinned: true,
+          floating: true,
+          stretch: true,
           expandedHeight: 200,
           actions: <Widget>[
             Tooltip(

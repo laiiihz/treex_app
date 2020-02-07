@@ -32,17 +32,13 @@ class _FilesTypeState extends State<FilesTypePage> {
           SliverToBoxAdapter(
             child: ExpansionPanelList(
               expansionCallback: (index, value) {
-                if (index == 0) {
-                  Navigator.of(context).pushNamed('devTool');
-                } else {
-                  setState(() {
-                    _currentExpand = (value ? -1 : index);
-                  });
-                }
+                setState(() {
+                  _currentExpand = (value ? -1 : index);
+                });
               },
               children: [
                 ExpansionPanel(
-                  body: Text(''),
+                  body: genFileType(['all', 'photo', 'video', 'music']),
                   headerBuilder: (BuildContext context, bool isExpanded) {
                     return ListTile(
                       title: Text('test'),
@@ -52,18 +48,8 @@ class _FilesTypeState extends State<FilesTypePage> {
                   canTapOnHeader: true,
                 ),
                 ExpansionPanel(
-                  body: genFileType([
-                    'all',
-                    'photo',
-                    'testasfgawhregouiharawefrawefe',
-                    'test',
-                    'test',
-                    'test',
-                    'test',
-                    'test',
-                    'test',
-                    'test'
-                  ]),
+                  body: genFileType(
+                      ['all', 'doc', 'excel', 'ppt', 'pdf', 'markdown']),
                   headerBuilder: (BuildContext context, bool isExpanded) {
                     return ListTile(
                       title: Text('test'),

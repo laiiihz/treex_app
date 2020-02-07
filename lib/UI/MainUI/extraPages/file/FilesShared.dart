@@ -1,4 +1,6 @@
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_icons/flutter_icons.dart';
 import 'package:flutter_miui/flutter_miui.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:treex_app/UI/MainUI/extraPages/file/widget/FileListTile.dart';
@@ -101,7 +103,12 @@ class _FilesSharedState extends State<FilesSharedPage> {
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: <Widget>[
                       IconButton(
-                          icon: Icon(Icons.person_add), onPressed: () {}),
+                          icon: Icon(AntDesign.addfile),
+                          onPressed: () {
+                            FilePicker.getFile().then((file) {
+                              print(file.path);
+                            });
+                          }),
                       VerticalDivider(
                         width: 2,
                         indent: 10,

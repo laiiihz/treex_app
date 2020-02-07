@@ -1,3 +1,4 @@
+import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_material_color_picker/flutter_material_color_picker.dart';
 import 'package:flutter_miui/flutter_miui.dart';
@@ -166,6 +167,14 @@ class _SettingsState extends State<SettingsPage> {
                   provider.changeIOSPlatform(platform);
                   _shared.writeSlideBackMode(platform);
                 },
+              ),
+              ListTitleWidget(title: '其他'),
+              ListTile(
+                onTap: () {
+                  BotToast.showText(text: 'IN DEVELOPMENT');
+                },
+                contentPadding: edgeInsetsGeometryCurved(context),
+                title: Text('导出设置'),
               ),
             ]),
           ),

@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_miui/flutter_miui.dart';
 import 'package:treex_app/UI/widget/LargeIconBackground.dart';
@@ -36,24 +37,28 @@ class _RecycleBinState extends State<RecycleBinPage> {
                 onSelected: (value) {
                   switch (value) {
                     case 'autoDelete':
-                      showMIUIDialog(
+                      showMIUIConfirmDialog(
+                        color: Colors.white,
                         context: context,
-                        dyOffset: 0.3,
-                        content: Container(
+                        title: '自动删除时间设置',
+                        child: Container(
                           height: 200,
-                          child: ListView(
-                            physics: MIUIScrollPhysics(),
-                            children: <Widget>[
-                              FlatButton(onPressed: () {}, child: Text('5天')),
-                              FlatButton(onPressed: () {}, child: Text('10天')),
-                              FlatButton(onPressed: () {}, child: Text('15天')),
-                              FlatButton(onPressed: () {}, child: Text('10天')),
-                              FlatButton(onPressed: () {}, child: Text('25天')),
-                              FlatButton(onPressed: () {}, child: Text('30天')),
+                          child: CupertinoPicker(
+                            itemExtent: 30,
+                            onSelectedItemChanged: (value) {
+                              print(value);
+                            },
+                            children: [
+                              Text('5天'),
+                              Text('10天'),
+                              Text('15天'),
+                              Text('20天'),
+                              Text('25天'),
+                              Text('30天'),
                             ],
                           ),
                         ),
-                        label: 'autoDelete',
+                        confirm: () {},
                       );
                       break;
                   }
