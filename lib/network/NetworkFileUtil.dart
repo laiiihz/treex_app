@@ -1,5 +1,6 @@
 import 'package:dio/adapter.dart';
 import 'package:dio/dio.dart';
+import 'package:dio_http2_adapter/dio_http2_adapter.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:treex_app/network/NetworkFileEntity.dart';
@@ -19,24 +20,37 @@ class NetworkUtilWithHeader {
         ? '/'
         : ':${provider.networkPort}/';
     dio = Dio()
-      ..options.baseUrl = 'http${https ? 's' : ''}://$addr$port/'
+      ..httpClientAdapter = Http2Adapter(
+        ConnectionManager(
+          idleTimeout: 500,
+          onClientCreate: (_, clientSetting) =>
+              clientSetting.onBadCertificate = (_) => true,
+        ),
+      )
+      ..options.baseUrl = 'http${https ? 's' : ''}://$addr$port'
       ..options.headers = {'Authorization': provider.token};
-    (dio.httpClientAdapter as DefaultHttpClientAdapter).onHttpClientCreate =
-        (client) {
-      client.badCertificateCallback = (cert, host, port) {
-        return true;
-        //Self sign file check here
-      };
-    };
   }
 }
 
-class SharedFile extends NetworkUtilWithHeader {
-  SharedFile(BuildContext context) : super(context);
+enum GetFilesType {
+  SHARED,
+  PRIVATE,
+}
+
+Map<GetFilesType, String> _getFilesTypeMap = {
+  GetFilesType.PRIVATE: 'file',
+  GetFilesType.SHARED: 'share',
+};
+
+class NetFiles extends NetworkUtilWithHeader {
+  NetFiles(BuildContext context) : super(context);
   Response response;
-  Future<List<NetFileEntity>> getSharedFile({@required String path}) async {
+  Future<List<NetFileEntity>> files(
+      {@required String path, @required GetFilesType type}) async {
     List<NetFileEntity> files = [];
-    await dio.get('/api/treex/share?path=$path').then((value) {
+    await dio
+        .get('/api/treex/${_getFilesTypeMap[type]}?path=$path')
+        .then((value) {
       response = value;
       dynamic filesRaw = response.data['files'];
       provider.setShareParentPath(response.data['parent']);
