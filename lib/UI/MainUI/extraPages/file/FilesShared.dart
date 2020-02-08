@@ -4,9 +4,9 @@ import 'package:flutter_icons/flutter_icons.dart';
 import 'package:flutter_miui/flutter_miui.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:provider/provider.dart';
+import 'package:treex_app/UI/MainUI/extraPages/file/widget/FileBackToolBar.dart';
 import 'package:treex_app/UI/MainUI/extraPages/file/widget/FileGridTile.dart';
 import 'package:treex_app/UI/MainUI/extraPages/file/widget/FileListTile.dart';
-import 'package:treex_app/UI/MainUI/extraPages/file/widget/FileToolBar.dart';
 import 'package:treex_app/UI/MainUI/extraPages/file/widget/buildEmpty.dart';
 import 'package:treex_app/UI/widget/CardBar.dart';
 import 'package:treex_app/UI/widget/LargeIconBackground.dart';
@@ -80,8 +80,7 @@ class _FilesSharedState extends State<FilesSharedPage>
                       tag: 'share', icon: Icons.people),
                 ),
               ),
-              buildToolBar(
-                context: context,
+              FileBackToolBarWidget(
                 showToolBar: provider.nowShareParentPath != null,
                 goBack: () {
                   _getFiles(
@@ -140,8 +139,6 @@ class _FilesSharedState extends State<FilesSharedPage>
       ),
     );
   }
-
-
 
   Widget _buildGrid() {
     return GridView.builder(

@@ -39,6 +39,12 @@ class _MessageViewState extends State<MessageViewWidget> {
   }
 
   @override
+  void dispose() {
+    super.dispose();
+    _scrollController.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return CustomScrollView(
       controller: _scrollController,

@@ -45,6 +45,12 @@ class _ProfileViewState extends State<ProfileViewWidget> {
   }
 
   @override
+  void dispose() {
+    super.dispose();
+    _scrollController.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     final provider = Provider.of<AppProvider>(context);
 

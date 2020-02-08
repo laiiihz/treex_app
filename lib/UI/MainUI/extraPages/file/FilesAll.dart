@@ -3,9 +3,9 @@ import 'package:flutter_icons/flutter_icons.dart';
 import 'package:flutter_miui/flutter_miui.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:provider/provider.dart';
+import 'package:treex_app/UI/MainUI/extraPages/file/widget/FileBackToolBar.dart';
 import 'package:treex_app/UI/MainUI/extraPages/file/widget/FileGridTile.dart';
 import 'package:treex_app/UI/MainUI/extraPages/file/widget/FileListTile.dart';
-import 'package:treex_app/UI/MainUI/extraPages/file/widget/FileToolBar.dart';
 import 'package:treex_app/UI/MainUI/extraPages/file/widget/buildEmpty.dart';
 import 'package:treex_app/UI/widget/LargeIconBackground.dart';
 import 'package:treex_app/network/NetworkFileEntity.dart';
@@ -27,6 +27,11 @@ class _FilesAllState extends State<FilesAllPage> {
     super.initState();
     final provider = Provider.of<AppProvider>(context, listen: false);
     _getFiles(context: context, path: provider.nowAllFilesPath);
+  }
+  @override
+  void dispose() {
+    super.dispose();
+    _scrollController.dispose();
   }
 
   @override
@@ -72,8 +77,7 @@ class _FilesAllState extends State<FilesAllPage> {
             ),
             expandedHeight: 200,
           ),
-          buildToolBar(
-            context: context,
+          FileBackToolBarWidget(
             showToolBar: provider.nowAllFilesParentPath != null,
             goBack: () {
               _getFiles(context: context, path: provider.nowAllFilesParentPath);

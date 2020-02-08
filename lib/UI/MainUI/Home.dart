@@ -22,6 +22,12 @@ class _HomeState extends State<HomePage> {
   PageController _pageController = PageController();
   Key _customKey = UniqueKey();
   @override
+  void dispose() {
+    super.dispose();
+    _pageController.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return OrientationBuilder(
       builder: (BuildContext context, Orientation orientation) {

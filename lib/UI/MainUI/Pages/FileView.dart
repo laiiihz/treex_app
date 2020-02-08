@@ -14,6 +14,11 @@ class _FileViewState extends State<FileViewWidget> {
   ScrollController _scrollController =
       ScrollController(initialScrollOffset: -500);
   @override
+  void dispose() {
+    super.dispose();
+    _scrollController.dispose();
+  }
+  @override
   Widget build(BuildContext context) {
     return CustomScrollView(
       controller: _scrollController,
