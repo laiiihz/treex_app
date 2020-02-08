@@ -13,7 +13,7 @@ class DownloadSystem {
     int count = 0;
     fileUtil.provider.addTask(DownloadFile());
     await NetworkUtilWithHeader(context).dio.download(
-      '/api/treex/share/download?path=$path',
+      '/api/treex/${share ? 'share' : 'file'}/download?path=$path',
       file.path,
       onReceiveProgress: (value, all) {
         count++;

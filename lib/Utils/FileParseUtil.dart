@@ -48,6 +48,7 @@ class FileParseUtil {
         case 'jpg':
         case 'png':
         case 'webp':
+        case 'bmp':
           return Icon(MaterialCommunityIcons.image, color: Colors.green);
         case 'txt':
           return Icon(MaterialCommunityIcons.text, color: Colors.grey);
@@ -65,6 +66,23 @@ class FileParseUtil {
           return Icon(MaterialCommunityIcons.android, color: Color(0xff3DDC84));
         case 'exe':
           return Icon(MaterialCommunityIcons.windows, color: Colors.grey);
+        case 'docx':
+        case 'doc':
+        case 'rtf':
+          return Icon(MaterialCommunityIcons.file_word, color: Colors.blue);
+        case 'pptx':
+        case 'ppt':
+          return Icon(MaterialCommunityIcons.file_powerpoint,
+              color: Colors.red);
+        case 'pub':
+          return Icon(MaterialCommunityIcons.file_powerpoint,
+              color: Colors.green);
+        case 'sql':
+        case 'accdb':
+        case 'db':
+          return Icon(MaterialCommunityIcons.database, color: Colors.red);
+        case 'lnk':
+          return Icon(MaterialCommunityIcons.launch, color: Colors.grey);
         default:
           return Icon(MaterialCommunityIcons.file, color: Colors.blueGrey);
       }

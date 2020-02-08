@@ -161,4 +161,19 @@ class AppProvider extends ChangeNotifier {
     _nowSharePath = path;
     notifyListeners();
   }
+
+  String _nowAllFilesParentPath;
+  get nowAllFilesParentPath => _nowAllFilesParentPath;
+
+  setNowAllFilesParentPath(String path) {
+    _nowAllFilesParentPath = path;
+    notifyListeners();
+  }
+
+  String _nowAllFilesPath = '.';
+  get nowAllFilesPath => _nowAllFilesPath;
+  setNowFilesPath(String path) {
+    _nowAllFilesPath = _nowSharePath;
+    notifyListeners();
+  }
 }

@@ -1,8 +1,11 @@
+import 'package:dio/dio.dart';
+import 'package:dio_http2_adapter/dio_http2_adapter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_miui/flutter_miui.dart';
 import 'package:provider/provider.dart';
 import 'package:treex_app/UI/widget/CardBar.dart';
 import 'package:treex_app/download/downloadSystem.dart';
+import 'package:treex_app/network/AuthUtil.dart';
 import 'package:treex_app/provider/AppProvider.dart';
 
 enum _DevOp {
@@ -19,6 +22,12 @@ class DevToolPage extends StatefulWidget {
 class _DevToolState extends State<DevToolPage> {
   _DevOp _nowOp = _DevOp.GET;
   int _nowIndex = -1;
+  Dio dio;
+  @override
+  void initState() {
+    super.initState();
+    dio = NetworkUtil(context).dio;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -86,7 +95,27 @@ class _DevToolState extends State<DevToolPage> {
                             child: Text('RESET'),
                           ),
                           RaisedButton(
-                            onPressed: () {},
+                            onPressed: () {
+                              Dio dio = Dio();
+                              dio
+                                ..httpClientAdapter = Http2Adapter(
+                                  ConnectionManager(
+                                    idleTimeout: 500,
+                                    onClientCreate: (_, clientSetting) =>
+                                        clientSetting.onBadCertificate =
+                                            (_) => true,
+                                  ),
+                                )
+                                ..options.headers = {
+                                  'Authorization': provider.token
+                                }
+                                ..get('https://192.168.31.130/api/treex/file?path=.')
+                                    .then((response) {
+                                  print(response.data);
+                                }).catchError((err) {
+                                  print(err);
+                                });
+                            },
                             child: Text('FIRE'),
                           ),
                         ],

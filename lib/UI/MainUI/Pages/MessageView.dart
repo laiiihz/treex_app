@@ -12,6 +12,32 @@ class MessageViewWidget extends StatefulWidget {
 class _MessageViewState extends State<MessageViewWidget> {
   ScrollController _scrollController =
       ScrollController(initialScrollOffset: -500);
+  double _leadingOpacity = 0;
+  double _leadingOffsetX = 45;
+  @override
+  void initState() {
+    super.initState();
+    _scrollController.addListener(() {
+      var offset = _scrollController.offset; //100-145
+      if (offset <= 80) {
+        setState(() {
+          _leadingOpacity = 0;
+          _leadingOffsetX = 45;
+        });
+      } else if (offset < 145) {
+        setState(() {
+          _leadingOpacity = (offset - 80) / (145 - 80);
+          _leadingOffsetX = (1 - (offset - 80) / (145 - 80)) * 45;
+        });
+      } else {
+        setState(() {
+          _leadingOpacity = 1;
+          _leadingOffsetX = 0;
+        });
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return CustomScrollView(
@@ -21,6 +47,13 @@ class _MessageViewState extends State<MessageViewWidget> {
         SliverAppBar(
           pinned: true,
           stretch: true,
+          leading: Transform.translate(
+            offset: Offset(_leadingOffsetX, 0),
+            child: Opacity(
+              opacity: _leadingOpacity,
+              child: Icon(Icons.message),
+            ),
+          ),
           actions: <Widget>[
             IconButton(
               icon: Hero(

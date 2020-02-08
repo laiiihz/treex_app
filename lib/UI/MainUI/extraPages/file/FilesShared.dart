@@ -6,6 +6,7 @@ import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:provider/provider.dart';
 import 'package:treex_app/UI/MainUI/extraPages/file/widget/FileGridTile.dart';
 import 'package:treex_app/UI/MainUI/extraPages/file/widget/FileListTile.dart';
+import 'package:treex_app/UI/MainUI/extraPages/file/widget/FileToolBar.dart';
 import 'package:treex_app/UI/widget/CardBar.dart';
 import 'package:treex_app/UI/widget/LargeIconBackground.dart';
 import 'package:treex_app/network/NetworkFileEntity.dart';
@@ -17,7 +18,8 @@ class FilesSharedPage extends StatefulWidget {
   State<StatefulWidget> createState() => _FilesSharedState();
 }
 
-class _FilesSharedState extends State<FilesSharedPage> {
+class _FilesSharedState extends State<FilesSharedPage>
+    with TickerProviderStateMixin {
   List<NetFileEntity> files = [];
   ScrollController _scrollController = ScrollController();
   bool _isGridView = false;
@@ -27,8 +29,11 @@ class _FilesSharedState extends State<FilesSharedPage> {
   void initState() {
     super.initState();
     final provider = Provider.of<AppProvider>(context, listen: false);
-    SharedFile(context)
-        .getSharedFile(path: provider.nowSharePath)
+    NetFiles(context)
+        .files(
+      path: provider.nowSharePath,
+      type: GetFilesType.SHARED,
+    )
         .then((filesFetch) {
       setState(() {
         files = filesFetch;
@@ -38,6 +43,7 @@ class _FilesSharedState extends State<FilesSharedPage> {
 
   @override
   Widget build(BuildContext context) {
+    final provider = Provider.of<AppProvider>(context);
     return Scaffold(
       body: Stack(
         children: <Widget>[
@@ -76,7 +82,28 @@ class _FilesSharedState extends State<FilesSharedPage> {
                       tag: 'share', icon: Icons.people),
                 ),
               ),
-              _buildBackButton(),
+              buildToolBar(
+                context: context,
+                showToolBar: provider.nowShareParentPath != null,
+                goBack: () {
+                  _scrollController.animateTo(
+                    -100,
+                    duration: Duration(milliseconds: 300),
+                    curve: Curves.easeInOutCubic,
+                  );
+                  NetFiles(context)
+                      .files(
+                          path: provider.nowShareParentPath,
+                          type: GetFilesType.SHARED)
+                      .then((netFiles) {
+                    setState(() {
+                      files = netFiles;
+                      _listKey = UniqueKey();
+                    });
+                  });
+                },
+                nowPath: provider.nowSharePath,
+              ),
               _buildEmpty(),
               SliverToBoxAdapter(
                 child: AnimatedSwitcher(
@@ -150,88 +177,18 @@ class _FilesSharedState extends State<FilesSharedPage> {
     );
   }
 
-  Widget _buildBackButton() {
-    final provider = Provider.of<AppProvider>(context);
-    return SliverToBoxAdapter(
-      child: provider.nowShareParentPath == null
-          ? SizedBox()
-          : CardPadding10(
-              child: Card(
-                clipBehavior: Clip.antiAlias,
-                shape: roundBorder10,
-                child: Row(
-                  children: <Widget>[
-                    Tooltip(
-                      message: '回到上一级',
-                      child: IconButton(
-                        icon: Icon(Icons.more_horiz),
-                        onPressed: () {
-                          _scrollController.animateTo(
-                            -100,
-                            duration: Duration(milliseconds: 300),
-                            curve: Curves.easeInOutCubic,
-                          );
-                          SharedFile(context)
-                              .getSharedFile(path: provider.nowShareParentPath)
-                              .then((netFiles) {
-                            setState(() {
-                              files = netFiles;
-                              _listKey = UniqueKey();
-                            });
-                          });
-                        },
-                      ),
-                    ),
-                    Expanded(
-                      child: Container(
-                        height: 50,
-                        child: ListView.builder(
-                          physics: MIUIScrollPhysics(),
-                          scrollDirection: Axis.horizontal,
-                          itemBuilder: (BuildContext context, int index) {
-                            return Center(
-                              child: Row(
-                                mainAxisSize: MainAxisSize.min,
-                                children: <Widget>[
-                                  Text((provider.nowSharePath as String)
-                                      .split('/')[index]),
-                                ],
-                              ),
-                            );
-                          },
-                          itemCount: (provider.nowSharePath as String)
-                              .split('/')
-                              .length,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-    );
-  }
-
   Widget _buildGrid() {
     return GridView.builder(
       shrinkWrap: true,
       padding: cardPaddingOuter(context),
       physics: NeverScrollableScrollPhysics(),
-      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 2, childAspectRatio: 2),
+      gridDelegate:
+          SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 4),
       itemBuilder: (BuildContext context, int index) {
         return AnimationConfiguration.staggeredList(
           position: index,
-          child: FadeInAnimation(
-            delay: Duration(milliseconds: 100),
-            child: SlideAnimation(
-              verticalOffset: 50,
-              horizontalOffset: 50,
-              delay: Duration(milliseconds: 100),
-              child: FileGridTileWidget(
-                file: files[index],
-              ),
-            ),
+          child: FileGridTileWidget(
+            file: files[index],
           ),
         );
       },
@@ -249,37 +206,30 @@ class _FilesSharedState extends State<FilesSharedPage> {
         return AnimationConfiguration.staggeredList(
           position: index,
           duration: Duration(milliseconds: 400),
-          child: SlideAnimation(
-            horizontalOffset: 50,
-            verticalOffset: 100,
-            child: FadeInAnimation(
-              delay: Duration(milliseconds: 100),
-              child: FileListTileWidget(
-                file: files[index],
-                onLongPress: () {
+          child: FileListTileWidget(
+            file: files[index],
+            onLongPress: () {
+              setState(() {
+                _showSelectTool = true;
+              });
+            },
+            onTap: () {
+              if (files[index].isDir) {
+                _scrollController.animateTo(
+                  -50,
+                  duration: Duration(milliseconds: 300),
+                  curve: Curves.easeInOutCubic,
+                );
+                NetFiles(context)
+                    .files(path: files[index].path, type: GetFilesType.SHARED)
+                    .then((netFiles) {
                   setState(() {
-                    _showSelectTool = true;
+                    files = netFiles;
+                    _listKey = UniqueKey();
                   });
-                },
-                onTap: () {
-                  if (files[index].isDir) {
-                    _scrollController.animateTo(
-                      -50,
-                      duration: Duration(milliseconds: 300),
-                      curve: Curves.easeInOutCubic,
-                    );
-                    SharedFile(context)
-                        .getSharedFile(path: files[index].path)
-                        .then((netFiles) {
-                      setState(() {
-                        files = netFiles;
-                        _listKey = UniqueKey();
-                      });
-                    });
-                  }
-                },
-              ),
-            ),
+                });
+              }
+            },
           ),
         );
       },
