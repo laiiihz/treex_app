@@ -83,6 +83,10 @@ class FileParseUtil {
           return Icon(MaterialCommunityIcons.database, color: Colors.red);
         case 'lnk':
           return Icon(MaterialCommunityIcons.launch, color: Colors.grey);
+        case 'pdf':
+          return Icon(MaterialCommunityIcons.file_pdf, color: Colors.grey);
+        case 'cad':
+          return Icon(MaterialCommunityIcons.file_cad, color: Colors.grey);
         default:
           return Icon(MaterialCommunityIcons.file, color: Colors.blueGrey);
       }

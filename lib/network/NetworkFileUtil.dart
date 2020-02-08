@@ -32,29 +32,26 @@ class NetworkUtilWithHeader {
   }
 }
 
-enum GetFilesType {
-  SHARED,
-  PRIVATE,
-}
-
-Map<GetFilesType, String> _getFilesTypeMap = {
-  GetFilesType.PRIVATE: 'file',
-  GetFilesType.SHARED: 'share',
-};
-
 class NetFiles extends NetworkUtilWithHeader {
   NetFiles(BuildContext context) : super(context);
   Response response;
   Future<List<NetFileEntity>> files(
-      {@required String path, @required GetFilesType type}) async {
+      {@required String path, bool share = true}) async {
     List<NetFileEntity> files = [];
     await dio
-        .get('/api/treex/${_getFilesTypeMap[type]}?path=$path')
+        .get('/api/treex/${share ? 'share' : 'file'}?path=$path')
         .then((value) {
       response = value;
       dynamic filesRaw = response.data['files'];
-      provider.setShareParentPath(response.data['parent']);
-      provider.setSharePath(response.data['path']);
+      String parentPath = response.data['parent'];
+      String nowPath = response.data['path'];
+      if (share) {
+        provider.setShareParentPath(parentPath);
+        provider.setSharePath(nowPath);
+      } else {
+        provider.setNowAllFilesParentPath(parentPath);
+        provider.setNowFilesPath(nowPath);
+      }
       for (dynamic item in filesRaw) {
         files.add(NetFileEntity.fromDynamic(item));
       }

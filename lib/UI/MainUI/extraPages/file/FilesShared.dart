@@ -7,6 +7,7 @@ import 'package:provider/provider.dart';
 import 'package:treex_app/UI/MainUI/extraPages/file/widget/FileGridTile.dart';
 import 'package:treex_app/UI/MainUI/extraPages/file/widget/FileListTile.dart';
 import 'package:treex_app/UI/MainUI/extraPages/file/widget/FileToolBar.dart';
+import 'package:treex_app/UI/MainUI/extraPages/file/widget/buildEmpty.dart';
 import 'package:treex_app/UI/widget/CardBar.dart';
 import 'package:treex_app/UI/widget/LargeIconBackground.dart';
 import 'package:treex_app/network/NetworkFileEntity.dart';
@@ -29,16 +30,13 @@ class _FilesSharedState extends State<FilesSharedPage>
   void initState() {
     super.initState();
     final provider = Provider.of<AppProvider>(context, listen: false);
-    NetFiles(context)
-        .files(
-      path: provider.nowSharePath,
-      type: GetFilesType.SHARED,
-    )
-        .then((filesFetch) {
-      setState(() {
-        files = filesFetch;
-      });
-    });
+    _getFiles(context: context, path: provider.nowSharePath);
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _scrollController.dispose();
   }
 
   @override
@@ -58,7 +56,7 @@ class _FilesSharedState extends State<FilesSharedPage>
                 expandedHeight: 200,
                 actions: <Widget>[
                   IconButton(
-                    icon: Icon(AntDesign.addfile),
+                    icon: Icon(MaterialCommunityIcons.cloud_upload),
                     onPressed: () {},
                   ),
                   IconButton(
@@ -86,25 +84,12 @@ class _FilesSharedState extends State<FilesSharedPage>
                 context: context,
                 showToolBar: provider.nowShareParentPath != null,
                 goBack: () {
-                  _scrollController.animateTo(
-                    -100,
-                    duration: Duration(milliseconds: 300),
-                    curve: Curves.easeInOutCubic,
-                  );
-                  NetFiles(context)
-                      .files(
-                          path: provider.nowShareParentPath,
-                          type: GetFilesType.SHARED)
-                      .then((netFiles) {
-                    setState(() {
-                      files = netFiles;
-                      _listKey = UniqueKey();
-                    });
-                  });
+                  _getFiles(
+                      context: context, path: provider.nowShareParentPath);
                 },
                 nowPath: provider.nowSharePath,
               ),
-              _buildEmpty(),
+              buildEmpty(files.length == 0),
               SliverToBoxAdapter(
                 child: AnimatedSwitcher(
                   duration: Duration(milliseconds: 350),
@@ -116,6 +101,7 @@ class _FilesSharedState extends State<FilesSharedPage>
               ),
             ],
           ),
+          //SELECTION TOOLS
           AnimatedPositioned(
             curve: Curves.easeInOutCubic,
             top: _showSelectTool ? 0 : -100,
@@ -155,27 +141,7 @@ class _FilesSharedState extends State<FilesSharedPage>
     );
   }
 
-  Widget _buildEmpty() {
-    return SliverToBoxAdapter(
-      child: files.length == 0
-          ? Container(
-              height: 200,
-              child: Center(
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: <Widget>[
-                    Icon(
-                      Icons.inbox,
-                      size: 50,
-                    ),
-                    Text('空目录'),
-                  ],
-                ),
-              ),
-            )
-          : SizedBox(height: 0),
-    );
-  }
+
 
   Widget _buildGrid() {
     return GridView.builder(
@@ -215,24 +181,28 @@ class _FilesSharedState extends State<FilesSharedPage>
             },
             onTap: () {
               if (files[index].isDir) {
-                _scrollController.animateTo(
-                  -50,
-                  duration: Duration(milliseconds: 300),
-                  curve: Curves.easeInOutCubic,
-                );
-                NetFiles(context)
-                    .files(path: files[index].path, type: GetFilesType.SHARED)
-                    .then((netFiles) {
-                  setState(() {
-                    files = netFiles;
-                    _listKey = UniqueKey();
-                  });
-                });
+                _getFiles(context: context, path: files[index].path);
               }
             },
           ),
         );
       },
     );
+  }
+
+  _getFiles({BuildContext context, String path}) {
+    Future.delayed(Duration.zero, () {
+      _scrollController.animateTo(
+        -100,
+        duration: Duration(milliseconds: 300),
+        curve: Curves.easeInOutCubic,
+      );
+    });
+    NetFiles(context).files(path: path).then((filesFetch) {
+      setState(() {
+        files = filesFetch;
+        _listKey = UniqueKey();
+      });
+    });
   }
 }

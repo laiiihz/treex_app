@@ -173,7 +173,7 @@ class AppProvider extends ChangeNotifier {
   String _nowAllFilesPath = '.';
   get nowAllFilesPath => _nowAllFilesPath;
   setNowFilesPath(String path) {
-    _nowAllFilesPath = _nowSharePath;
+    _nowAllFilesPath = path;
     notifyListeners();
   }
 }
