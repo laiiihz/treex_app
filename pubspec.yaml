@@ -45,6 +45,7 @@ dependencies:
   path_provider:
   file_picker:
   intl:
+  dio_http2_adapter:
 
 dev_dependencies:
   flutter_test:
