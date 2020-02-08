@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:intl/intl.dart';
 
-
 class FileParseUtil {
   static String parseDate(int time) {
     DateTime nowDate = DateTime.now();
@@ -14,10 +13,10 @@ class FileParseUtil {
       if (nowDate.day != fileDate.day) {
         return '昨天';
       } else {
-        return '${nowDate.hour - fileDate.hour}小时前';
+        return '${DateTime.fromMillisecondsSinceEpoch(timeInterval).hour}小时前';
       }
     } else if (timeInterval < TimeMillisecond.day * 15) {
-      return '${nowDate.day - fileDate.day}天前';
+      return '${DateTime.fromMillisecondsSinceEpoch(timeInterval).day}天前';
     } else
       return DateFormat('yy年MM月dd日')
           .format(DateTime.fromMillisecondsSinceEpoch(time));
