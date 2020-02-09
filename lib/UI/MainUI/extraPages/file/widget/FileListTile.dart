@@ -2,11 +2,15 @@ import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_miui/flutter_miui.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
+import 'package:open_file/open_file.dart';
+import 'package:provider/provider.dart';
+import 'package:treex_app/UI/MainUI/extraPages/file/fileEX/FileEx.dart';
 import 'package:treex_app/UI/widget/CardBar.dart';
 import 'package:treex_app/Utils/FileParseUtil.dart';
 import 'package:treex_app/Utils/FileUtil.dart';
 import 'package:treex_app/download/downloadSystem.dart';
 import 'package:treex_app/network/NetworkFileEntity.dart';
+import 'package:treex_app/provider/AppProvider.dart';
 
 class FileListTileWidget extends StatefulWidget {
   FileListTileWidget({
@@ -38,6 +42,7 @@ class _FileListTileState extends State<FileListTileWidget> {
 
   @override
   Widget build(BuildContext context) {
+    final provider = Provider.of<AppProvider>(context);
     return SlideAnimation(
       horizontalOffset: 50,
       verticalOffset: 100,
@@ -45,7 +50,18 @@ class _FileListTileState extends State<FileListTileWidget> {
         delay: Duration(milliseconds: 100),
         child: ListTile(
           onLongPress: widget.onLongPress,
-          onTap: widget.onTap,
+          onTap: () {
+            if (widget.file.isDir) {
+              widget.onTap();
+            } else {
+              //TODO when file suffix match,push to FileEx
+              FileUtil.build(context).then((fileUtil) {
+                OpenFile.open(fileUtil.appDir.path +
+                    '/${provider.userProfile.name}/' +
+                    widget.file.name);
+              });
+            }
+          },
           contentPadding: edgeInsetsGeometryCurved(context),
           title: Text(
             widget.file.name,
@@ -55,9 +71,12 @@ class _FileListTileState extends State<FileListTileWidget> {
           leading: Stack(
             overflow: Overflow.visible,
             children: <Widget>[
-              FileParseUtil.parseIcon(
-                name: widget.file.name,
-                isDir: widget.file.isDir,
+              Hero(
+                tag: widget.file.name,
+                child: FileParseUtil.parseIcon(
+                  name: widget.file.name,
+                  isDir: widget.file.isDir,
+                ),
               ),
               _exist
                   ? Positioned(

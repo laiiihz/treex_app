@@ -55,9 +55,16 @@ class _FilesSharedState extends State<FilesSharedPage>
                 snap: true,
                 expandedHeight: 200,
                 actions: <Widget>[
-                  IconButton(
+                  PopupMenuButton(
+                    shape: MIUIMenuShape,
+                    itemBuilder: (BuildContext context) {
+                      return [
+                        PopupMenuItem(child: Text('新建文件夹')),
+                        PopupMenuItem(child: Text('上传文件')),
+                        PopupMenuItem(child: Text('上传文件夹')),
+                      ];
+                    },
                     icon: Icon(MaterialCommunityIcons.cloud_upload),
-                    onPressed: () {},
                   ),
                   IconButton(
                     icon: AnimatedCrossFade(

@@ -28,6 +28,7 @@ class _FilesAllState extends State<FilesAllPage> {
     final provider = Provider.of<AppProvider>(context, listen: false);
     _getFiles(context: context, path: provider.nowAllFilesPath);
   }
+
   @override
   void dispose() {
     super.dispose();
@@ -47,9 +48,16 @@ class _FilesAllState extends State<FilesAllPage> {
             stretch: true,
             floating: true,
             actions: <Widget>[
-              IconButton(
+              PopupMenuButton(
+                shape: MIUIMenuShape,
+                itemBuilder: (BuildContext context) {
+                  return [
+                    PopupMenuItem(child: Text('新建文件夹')),
+                    PopupMenuItem(child: Text('上传文件')),
+                    PopupMenuItem(child: Text('上传文件夹')),
+                  ];
+                },
                 icon: Icon(MaterialCommunityIcons.cloud_upload),
-                onPressed: () {},
               ),
               IconButton(
                 icon: AnimatedCrossFade(
@@ -126,6 +134,7 @@ class _FilesAllState extends State<FilesAllPage> {
 
   Widget _buildGrid(BuildContext context) {
     return GridView.builder(
+      padding: EdgeInsets.only(top: 0),
       shrinkWrap: true,
       physics: NeverScrollableScrollPhysics(),
       gridDelegate:

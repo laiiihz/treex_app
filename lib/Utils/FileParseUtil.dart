@@ -92,6 +92,21 @@ class FileParseUtil {
       }
     }
   }
+
+  static bool parseImg(String name) {
+    String suffix = FileNameClass.fromName(name).suffix;
+    switch (suffix) {
+      case 'img':
+      case 'webp':
+      case 'jpg':
+      case 'png':
+      case 'jpeg':
+      case 'bmp':
+        return true;
+      default:
+        return false;
+    }
+  }
 }
 
 class TimeMillisecond {
