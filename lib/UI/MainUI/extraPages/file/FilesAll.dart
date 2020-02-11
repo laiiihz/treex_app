@@ -6,10 +6,12 @@ import 'package:provider/provider.dart';
 import 'package:treex_app/UI/MainUI/extraPages/file/widget/FileBackToolBar.dart';
 import 'package:treex_app/UI/MainUI/extraPages/file/widget/FileGridTile.dart';
 import 'package:treex_app/UI/MainUI/extraPages/file/widget/FileListTile.dart';
+import 'package:treex_app/UI/MainUI/extraPages/file/widget/NewFolder.dart';
 import 'package:treex_app/UI/MainUI/extraPages/file/widget/buildEmpty.dart';
 import 'package:treex_app/UI/widget/LargeIconBackground.dart';
 import 'package:treex_app/network/NetworkFileEntity.dart';
 import 'package:treex_app/network/NetworkFileUtil.dart';
+import 'package:treex_app/network/NetworkNewFolder.dart';
 import 'package:treex_app/provider/AppProvider.dart';
 
 class FilesAllPage extends StatefulWidget {
@@ -48,16 +50,26 @@ class _FilesAllState extends State<FilesAllPage> {
             stretch: true,
             floating: true,
             actions: <Widget>[
-              PopupMenuButton(
+              PopupMenuButton<String>(
                 shape: MIUIMenuShape,
                 itemBuilder: (BuildContext context) {
                   return [
-                    PopupMenuItem(child: Text('新建文件夹')),
-                    PopupMenuItem(child: Text('上传文件')),
-                    PopupMenuItem(child: Text('上传文件夹')),
+                    PopupMenuItem(child: Text('新建文件夹'), value: 'new'),
+                    PopupMenuItem(child: Text('上传文件'), value: 'upload'),
+                    PopupMenuItem(child: Text('上传文件夹'), value: 'folders'),
                   ];
                 },
                 icon: Icon(MaterialCommunityIcons.cloud_upload),
+                onSelected: (value) {
+                  switch (value) {
+                    case 'new':
+                      showMIUIDialog(
+                          context: context,
+                          dyOffset: 0.5,
+                          content: NewFolderWidget(),
+                          label: 'test');
+                  }
+                },
               ),
               IconButton(
                 icon: AnimatedCrossFade(
