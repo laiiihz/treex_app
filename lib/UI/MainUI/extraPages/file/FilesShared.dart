@@ -93,6 +93,9 @@ class _FilesSharedState extends State<FilesSharedPage>
                   _getFiles(
                       context: context, path: provider.nowShareParentPath);
                 },
+                goRoot: () {
+                  _getFiles(context: context, path: '.');
+                },
                 nowPath: provider.nowSharePath,
               ),
               buildEmpty(files.length == 0),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_icons/flutter_icons.dart';
 import 'package:flutter_miui/flutter_miui.dart';
 import 'package:treex_app/UI/widget/CardBar.dart';
 
@@ -8,10 +9,12 @@ class FileBackToolBarWidget extends StatefulWidget {
     this.showToolBar,
     this.goBack,
     this.nowPath,
+    this.goRoot,
   }) : super(key: key);
   final bool showToolBar;
   final VoidCallback goBack;
   final String nowPath;
+  final VoidCallback goRoot;
   @override
   State<StatefulWidget> createState() => _FileBackToolBarState();
 }
@@ -40,6 +43,13 @@ class _FileBackToolBarState extends State<FileBackToolBarWidget> {
                       child: IconButton(
                         icon: Icon(Icons.more_horiz),
                         onPressed: widget.goBack,
+                      ),
+                    ),
+                    Tooltip(
+                      message: '回到根目录',
+                      child: IconButton(
+                        icon: Icon(MaterialCommunityIcons.home_minus),
+                        onPressed: widget.goRoot,
                       ),
                     ),
                     Expanded(

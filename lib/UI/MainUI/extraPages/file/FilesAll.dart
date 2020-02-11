@@ -102,6 +102,9 @@ class _FilesAllState extends State<FilesAllPage> {
             goBack: () {
               _getFiles(context: context, path: provider.nowAllFilesParentPath);
             },
+            goRoot: () {
+              _getFiles(context: context, path: '.');
+            },
             nowPath: provider.nowAllFilesPath,
           ),
           buildEmpty(_files.length == 0),
