@@ -1,10 +1,12 @@
 import 'dart:async';
+import 'dart:convert' as convert;
 import 'package:bot_toast/bot_toast.dart';
 import 'package:connectivity/connectivity.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:flutter_miui/flutter_miui.dart';
 import 'package:provider/provider.dart';
+import 'package:qr_flutter/qr_flutter.dart';
 import 'package:treex_app/UI/widget/CardBar.dart';
 import 'package:treex_app/UI/widget/LargeIconBackground.dart';
 import 'package:treex_app/Utils/SharedPreferenceUtils.dart';
@@ -132,6 +134,26 @@ class _NetworkState extends State<NetworkPage> {
                   floating: true,
                   stretch: true,
                   title: Text('网络设置'),
+                  actions: <Widget>[
+                    IconButton(
+                      icon: Icon(MaterialCommunityIcons.qrcode),
+                      onPressed: () {
+                        showMIUIDialog(
+                          context: context,
+                          color: Colors.white,
+                          dyOffset: 0.5,
+                          content: Container(
+                            height: 200,
+                            child: QrImage(
+                                data:
+                                    NetworkConfig(port: '123', addr: 'asdfawef')
+                                        .toString()),
+                          ),
+                          label: 'qrcode',
+                        );
+                      },
+                    ),
+                  ],
                   flexibleSpace: FlexibleSpaceBar(
                     background: LargeIconBackgroundWidget(
                       tag: 'network',
@@ -191,5 +213,24 @@ class _NetworkState extends State<NetworkPage> {
         ],
       ),
     );
+  }
+}
+
+class NetworkConfig {
+  String port;
+  String addr;
+  NetworkConfig({
+    this.port,
+    this.addr,
+  });
+  Map<String, dynamic> toJSON() {
+    return {
+      'network': {'port': port, 'addr': addr}
+    };
+  }
+
+  @override
+  String toString() {
+    return this.toJSON().toString();
   }
 }
