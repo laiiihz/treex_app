@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_icons/flutter_icons.dart';
@@ -26,11 +28,15 @@ class _FilesSharedState extends State<FilesSharedPage>
   bool _isGridView = false;
   bool _showSelectTool = false;
   Key _listKey = UniqueKey();
+  Timer timer;
   @override
   void initState() {
     super.initState();
     final provider = Provider.of<AppProvider>(context, listen: false);
-    _getFiles(context: context, path: provider.nowSharePath);
+    timer = Timer(
+      Duration(milliseconds: 500),
+      () => _getFiles(context: context, path: provider.nowSharePath),
+    );
   }
 
   @override
@@ -198,13 +204,11 @@ class _FilesSharedState extends State<FilesSharedPage>
   }
 
   _getFiles({BuildContext context, String path}) {
-    Future.delayed(Duration.zero, () {
-      _scrollController.animateTo(
-        -100,
-        duration: Duration(milliseconds: 300),
-        curve: Curves.easeInOutCubic,
-      );
-    });
+    _scrollController.animateTo(
+      -100,
+      duration: Duration(milliseconds: 300),
+      curve: Curves.easeInOutCubic,
+    );
     NetFiles(context).files(path: path).then((filesFetch) {
       setState(() {
         files = filesFetch;

@@ -4,7 +4,7 @@ import 'package:flutter_miui/flutter_miui.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:open_file/open_file.dart';
 import 'package:provider/provider.dart';
-import 'package:treex_app/UI/MainUI/extraPages/file/fileEX/FileEx.dart';
+import 'package:treex_app/UI/MainUI/extraPages/file/widget/FileRename.dart';
 import 'package:treex_app/UI/widget/CardBar.dart';
 import 'package:treex_app/Utils/FileParseUtil.dart';
 import 'package:treex_app/Utils/FileUtil.dart';
@@ -126,6 +126,18 @@ class _FileListTileState extends State<FileListTileWidget> {
                 case 'downloadAll':
                   BotToast.showText(text: 'IN DEVELOPMENT❤');
                   break;
+                case 'rename':
+                  showMIUIDialog(
+                    context: context,
+                    dyOffset: 0.5,
+                    content: FileRenameWidget(
+                      initText: widget.file.name,
+                      isDir: widget.file.isDir,
+                      share: widget.share,
+                      path: widget.file.path,
+                    ),
+                    label: 'rename',
+                  );
               }
             },
           ),

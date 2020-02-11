@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:flutter_miui/flutter_miui.dart';
@@ -24,16 +26,21 @@ class _FilesAllState extends State<FilesAllPage> {
   bool _isGridView = false;
   Key _buildKey = UniqueKey();
   ScrollController _scrollController = ScrollController();
+  Timer timer;
   @override
   void initState() {
     super.initState();
     final provider = Provider.of<AppProvider>(context, listen: false);
-    _getFiles(context: context, path: provider.nowAllFilesPath);
+    timer = Timer(
+      Duration(milliseconds: 500),
+      () => _getFiles(context: context, path: provider.nowAllFilesPath),
+    );
   }
 
   @override
   void dispose() {
     super.dispose();
+    timer.cancel();
     _scrollController.dispose();
   }
 
@@ -167,13 +174,11 @@ class _FilesAllState extends State<FilesAllPage> {
   }
 
   _getFiles({BuildContext context, String path}) {
-    Future.delayed(Duration.zero, () {
-      _scrollController.animateTo(
-        -100,
-        duration: Duration(milliseconds: 300),
-        curve: Curves.easeInOutCubic,
-      );
-    });
+    _scrollController.animateTo(
+      -100,
+      duration: Duration(milliseconds: 300),
+      curve: Curves.easeInOutCubic,
+    );
     NetFiles(context).files(path: path, share: false).then((filesFetch) {
       setState(() {
         _files = filesFetch;
