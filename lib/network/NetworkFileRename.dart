@@ -6,7 +6,8 @@ class NetworkFileRename extends NetworkUtilWithHeader {
   Future rename({
     String path,
     String name,
+    bool share,
   }) async {
-    dio.put('/api/treex/file/rename?file=$path&new=$name');
+    dio.put('/api/treex/file/rename?file=$path&new=$name&share=$share');
   }
 }

@@ -197,6 +197,10 @@ class _FilesSharedState extends State<FilesSharedPage>
                 _getFiles(context: context, path: files[index].path);
               }
             },
+            callAfterOperation: () {
+              final provider = Provider.of<AppProvider>(context, listen: false);
+              _getFiles(context: context, path: provider.nowSharePath);
+            },
           ),
         );
       },

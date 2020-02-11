@@ -9,6 +9,7 @@ import 'package:treex_app/UI/widget/CardBar.dart';
 import 'package:treex_app/Utils/FileParseUtil.dart';
 import 'package:treex_app/Utils/FileUtil.dart';
 import 'package:treex_app/download/downloadSystem.dart';
+import 'package:treex_app/network/NetworkDelete.dart';
 import 'package:treex_app/network/NetworkFileEntity.dart';
 import 'package:treex_app/provider/AppProvider.dart';
 
@@ -19,11 +20,13 @@ class FileListTileWidget extends StatefulWidget {
     @required this.onLongPress,
     @required this.onTap,
     this.share = true,
+    @required this.callAfterOperation,
   }) : super(key: key);
   final NetFileEntity file;
   final VoidCallback onLongPress;
   final VoidCallback onTap;
   final bool share;
+  final VoidCallback callAfterOperation;
   @override
   State<StatefulWidget> createState() => _FileListTileState();
 }
@@ -135,9 +138,20 @@ class _FileListTileState extends State<FileListTileWidget> {
                       isDir: widget.file.isDir,
                       share: widget.share,
                       path: widget.file.path,
+                      onDone:(){
+                        widget.callAfterOperation();
+                      },
                     ),
                     label: 'rename',
                   );
+
+                  break;
+                case 'delete':
+                  if (!widget.share) {
+                    NetworkDelete(context).delete(widget.file.path);
+                  }
+                  widget.callAfterOperation();
+                  break;
               }
             },
           ),

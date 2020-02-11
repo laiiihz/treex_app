@@ -142,11 +142,14 @@ class _FilesAllState extends State<FilesAllPage> {
             onLongPress: () {},
             onTap: () {
               if (_files[index].isDir) {
-                print(_files[index].path);
                 _getFiles(context: context, path: _files[index].path);
               }
             },
             share: false,
+            callAfterOperation: () {
+              final provider = Provider.of<AppProvider>(context, listen: false);
+              _getFiles(context: context, path: provider.nowAllFilesPath);
+            },
           ),
         );
       },

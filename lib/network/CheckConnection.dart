@@ -23,7 +23,7 @@ class CheckConnection {
   }
   Future<bool> check() async {
     Response _response;
-    await _dio.get('/checkConnection').then((value) {
+    await _dio.get('/api/checkConnection').then((value) {
       _response = value;
     }).catchError((err) {
       print(err);

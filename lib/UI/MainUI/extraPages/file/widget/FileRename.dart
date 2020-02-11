@@ -11,11 +11,13 @@ class FileRenameWidget extends StatefulWidget {
     this.isDir = true,
     this.share = true,
     this.path,
+    this.onDone,
   }) : super(key: key);
   final String initText;
   final bool isDir;
   final bool share;
   final String path;
+  final VoidCallback onDone;
   @override
   State<StatefulWidget> createState() => _FileRenameState();
 }
@@ -52,10 +54,17 @@ class _FileRenameState extends State<FileRenameWidget> {
           alignment: Alignment.centerRight,
           child: RaisedButton(
             onPressed: () {
-              NetworkFileRename(context).rename(
+              NetworkFileRename(context)
+                  .rename(
                 path: widget.path,
                 name: _textEditingController.text,
-              );
+                share: widget.share,
+              )
+                  .then((_) {
+                Future.delayed(Duration(milliseconds: 100), () {
+                  widget.onDone();
+                });
+              });
               Navigator.of(context).pop();
             },
             child: Text('重命名'),

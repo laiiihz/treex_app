@@ -18,7 +18,7 @@ class NetworkUtil {
     String port = (provider.networkPort as String).isEmpty
         ? '/'
         : ':${provider.networkPort}/';
-    dio = Dio()..options.baseUrl = 'http${https ? 's' : ''}://$addr$port/';
+    dio = Dio()..options.baseUrl = 'http${https ? 's' : ''}://$addr$port';
     (dio.httpClientAdapter as DefaultHttpClientAdapter).onHttpClientCreate =
         (client) {
       client.badCertificateCallback = (cert, host, port) {
