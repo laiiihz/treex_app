@@ -138,7 +138,7 @@ class _FileListTileState extends State<FileListTileWidget> {
                       isDir: widget.file.isDir,
                       share: widget.share,
                       path: widget.file.path,
-                      onDone:(){
+                      onDone: () {
                         widget.callAfterOperation();
                       },
                     ),
@@ -148,9 +148,34 @@ class _FileListTileState extends State<FileListTileWidget> {
                   break;
                 case 'delete':
                   if (!widget.share) {
-                    NetworkDelete(context).delete(widget.file.path);
+                    NetworkDelete(context)
+                        .delete(
+                      path: widget.file.path,
+                      share: false,
+                    )
+                        .then((_) {
+                      Future.delayed(Duration(milliseconds: 100), () {
+                        widget.callAfterOperation();
+                      });
+                    });
+                  } else {
+                    showMIUIConfirmDialog(
+                        context: context,
+                        child: Container(),
+                        title: '删除该文件?(不可恢复)',
+                        confirm: () {
+                          NetworkDelete(context)
+                              .delete(
+                            path: widget.file.path,
+                            share: true,
+                          )
+                              .then((_) {
+                            Future.delayed(Duration(milliseconds: 100), () {
+                              widget.callAfterOperation();
+                            });
+                          });
+                        });
                   }
-                  widget.callAfterOperation();
                   break;
               }
             },

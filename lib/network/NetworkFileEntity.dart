@@ -1,3 +1,14 @@
+///here is a sample of netFileEntity
+///
+///"date": 1580729158231,
+///
+///"path": "./Markdown.md",
+///
+///"name": "Markdown.md",
+///
+///"length": 0,
+///
+///"isDir": false
 class NetFileEntity {
   int date;
   String path;
@@ -13,8 +24,13 @@ class NetFileEntity {
   }
 }
 
-//"date": 1580729158231,
-//"path": "./新建 Markdown.md",
-//"name": "新建 Markdown.md",
-//"length": 0,
-//"isDir": false
+
+
+class RecycleFileEntity{
+  String path;
+  String name;
+  RecycleFileEntity.fromDynamic(dynamic file){
+    this.path = file['path'];
+    this.name = file['name'];
+  }
+}

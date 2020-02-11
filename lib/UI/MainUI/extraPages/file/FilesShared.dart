@@ -29,6 +29,7 @@ class _FilesSharedState extends State<FilesSharedPage>
   bool _showSelectTool = false;
   Key _listKey = UniqueKey();
   Timer timer;
+  bool _loading = false;
   @override
   void initState() {
     super.initState();
@@ -89,8 +90,22 @@ class _FilesSharedState extends State<FilesSharedPage>
                 ],
                 flexibleSpace: FlexibleSpaceBar(
                   title: Text('文件共享'),
-                  background: LargeIconBackgroundWidget(
-                      tag: 'share', icon: Icons.people),
+                  background: Stack(
+                    children: <Widget>[
+                      LargeIconBackgroundWidget(
+                          tag: 'share', icon: Icons.people),
+                      Positioned(
+                        left: 50,
+                        top: MediaQuery.of(context).padding.top + 10,
+                        child: AnimatedSwitcher(
+                          duration: Duration(milliseconds: 200),
+                          child: _loading
+                              ? CircularProgressIndicator()
+                              : Container(),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
               FileBackToolBarWidget(
@@ -213,10 +228,14 @@ class _FilesSharedState extends State<FilesSharedPage>
       duration: Duration(milliseconds: 300),
       curve: Curves.easeInOutCubic,
     );
+    setState(() {
+      _loading = true;
+    });
     NetFiles(context).files(path: path).then((filesFetch) {
       setState(() {
         files = filesFetch;
         _listKey = UniqueKey();
+        _loading = false;
       });
     });
   }

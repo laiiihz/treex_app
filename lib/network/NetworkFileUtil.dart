@@ -64,4 +64,21 @@ class NetFiles extends NetworkUtilWithHeader {
       return files;
     }
   }
+
+  Future<List<RecycleFileEntity>> recycleFiles() async {
+    List<RecycleFileEntity> files = [];
+    Response response;
+    await dio.get('/api/treex/file/recycle').then((value) {
+      response = value;
+      dynamic raw = response.data;
+      for(dynamic item in raw['recycleFiles']){
+        files.add(RecycleFileEntity.fromDynamic(item));
+      }
+    }).catchError((err) {
+      print(err);
+      return [];
+    });
+    return files;
+
+  }
 }

@@ -13,7 +13,6 @@ import 'package:treex_app/UI/MainUI/extraPages/file/widget/buildEmpty.dart';
 import 'package:treex_app/UI/widget/LargeIconBackground.dart';
 import 'package:treex_app/network/NetworkFileEntity.dart';
 import 'package:treex_app/network/NetworkFileUtil.dart';
-import 'package:treex_app/network/NetworkNewFolder.dart';
 import 'package:treex_app/provider/AppProvider.dart';
 
 class FilesAllPage extends StatefulWidget {
@@ -27,6 +26,7 @@ class _FilesAllState extends State<FilesAllPage> {
   Key _buildKey = UniqueKey();
   ScrollController _scrollController = ScrollController();
   Timer timer;
+  bool _loading = false;
   @override
   void initState() {
     super.initState();
@@ -97,9 +97,22 @@ class _FilesAllState extends State<FilesAllPage> {
             ],
             flexibleSpace: FlexibleSpaceBar(
               title: Text('文件管理'),
-              background: LargeIconBackgroundWidget(
-                tag: 'filesAll',
-                icon: Icons.folder_open,
+              background: Stack(
+                children: <Widget>[
+                  LargeIconBackgroundWidget(
+                    tag: 'filesAll',
+                    icon: Icons.folder_open,
+                  ),
+                  Positioned(
+                    left: 50,
+                    top: MediaQuery.of(context).padding.top + 10,
+                    child: AnimatedSwitcher(
+                      duration: Duration(milliseconds: 200),
+                      child:
+                          _loading ? CircularProgressIndicator() : Container(),
+                    ),
+                  ),
+                ],
               ),
             ),
             expandedHeight: 200,
@@ -182,10 +195,14 @@ class _FilesAllState extends State<FilesAllPage> {
       duration: Duration(milliseconds: 300),
       curve: Curves.easeInOutCubic,
     );
+    setState(() {
+      _loading = true;
+    });
     NetFiles(context).files(path: path, share: false).then((filesFetch) {
       setState(() {
         _files = filesFetch;
         _buildKey = UniqueKey();
+        _loading = false;
       });
     });
   }
