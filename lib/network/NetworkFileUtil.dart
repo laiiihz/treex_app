@@ -34,17 +34,15 @@ class NetworkUtilWithHeader {
 
 class NetFiles extends NetworkUtilWithHeader {
   NetFiles(BuildContext context) : super(context);
-  Response response;
   Future<List<NetFileEntity>> files(
       {@required String path, bool share = true}) async {
     List<NetFileEntity> files = [];
     await dio
         .get('/api/treex/${share ? 'share' : 'file'}?path=$path')
         .then((value) {
-      response = value;
-      dynamic filesRaw = response.data['files'];
-      String parentPath = response.data['parent'];
-      String nowPath = response.data['path'];
+      dynamic filesRaw = value.data['files'];
+      String parentPath = value.data['parent'];
+      String nowPath = value.data['path'];
       if (share) {
         provider.setShareParentPath(parentPath);
         provider.setSharePath(nowPath);
@@ -57,18 +55,15 @@ class NetFiles extends NetworkUtilWithHeader {
       }
     }).catchError((err) {
       print(err);
-    });
-    if (response == null) {
       return [];
-    } else {
-      return files;
-    }
+    });
+    return files;
   }
 
   Future<List<RecycleFileEntity>> recycleFiles() async {
     List<RecycleFileEntity> files = [];
     await dio.get('/api/treex/file/recycle').then((value) {
-      dynamic raw = response.data;
+      dynamic raw = value.data;
       for (dynamic item in raw['recycleFiles']) {
         files.add(RecycleFileEntity.fromDynamic(item));
       }
@@ -90,5 +85,9 @@ class NetFiles extends NetworkUtilWithHeader {
       return [];
     });
     return files;
+  }
+
+  clearRecycle() async {
+    await dio.delete('/api/treex/file/clear');
   }
 }

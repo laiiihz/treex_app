@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_miui/flutter_miui.dart';
 import 'package:provider/provider.dart';
 import 'package:treex_app/UI/widget/CardBar.dart';
+import 'package:treex_app/Utils/SharedPreferenceUtils.dart';
 import 'package:treex_app/download/downloadSystem.dart';
 import 'package:treex_app/network/AuthUtil.dart';
 import 'package:treex_app/provider/AppProvider.dart';
@@ -23,10 +24,18 @@ class _DevToolState extends State<DevToolPage> {
   _DevOp _nowOp = _DevOp.GET;
   int _nowIndex = -1;
   Dio dio;
+  TextEditingController _textEditingController = TextEditingController();
+
   @override
   void initState() {
     super.initState();
     dio = NetworkUtil(context).dio;
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _textEditingController.dispose();
   }
 
   @override
@@ -37,6 +46,21 @@ class _DevToolState extends State<DevToolPage> {
         physics: MIUIScrollPhysics(),
         slivers: <Widget>[
           SliverAppBar(
+            actions: <Widget>[
+              Tooltip(
+                message: '关闭开发者工具',
+                child: IconButton(
+                  icon: Icon(Icons.close),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                    Shared.init(context).then((shared) {
+                      shared.writeDevTools(false);
+                      provider.changeDevTool(false);
+                    });
+                  },
+                ),
+              ),
+            ],
             expandedHeight: 200,
             flexibleSpace: FlexibleSpaceBar(
               title: Text('开发者工具'),
@@ -55,8 +79,12 @@ class _DevToolState extends State<DevToolPage> {
                     mainAxisSize: MainAxisSize.min,
                     children: <Widget>[
                       CardPadding10(
-                        child: TextField(
-                          decoration: InputDecoration(labelText: '地址'),
+                        child: Padding(
+                          padding: EdgeInsets.all(5),
+                          child: TextField(
+                            controller: _textEditingController,
+                            decoration: InputDecoration(labelText: '地址'),
+                          ),
                         ),
                       ),
                       Row(
@@ -91,30 +119,39 @@ class _DevToolState extends State<DevToolPage> {
                         alignment: MainAxisAlignment.end,
                         children: <Widget>[
                           OutlineButton(
-                            onPressed: () {},
+                            onPressed: () {
+                              _textEditingController.clear();
+                            },
                             child: Text('RESET'),
                           ),
                           RaisedButton(
                             onPressed: () {
-                              Dio dio = Dio();
-                              dio
-                                ..httpClientAdapter = Http2Adapter(
-                                  ConnectionManager(
-                                    idleTimeout: 500,
-                                    onClientCreate: (_, clientSetting) =>
-                                        clientSetting.onBadCertificate =
-                                            (_) => true,
-                                  ),
-                                )
-                                ..options.headers = {
-                                  'Authorization': provider.token
+                              Dio dio = NetworkUtil(context).dio;
+                              Future<Response> getResponse() async {
+                                switch (_nowOp) {
+                                  case _DevOp.GET:
+                                    return await dio
+                                        .get(_textEditingController.text);
+                                  case _DevOp.DELETE:
+                                    return await dio
+                                        .delete(_textEditingController.text);
+                                  case _DevOp.PUT:
+                                    return await dio
+                                        .put(_textEditingController.text);
                                 }
-                                ..get('https://192.168.31.130/api/treex/file?path=.')
-                                    .then((response) {
-                                  print(response.data);
-                                }).catchError((err) {
-                                  print(err);
-                                });
+                                return null;
+                              }
+
+                              getResponse().then((response) {
+                                showMIUIDialog(
+                                  context: context,
+                                  dyOffset: 0.5,
+                                  content: Container(
+                                    child: Text(response.data.toString()),
+                                  ),
+                                  label: 'dev',
+                                );
+                              });
                             },
                             child: Text('FIRE'),
                           ),

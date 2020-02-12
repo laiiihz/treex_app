@@ -46,7 +46,12 @@ class _RecycleBinState extends State<RecycleBinPage> {
               Tooltip(
                 message: '清空文件',
                 child: IconButton(
-                    icon: Icon(Icons.delete_forever), onPressed: () {}),
+                  icon: Icon(Icons.delete_forever),
+                  onPressed: () {
+                    NetFiles(context).clearRecycle();
+                    Navigator.of(context).pop();
+                  },
+                ),
               ),
               PopupMenuButton<String>(
                 shape: MIUIMenuShape,
