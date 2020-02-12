@@ -1,17 +1,12 @@
-import 'dart:io';
-
 import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_miui/flutter_miui.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:treex_app/UI/auth/SignUp.dart';
 import 'package:treex_app/UI/widget/customWidgets.dart';
-import 'package:treex_app/Utils/FileUtil.dart';
 import 'package:treex_app/network/AuthUtil.dart';
 import 'package:treex_app/network/Enums.dart';
 import 'package:treex_app/network/NetworkAvatarOrBackground.dart';
-import 'package:treex_app/network/NetworkFileUtil.dart';
 import 'package:treex_app/provider/AppProvider.dart';
 import 'package:treex_app/theme/Iconfont.dart';
 
@@ -35,6 +30,13 @@ class _LoginState extends State<LoginPage> {
   @override
   void initState() {
     super.initState();
+  }
+  @override
+  void dispose() {
+    super.dispose();
+    _scrollController.dispose();
+    _nameController.dispose();
+    _passwordController.dispose();
   }
 
   @override

@@ -1,11 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:treex_app/UI/MainUI/extra/search/Result.dart';
+import 'package:treex_app/UI/MainUI/extra/search/Suggest.dart';
 import 'package:treex_app/Utils/brightnessUtil.dart';
+import 'package:treex_app/network/NetworkFileEntity.dart';
+import 'package:treex_app/network/NetworkFileUtil.dart';
 
 class AppSearchDelegate extends SearchDelegate<String> {
+  List<NetFileEntity> _files = [];
+  String test = 'awegfaw';
   @override
   List<Widget> buildActions(BuildContext context) {
     return [
-      IconButton(icon: Icon(Icons.search), onPressed: () {}),
+      IconButton(
+          icon: Icon(Icons.clear),
+          onPressed: () {
+            this.query = '';
+          }),
     ];
   }
 
@@ -16,24 +26,24 @@ class AppSearchDelegate extends SearchDelegate<String> {
 
   @override
   Widget buildResults(BuildContext context) {
-    return Container();
+    return Container(
+      child: ResultWidget(
+        query: query,
+      ),
+    );
   }
 
   @override
   Widget buildSuggestions(BuildContext context) {
-    return Container();
+    return Container(
+      child: SuggestWidget(query: query),
+    );
   }
-@override
+
+  @override
   String get searchFieldLabel => '搜索';
   @override
   ThemeData appBarTheme(BuildContext context) {
-    return isDark(context)
-        ? ThemeData.dark().copyWith(
-            inputDecorationTheme: InputDecorationTheme(
-              fillColor: Colors.pinkAccent,
-              filled: true,
-            ),
-          )
-        : ThemeData.light();
+    return isDark(context) ? ThemeData.dark() : ThemeData.light();
   }
 }

@@ -21,29 +21,6 @@ class ProfileViewWidget extends StatefulWidget {
 class _ProfileViewState extends State<ProfileViewWidget> {
   ScrollController _scrollController =
       ScrollController(initialScrollOffset: -500);
-  double _titleOpacity = 0;
-  double _titleContentScale = 1;
-  @override
-  void initState() {
-    super.initState();
-    _scrollController.addListener(() {
-      var offset = _scrollController.offset;
-      if (offset < 170) {
-        setState(() {
-          _titleOpacity = 0;
-          _titleContentScale = 1;
-        });
-      } else if (offset < 270 && offset >= 170) {
-        setState(() {
-          _titleOpacity = (offset - 170) / (270 - 170);
-          _titleContentScale = 1 - (offset - 170) / (270);
-        });
-      } else {
-        setState(() => setState(() => _titleOpacity = 1));
-      }
-    });
-  }
-
   @override
   void dispose() {
     super.dispose();
@@ -63,17 +40,10 @@ class _ProfileViewState extends State<ProfileViewWidget> {
           stretch: true,
           pinned: true,
           expandedHeight: 350,
-          title: Opacity(
-            opacity: _titleOpacity,
-            child: Text(provider.userProfile.name),
-          ),
           flexibleSpace: FlexibleSpaceBar(
             background: buildWaveWithAvatar(
               context: context,
-              child: Transform.scale(
-                scale: _titleContentScale,
-                child: buildWaveFrontAvatar(context),
-              ),
+              child: buildWaveFrontAvatar(context),
             ),
           ),
         ),

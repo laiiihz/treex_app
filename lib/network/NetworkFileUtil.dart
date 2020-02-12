@@ -67,11 +67,9 @@ class NetFiles extends NetworkUtilWithHeader {
 
   Future<List<RecycleFileEntity>> recycleFiles() async {
     List<RecycleFileEntity> files = [];
-    Response response;
     await dio.get('/api/treex/file/recycle').then((value) {
-      response = value;
       dynamic raw = response.data;
-      for(dynamic item in raw['recycleFiles']){
+      for (dynamic item in raw['recycleFiles']) {
         files.add(RecycleFileEntity.fromDynamic(item));
       }
     }).catchError((err) {
@@ -79,6 +77,18 @@ class NetFiles extends NetworkUtilWithHeader {
       return [];
     });
     return files;
+  }
 
+  Future<List<NetFileEntity>> search({@required String query}) async {
+    List<NetFileEntity> files = [];
+    await dio.get('/api/treex/file/search?query=$query').then((value) {
+      dynamic raw = value.data;
+      for (dynamic item in raw['search']) {
+        files.add(NetFileEntity.fromDynamic(item));
+      }
+    }).catchError((err) {
+      return [];
+    });
+    return files;
   }
 }

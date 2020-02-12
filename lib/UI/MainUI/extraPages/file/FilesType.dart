@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:flutter_miui/flutter_miui.dart';
@@ -11,10 +13,32 @@ class FilesTypePage extends StatefulWidget {
 
 class _FilesTypeState extends State<FilesTypePage> {
   int _currentExpand = -1;
+  ScrollController _scrollController = ScrollController();
+  Timer _timer;
+  @override
+  void initState() {
+    super.initState();
+    _timer = Timer(Duration(milliseconds: 500), () {
+      _scrollController.animateTo(
+        100,
+        duration: Duration(milliseconds: 300),
+        curve: Curves.easeInOutCubic,
+      );
+    });
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _scrollController.dispose();
+    _timer.cancel();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: CustomScrollView(
+        controller: _scrollController,
         physics: MIUIScrollPhysics(),
         slivers: <Widget>[
           SliverAppBar(
