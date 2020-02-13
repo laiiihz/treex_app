@@ -1,5 +1,10 @@
+import 'package:dio/dio.dart';
+
 class DownloadFile {
   double value;
   String name;
-  DownloadFile(this.name);
+  CancelToken cancelToken;
+  DownloadFile(this.name) {
+    cancelToken = CancelToken();
+  }
 }

@@ -2,15 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:flutter_miui/flutter_miui.dart';
 import 'package:treex_app/UI/widget/CardBar.dart';
+import 'package:treex_app/download/downloadFile.dart';
 
 class TransferDownloadListTileWidget extends StatefulWidget {
   TransferDownloadListTileWidget({
     Key key,
-    this.value,
-    this.name,
+    this.downloadFile,
   }) : super(key: key);
-  final double value;
-  final String name;
+  final DownloadFile downloadFile;
   @override
   State<StatefulWidget> createState() => _TransferDownloadListTileState();
 }
@@ -24,18 +23,15 @@ class _TransferDownloadListTileState
         backgroundColor: Theme.of(context).primaryColor,
         child: Icon(MaterialCommunityIcons.file_outline),
       ),
-      trailing: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: <Widget>[
-          IconButton(
-            icon: Icon(Icons.pause),
-            onPressed: () {},
+      trailing: IconButton(
+            icon: Icon(widget.downloadFile.cancelToken.isCancelled?Icons.play_arrow:Icons.pause),
+            onPressed: () {
+              widget.downloadFile.cancelToken.cancel("cancelled");
+            },
           ),
-        ],
-      ),
-      title: Text(widget.name),
+      title: Text(widget.downloadFile.name),
       subtitle: LinearProgressIndicator(
-        value: widget.value,
+        value: widget.downloadFile.value,
       ),
       contentPadding: edgeInsetsGeometryCurved(context),
       onLongPress: () {

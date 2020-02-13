@@ -24,6 +24,7 @@ class _DevToolState extends State<DevToolPage> {
   int _nowIndex = -1;
   Dio dio;
   TextEditingController _textEditingController = TextEditingController();
+  CancelToken _cancelToken = CancelToken();
 
   @override
   void initState() {
@@ -130,13 +131,13 @@ class _DevToolState extends State<DevToolPage> {
                                 switch (_nowOp) {
                                   case _DevOp.GET:
                                     return await dio
-                                        .get(_textEditingController.text);
+                                        .get(_textEditingController.text,cancelToken: _cancelToken);
                                   case _DevOp.DELETE:
                                     return await dio
-                                        .delete(_textEditingController.text);
+                                        .delete(_textEditingController.text,cancelToken: _cancelToken);
                                   case _DevOp.PUT:
                                     return await dio
-                                        .put(_textEditingController.text);
+                                        .put(_textEditingController.text,cancelToken: _cancelToken);
                                 }
                                 return null;
                               }

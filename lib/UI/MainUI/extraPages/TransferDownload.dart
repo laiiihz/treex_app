@@ -17,8 +17,7 @@ class _TransferDownloadState extends State<TransferDownloadPage> {
       physics: MIUIScrollPhysics(),
       itemBuilder: (BuildContext context, int index) {
         return TransferDownloadListTileWidget(
-          value: provider.downloadFiles[index].value,
-          name: provider.downloadFiles[index].name,
+          downloadFile: provider.downloadFiles[index],
         );
       },
       itemCount: provider.taskNumber,
