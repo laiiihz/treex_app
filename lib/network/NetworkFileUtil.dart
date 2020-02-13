@@ -1,4 +1,3 @@
-import 'package:dio/adapter.dart';
 import 'package:dio/dio.dart';
 import 'package:dio_http2_adapter/dio_http2_adapter.dart';
 import 'package:flutter/material.dart';

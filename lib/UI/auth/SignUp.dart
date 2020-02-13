@@ -2,7 +2,6 @@ import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
-import 'package:flutter_miui/flutter_miui.dart';
 import 'package:treex_app/UI/auth/SignUpNextStep.dart';
 import 'package:treex_app/UI/widget/customWidgets.dart';
 import 'package:treex_app/licenses/licenses.dart';

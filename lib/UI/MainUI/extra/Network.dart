@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:convert' as convert;
 import 'package:bot_toast/bot_toast.dart';
 import 'package:connectivity/connectivity.dart';
 import 'package:flutter/material.dart';

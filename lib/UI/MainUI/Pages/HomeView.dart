@@ -1,6 +1,5 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_icons/flutter_icons.dart';
 import 'package:flutter_miui/flutter_miui.dart';
 import 'package:treex_app/UI/MainUI/extra/AppSearchDelegate.dart';
 import 'package:treex_app/UI/widget/LOGO.dart';

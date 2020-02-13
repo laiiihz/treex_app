@@ -11,7 +11,7 @@ class DownloadSystem {
     FileUtil fileUtil = await FileUtil.build(context);
     File file = await fileUtil.getFile(path, share: share);
     int count = 0;
-    fileUtil.provider.addTask(DownloadFile());
+    fileUtil.provider.addTask(DownloadFile(path));
     await NetworkUtilWithHeader(context).dio.download(
       '/api/treex/${share ? 'share' : 'file'}/download?path=$path',
       file.path,

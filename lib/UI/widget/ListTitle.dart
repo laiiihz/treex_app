@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:treex_app/UI/widget/CardBar.dart';
-import 'package:treex_app/provider/AppProvider.dart';
 
 class ListTitleWidget extends StatefulWidget {
   ListTitleWidget({

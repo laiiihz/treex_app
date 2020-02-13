@@ -1,5 +1,4 @@
 import 'package:dio/dio.dart';
-import 'package:dio_http2_adapter/dio_http2_adapter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_miui/flutter_miui.dart';
 import 'package:provider/provider.dart';

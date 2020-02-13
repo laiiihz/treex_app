@@ -18,6 +18,7 @@ class _TransferDownloadState extends State<TransferDownloadPage> {
       itemBuilder: (BuildContext context, int index) {
         return TransferDownloadListTileWidget(
           value: provider.downloadFiles[index].value,
+          name: provider.downloadFiles[index].name,
         );
       },
       itemCount: provider.taskNumber,

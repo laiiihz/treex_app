@@ -2,8 +2,6 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_miui/flutter_miui.dart';
-import 'package:sticky_headers/sticky_headers/widget.dart';
-import 'package:treex_app/UI/widget/ListTitle.dart';
 import 'package:treex_app/Utils/FileParseUtil.dart';
 import 'package:treex_app/Utils/FileUtil.dart';
 import 'package:treex_app/network/NetworkFileEntity.dart';

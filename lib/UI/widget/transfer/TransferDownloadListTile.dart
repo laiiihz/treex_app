@@ -7,8 +7,10 @@ class TransferDownloadListTileWidget extends StatefulWidget {
   TransferDownloadListTileWidget({
     Key key,
     this.value,
+    this.name,
   }) : super(key: key);
   final double value;
+  final String name;
   @override
   State<StatefulWidget> createState() => _TransferDownloadListTileState();
 }
@@ -31,7 +33,7 @@ class _TransferDownloadListTileState
           ),
         ],
       ),
-      title: Text('FILE XXX'),
+      title: Text(widget.name),
       subtitle: LinearProgressIndicator(
         value: widget.value,
       ),

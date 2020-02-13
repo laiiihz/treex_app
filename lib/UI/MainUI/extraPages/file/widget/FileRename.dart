@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
-import 'package:provider/provider.dart';
 import 'package:treex_app/network/NetworkFileRename.dart';
-import 'package:treex_app/provider/AppProvider.dart';
 
 class FileRenameWidget extends StatefulWidget {
   FileRenameWidget({
@@ -38,7 +36,6 @@ class _FileRenameState extends State<FileRenameWidget> {
 
   @override
   Widget build(BuildContext context) {
-    final provider = Provider.of<AppProvider>(context);
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: <Widget>[

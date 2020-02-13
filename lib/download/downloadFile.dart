@@ -1,5 +1,5 @@
 class DownloadFile {
   double value;
   String name;
-  DownloadFile();
+  DownloadFile(this.name);
 }

@@ -2,12 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:treex_app/UI/MainUI/extra/search/Result.dart';
 import 'package:treex_app/UI/MainUI/extra/search/Suggest.dart';
 import 'package:treex_app/Utils/brightnessUtil.dart';
-import 'package:treex_app/network/NetworkFileEntity.dart';
-import 'package:treex_app/network/NetworkFileUtil.dart';
 
 class AppSearchDelegate extends SearchDelegate<String> {
-  List<NetFileEntity> _files = [];
-  String test = 'awegfaw';
   @override
   List<Widget> buildActions(BuildContext context) {
     return [
