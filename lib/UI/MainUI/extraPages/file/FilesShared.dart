@@ -14,6 +14,7 @@ import 'package:treex_app/UI/widget/CardBar.dart';
 import 'package:treex_app/UI/widget/LargeIconBackground.dart';
 import 'package:treex_app/network/NetworkFileEntity.dart';
 import 'package:treex_app/network/NetworkFileUtil.dart';
+import 'package:treex_app/network/NetworkNewFolder.dart';
 import 'package:treex_app/provider/AppProvider.dart';
 
 class FilesSharedPage extends StatefulWidget {
@@ -66,10 +67,28 @@ class _FilesSharedState extends State<FilesSharedPage>
                     shape: MIUIMenuShape,
                     itemBuilder: (BuildContext context) {
                       return [
-                        PopupMenuItem(child: Text('新建文件夹')),
-                        PopupMenuItem(child: Text('上传文件')),
-                        PopupMenuItem(child: Text('上传文件夹')),
+                        PopupMenuItem(child: Text('新建文件夹'), value: 'new'),
+                        PopupMenuItem(child: Text('上传文件'), value: 'upload'),
+                        PopupMenuItem(
+                            child: Text('上传文件夹'), value: 'uploadFolder'),
                       ];
+                    },
+                    onSelected: (value) {
+                      switch (value) {
+                        case 'new':
+                          showMIUIConfirmDialog(
+                            context: context,
+                            child: TextField(),
+                            title: '新建文件夹',
+                            confirm: () {
+                              NetworkNewFolder(context).folder(
+                                folderName: null,
+                                path: null,
+                              );
+                            },
+                          );
+                          break;
+                      }
                     },
                     icon: Icon(MaterialCommunityIcons.cloud_upload),
                   ),

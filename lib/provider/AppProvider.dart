@@ -147,6 +147,10 @@ class AppProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  
+
+
+
   String _nowShareParentPath;
   get nowShareParentPath => _nowShareParentPath;
 

@@ -73,7 +73,7 @@ class _FilesAllState extends State<FilesAllPage> {
                       showMIUIDialog(
                           context: context,
                           dyOffset: 0.5,
-                          content: NewFolderWidget(),
+                          content: NewFolderWidget(share: false),
                           label: 'test');
                   }
                 },
