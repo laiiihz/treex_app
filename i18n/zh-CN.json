@@ -1,4 +1,18 @@
 {
-    "greetTo": "你好 {name}",
-    "username":"用户名"
+    "auth":{
+        "user":{
+            "name":"用户名",
+            "cantNull":"用户名不能为空"
+        },
+        "password":{
+            "main":"密码",
+            "cantNull":"密码不能为空",
+            "wrong":"密码或用户名错误",
+            "show":"密码可见",
+            "hide":"密码不可见"
+        },
+        "createNewUserQ":"创建新用户？",
+        "noUserCreateQ":"没有账号？现在开始创建",
+        "login":"登录"
+    }
 }

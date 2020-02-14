@@ -32,10 +32,26 @@ class I18n implements WidgetsLocalizations {
   @override
   TextDirection get textDirection => TextDirection.ltr;
 
-  /// "你好 ${name}"
-  String greetTo(String name) => "你好 ${name}";
   /// "用户名"
-  String get username => "用户名";
+  String get authUserName => "用户名";
+  /// "用户名不能为空"
+  String get authUserCantNull => "用户名不能为空";
+  /// "密码"
+  String get authPasswordMain => "密码";
+  /// "密码不能为空"
+  String get authPasswordCantNull => "密码不能为空";
+  /// "密码或用户名错误"
+  String get authPasswordWrong => "密码或用户名错误";
+  /// "密码可见"
+  String get authPasswordShow => "密码可见";
+  /// "密码不可见"
+  String get authPasswordHide => "密码不可见";
+  /// "创建新用户？"
+  String get authCreateNewUserQ => "创建新用户？";
+  /// "没有账号？现在开始创建"
+  String get authNoUserCreateQ => "没有账号？现在开始创建";
+  /// "登录"
+  String get authLogin => "登录";
 }
 
 class _I18n_zh_CN extends I18n {
@@ -50,7 +66,34 @@ class _I18n_en_US extends I18n {
 
   /// "NAME"
   @override
-  String get username => "NAME";
+  String get authUserName => "NAME";
+  /// "Name can not be blank"
+  @override
+  String get authUserCantNull => "Name can not be blank";
+  /// "PASSWORD"
+  @override
+  String get authPasswordMain => "PASSWORD";
+  /// "Password can not be blank"
+  @override
+  String get authPasswordCantNull => "Password can not be blank";
+  /// "Incorrect name or password"
+  @override
+  String get authPasswordWrong => "Incorrect name or password";
+  /// "Password is visible"
+  @override
+  String get authPasswordShow => "Password is visible";
+  /// "Password is invisible"
+  @override
+  String get authPasswordHide => "Password is invisible";
+  /// "Create a new user?"
+  @override
+  String get authCreateNewUserQ => "Create a new user?";
+  /// "No account?Create now"
+  @override
+  String get authNoUserCreateQ => "No account?Create now";
+  /// "LOGIN"
+  @override
+  String get authLogin => "LOGIN";
 
   @override
   TextDirection get textDirection => TextDirection.ltr;

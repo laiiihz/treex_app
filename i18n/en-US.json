@@ -1,3 +1,18 @@
 {
-    "username":"NAME"
+    "auth":{
+        "user":{
+            "name":"NAME",
+            "cantNull":"Name can not be blank"
+        },
+        "password":{
+            "main":"PASSWORD",
+            "cantNull":"Password can not be blank",
+            "wrong":"Incorrect name or password",
+            "show":"Password is visible",
+            "hide":"Password is invisible"
+        },
+        "createNewUserQ":"Create a new user?",
+        "noUserCreateQ":"No account?Create now",
+        "login":"LOGIN"
+    }
 }
