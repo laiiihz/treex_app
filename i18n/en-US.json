@@ -1,0 +1,58 @@
+{
+    "auth":{
+        "user":{
+            "name":"NAME",
+            "cantNull":"Name can not be blank"
+        },
+        "password":{
+            "main":"PASSWORD",
+            "cantNull":"Password can not be blank",
+            "wrong":"Incorrect name or password",
+            "show":"Password is visible",
+            "hide":"Password is invisible"
+        },
+        "createNewUserQ":"Create a new user?",
+        "noUserCreateQ":"No account?Create now",
+        "login":"LOGIN"
+    },
+    "network":{
+        "connection":{
+            "success":"Connection successed",
+            "fail":"Connection failed"
+        },
+        "save":"SAVE",
+        "setting":"Network Settings",
+        "ip":"Server IP or address",
+        "port":"Server port",
+        "https":"HTTPS"
+    },
+    "search":{
+        "string":"Search"
+    },
+    "bottom":{
+        "home":"HOME",
+        "cloud":"CLOUD",
+        "message":"MESSAGE",
+        "profile":"ME"
+    },
+    "cloud":{
+        "share":"Share",
+        "file":"File",
+        "type":"Types",
+        "recycle":"Recycle\nbin",
+        "title":"Cloud"
+    },
+    "message":{
+        "title":"Message"
+    },
+    "profile":{
+        "network":"Network\nSettings",
+        "safety":"Safety\nSettings",
+        "message":"Message\nSettings",
+        "advanced":"Advanced\nSettings",
+        "logout":"LOGOUT",
+        "about":"About",
+        "questions":"Common problem",
+        "devTool":"Dev Tool"
+    }
+}

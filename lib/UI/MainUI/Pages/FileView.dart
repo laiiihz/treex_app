@@ -4,6 +4,7 @@ import 'package:flutter_miui/flutter_miui.dart';
 import 'package:treex_app/UI/widget/CardBar.dart';
 import 'package:treex_app/UI/widget/LargeIconBackground.dart';
 import 'package:treex_app/UI/widget/ProfileGrid.dart';
+import 'package:treex_app/generated/i18n.dart';
 
 class FileViewWidget extends StatefulWidget {
   @override
@@ -44,7 +45,7 @@ class _FileViewState extends State<FileViewWidget> {
             ),
           ],
           flexibleSpace: FlexibleSpaceBar(
-            title: Text('云盘'),
+            title: Text(I18n.of(context).cloudTitle),
             background: LargeIconBackgroundWidget(
                 tag: 'file_background', icon: Icons.cloud),
           ),
@@ -55,7 +56,7 @@ class _FileViewState extends State<FileViewWidget> {
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: <Widget>[
                 ProfileGridWidget(
-                  text: '共享',
+                  text: I18n.of(context).cloudShare,
                   icon: Hero(tag: 'share', child: Icon(Icons.people)),
                   onTap: () {
                     Navigator.of(context).pushNamed('filesShared');
@@ -63,7 +64,7 @@ class _FileViewState extends State<FileViewWidget> {
                 ),
                 VerticalDivider(width: 2, indent: 10, endIndent: 10),
                 ProfileGridWidget(
-                  text: '文件',
+                  text: I18n.of(context).cloudFile,
                   icon: Hero(tag: 'filesAll', child: Icon(Icons.folder_open)),
                   onTap: () {
                     Navigator.of(context).pushNamed('filesAll');
@@ -71,7 +72,7 @@ class _FileViewState extends State<FileViewWidget> {
                 ),
                 VerticalDivider(width: 2, indent: 10, endIndent: 10),
                 ProfileGridWidget(
-                  text: '类型',
+                  text: I18n.of(context).cloudType,
                   icon: Hero(tag: 'filesType', child: Icon(Icons.category)),
                   onTap: () {
                     Navigator.of(context).pushNamed('filesType');
@@ -79,7 +80,7 @@ class _FileViewState extends State<FileViewWidget> {
                 ),
                 VerticalDivider(width: 2, indent: 10, endIndent: 10),
                 ProfileGridWidget(
-                  text: '回收站',
+                  text: I18n.of(context).cloudRecycle,
                   icon: Hero(tag: 'recycle', child: Icon(Icons.delete_outline)),
                   onTap: () {
                     Navigator.of(context).pushNamed('recycle');

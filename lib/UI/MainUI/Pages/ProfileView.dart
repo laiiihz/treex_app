@@ -7,6 +7,7 @@ import 'package:treex_app/UI/MainUI/tools/QRCodeProfile.dart';
 import 'package:treex_app/UI/widget/CardBar.dart';
 import 'package:treex_app/UI/widget/ProfileGrid.dart';
 import 'package:treex_app/Utils/brightnessUtil.dart';
+import 'package:treex_app/generated/i18n.dart';
 import 'package:treex_app/provider/AppProvider.dart';
 import 'package:wave/config.dart';
 import 'package:wave/wave.dart';
@@ -138,28 +139,33 @@ class _ProfileViewState extends State<ProfileViewWidget> {
                         tag: 'network',
                         child: Icon(Icons.wifi),
                       ),
-                      text: '网络设置',
+                      text: I18n.of(context).profileNetwork,
                     ),
                     ProfileGridWidget(
-                        icon: Hero(
-                          tag: 'lock',
-                          child: Icon(Icons.lock),
-                        ),
-                        onTap: () {
-                          Navigator.of(context).pushNamed('safety');
-                        },
-                        text: '安全设置'),
+                      icon: Hero(
+                        tag: 'lock',
+                        child: Icon(Icons.lock),
+                      ),
+                      onTap: () {
+                        Navigator.of(context).pushNamed('safety');
+                      },
+                      text: I18n.of(context).profileSafety,
+                    ),
                     ProfileGridWidget(
-                        icon: Icon(Icons.message), onTap: () {}, text: '消息设置'),
+                      icon: Icon(Icons.message),
+                      onTap: () {},
+                      text: I18n.of(context).profileMessage,
+                    ),
                     ProfileGridWidget(
-                        icon: Hero(
-                          tag: 'settings',
-                          child: Icon(Icons.settings),
-                        ),
-                        onTap: () {
-                          Navigator.of(context).pushNamed('settings');
-                        },
-                        text: '高级设置'),
+                      icon: Hero(
+                        tag: 'settings',
+                        child: Icon(Icons.settings),
+                      ),
+                      onTap: () {
+                        Navigator.of(context).pushNamed('settings');
+                      },
+                      text: I18n.of(context).profileAdvanced,
+                    ),
                   ],
                 ),
               ),
@@ -172,7 +178,7 @@ class _ProfileViewState extends State<ProfileViewWidget> {
                     borderRadius: BorderRadius.circular(10),
                   ),
                   onPressed: () {},
-                  child: Text('退出登录'),
+                  child: Text(I18n.of(context).profileLogout),
                   textColor: Colors.red,
                 ),
               ),
@@ -181,7 +187,7 @@ class _ProfileViewState extends State<ProfileViewWidget> {
               contentPadding: edgeInsetsGeometryCurved(context),
               leading:
                   Hero(tag: 'about', child: Icon(AntDesign.exclamationcircle)),
-              title: Text('关于'),
+              title: Text(I18n.of(context).profileAbout),
               subtitle: Text('version:0.0.1-master'),
               onTap: () {
                 Navigator.of(context).pushNamed('about');
@@ -191,7 +197,7 @@ class _ProfileViewState extends State<ProfileViewWidget> {
               onTap: () {},
               contentPadding: edgeInsetsGeometryCurved(context),
               leading: Icon(AntDesign.questioncircle),
-              title: Text('常见问题'),
+              title: Text(I18n.of(context).profileQuestions),
             ),
             provider.devTool
                 ? ListTile(
@@ -200,7 +206,7 @@ class _ProfileViewState extends State<ProfileViewWidget> {
                     },
                     contentPadding: edgeInsetsGeometryCurved(context),
                     leading: Icon(Icons.developer_mode),
-                    title: Text('开发者工具'),
+                    title: Text(I18n.of(context).profileDevTool),
                   )
                 : SizedBox(),
           ]),
