@@ -28,5 +28,21 @@
     },
     "search":{
         "string":"Search"
+    },
+    "bottom":{
+        "home":"HOME",
+        "cloud":"CLOUD",
+        "message":"MESSAGE",
+        "profile":"ME"
+    },
+    "cloud":{
+        "share":"Share",
+        "file":"File",
+        "type":"Types",
+        "recycle":"Recycle bin",
+        "title":"Cloud"
+    },
+    "message":{
+        "title":"Message"
     }
 }

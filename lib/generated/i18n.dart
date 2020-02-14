@@ -68,6 +68,26 @@ class I18n implements WidgetsLocalizations {
   String get networkHttps => "HTTPS";
   /// "搜索"
   String get searchString => "搜索";
+  /// "主页"
+  String get bottomHome => "主页";
+  /// "云盘"
+  String get bottomCloud => "云盘";
+  /// "消息"
+  String get bottomMessage => "消息";
+  /// "我"
+  String get bottomProfile => "我";
+  /// "共享"
+  String get cloudShare => "共享";
+  /// "文件"
+  String get cloudFile => "文件";
+  /// "类型"
+  String get cloudType => "类型";
+  /// "回收站"
+  String get cloudRecycle => "回收站";
+  /// "云盘"
+  String get cloudTitle => "云盘";
+  /// "消息"
+  String get messageTitle => "消息";
 }
 
 class _I18n_zh_CN extends I18n {
@@ -134,6 +154,36 @@ class _I18n_en_US extends I18n {
   /// "Search"
   @override
   String get searchString => "Search";
+  /// "HOME"
+  @override
+  String get bottomHome => "HOME";
+  /// "CLOUD"
+  @override
+  String get bottomCloud => "CLOUD";
+  /// "MESSAGE"
+  @override
+  String get bottomMessage => "MESSAGE";
+  /// "ME"
+  @override
+  String get bottomProfile => "ME";
+  /// "Share"
+  @override
+  String get cloudShare => "Share";
+  /// "File"
+  @override
+  String get cloudFile => "File";
+  /// "Types"
+  @override
+  String get cloudType => "Types";
+  /// "Recycle bin"
+  @override
+  String get cloudRecycle => "Recycle bin";
+  /// "Cloud"
+  @override
+  String get cloudTitle => "Cloud";
+  /// "Message"
+  @override
+  String get messageTitle => "Message";
 
   @override
   TextDirection get textDirection => TextDirection.ltr;

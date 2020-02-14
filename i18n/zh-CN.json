@@ -28,5 +28,21 @@
     },
     "search":{
         "string":"搜索"
+    },
+    "bottom":{
+        "home":"主页",
+        "cloud":"云盘",
+        "message":"消息",
+        "profile":"我"
+    },
+    "cloud":{
+        "share":"共享",
+        "file":"文件",
+        "type":"类型",
+        "recycle":"回收站",
+        "title":"云盘"
+    },
+    "message":{
+        "title":"消息"
     }
 }
