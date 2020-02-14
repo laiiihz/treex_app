@@ -39,10 +39,20 @@
         "share":"Share",
         "file":"File",
         "type":"Types",
-        "recycle":"Recycle bin",
+        "recycle":"Recycle\nbin",
         "title":"Cloud"
     },
     "message":{
         "title":"Message"
+    },
+    "profile":{
+        "network":"Network\nSettings",
+        "safety":"Safety\nSettings",
+        "message":"Message\nSettings",
+        "advanced":"Advanced\nSettings",
+        "logout":"LOGOUT",
+        "about":"About",
+        "questions":"Common problem",
+        "devTool":"Dev Tool"
     }
 }

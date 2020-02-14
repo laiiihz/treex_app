@@ -88,6 +88,22 @@ class I18n implements WidgetsLocalizations {
   String get cloudTitle => "云盘";
   /// "消息"
   String get messageTitle => "消息";
+  /// "网络设置"
+  String get profileNetwork => "网络设置";
+  /// "安全设置"
+  String get profileSafety => "安全设置";
+  /// "消息设置"
+  String get profileMessage => "消息设置";
+  /// "高级设置"
+  String get profileAdvanced => "高级设置";
+  /// "退出登录"
+  String get profileLogout => "退出登录";
+  /// "关于"
+  String get profileAbout => "关于";
+  /// "常见问题"
+  String get profileQuestions => "常见问题";
+  /// "开发者工具"
+  String get profileDevTool => "开发者工具";
 }
 
 class _I18n_zh_CN extends I18n {
@@ -175,15 +191,39 @@ class _I18n_en_US extends I18n {
   /// "Types"
   @override
   String get cloudType => "Types";
-  /// "Recycle bin"
+  /// "Recycle\nbin"
   @override
-  String get cloudRecycle => "Recycle bin";
+  String get cloudRecycle => "Recycle\nbin";
   /// "Cloud"
   @override
   String get cloudTitle => "Cloud";
   /// "Message"
   @override
   String get messageTitle => "Message";
+  /// "Network\nSettings"
+  @override
+  String get profileNetwork => "Network\nSettings";
+  /// "Safety\nSettings"
+  @override
+  String get profileSafety => "Safety\nSettings";
+  /// "Message\nSettings"
+  @override
+  String get profileMessage => "Message\nSettings";
+  /// "Advanced\nSettings"
+  @override
+  String get profileAdvanced => "Advanced\nSettings";
+  /// "LOGOUT"
+  @override
+  String get profileLogout => "LOGOUT";
+  /// "About"
+  @override
+  String get profileAbout => "About";
+  /// "Common problem"
+  @override
+  String get profileQuestions => "Common problem";
+  /// "Dev Tool"
+  @override
+  String get profileDevTool => "Dev Tool";
 
   @override
   TextDirection get textDirection => TextDirection.ltr;

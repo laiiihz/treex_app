@@ -44,5 +44,15 @@
     },
     "message":{
         "title":"消息"
+    },
+    "profile":{
+        "network":"网络设置",
+        "safety":"安全设置",
+        "message":"消息设置",
+        "advanced":"高级设置",
+        "logout":"退出登录",
+        "about":"关于",
+        "questions":"常见问题",
+        "devTool":"开发者工具"
     }
 }
