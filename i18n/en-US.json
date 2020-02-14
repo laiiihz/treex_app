@@ -14,5 +14,16 @@
         "createNewUserQ":"Create a new user?",
         "noUserCreateQ":"No account?Create now",
         "login":"LOGIN"
+    },
+    "network":{
+        "connection":{
+            "success":"Connection successed",
+            "fail":"Connection failed"
+        },
+        "save":"SAVE",
+        "setting":"Network Settings",
+        "ip":"Server IP or address",
+        "port":"Server port",
+        "https":"HTTPS"
     }
 }

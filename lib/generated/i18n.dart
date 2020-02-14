@@ -52,6 +52,20 @@ class I18n implements WidgetsLocalizations {
   String get authNoUserCreateQ => "没有账号？现在开始创建";
   /// "登录"
   String get authLogin => "登录";
+  /// "连接成功"
+  String get networkConnectionSuccess => "连接成功";
+  /// "连接失败"
+  String get networkConnectionFail => "连接失败";
+  /// "保存"
+  String get networkSave => "保存";
+  /// "网络设置"
+  String get networkSetting => "网络设置";
+  /// "服务器IP或地址"
+  String get networkIp => "服务器IP或地址";
+  /// "服务器端口"
+  String get networkPort => "服务器端口";
+  /// "HTTPS"
+  String get networkHttps => "HTTPS";
 }
 
 class _I18n_zh_CN extends I18n {
@@ -94,6 +108,27 @@ class _I18n_en_US extends I18n {
   /// "LOGIN"
   @override
   String get authLogin => "LOGIN";
+  /// "Connection successed"
+  @override
+  String get networkConnectionSuccess => "Connection successed";
+  /// "Connection failed"
+  @override
+  String get networkConnectionFail => "Connection failed";
+  /// "SAVE"
+  @override
+  String get networkSave => "SAVE";
+  /// "Network Settings"
+  @override
+  String get networkSetting => "Network Settings";
+  /// "Server IP or address"
+  @override
+  String get networkIp => "Server IP or address";
+  /// "Server port"
+  @override
+  String get networkPort => "Server port";
+  /// "HTTPS"
+  @override
+  String get networkHttps => "HTTPS";
 
   @override
   TextDirection get textDirection => TextDirection.ltr;

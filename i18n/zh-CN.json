@@ -14,5 +14,16 @@
         "createNewUserQ":"创建新用户？",
         "noUserCreateQ":"没有账号？现在开始创建",
         "login":"登录"
+    },
+    "network":{
+        "connection":{
+            "success":"连接成功",
+            "fail":"连接失败"
+        },
+        "save":"保存",
+        "setting":"网络设置",
+        "ip":"服务器IP或地址",
+        "port":"服务器端口",
+        "https":"HTTPS"
     }
 }
