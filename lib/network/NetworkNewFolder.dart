@@ -8,6 +8,6 @@ class NetworkNewFolder extends NetworkUtilWithHeader {
     @required String path,
     bool share = true,
   }) async {
-    await dio.put("/api/treex/file/newFolder?folder=$folderName&path=$path");
+    await dio.put("/api/treex/file/newFolder?folder=$folderName&path=$path&share=$share");
   }
 }

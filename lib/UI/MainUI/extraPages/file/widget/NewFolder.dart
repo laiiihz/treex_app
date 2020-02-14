@@ -16,15 +16,6 @@ class NewFolderWidget extends StatefulWidget {
 
 class _NewFolderState extends State<NewFolderWidget> {
   TextEditingController _textEditingController = TextEditingController();
-  @override
-  void initState() {
-    super.initState();
-    final provider = Provider.of<AppProvider>(context, listen: false);
-    Future.delayed(Duration.zero, () {
-      print(provider.nowSharePath);
-      print(widget.share);
-    });
-  }
 
   @override
   void dispose() {
@@ -34,12 +25,15 @@ class _NewFolderState extends State<NewFolderWidget> {
 
   @override
   Widget build(BuildContext context) {
+    final provider = Provider.of<AppProvider>(context);
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: <Widget>[
         TextField(
           controller: _textEditingController,
           decoration: InputDecoration(
+            labelText: '文件夹名称',
+            hintText: '支持多级文件夹创建',
             prefixIcon: Icon(
               MaterialCommunityIcons.folder,
               color: Colors.yellow,
@@ -51,7 +45,9 @@ class _NewFolderState extends State<NewFolderWidget> {
           child: RaisedButton(
             onPressed: () {
               NetworkNewFolder(context).folder(
-                path: '.',
+                path: widget.share
+                    ? provider.nowSharePath
+                    : provider.nowAllFilesPath,
                 folderName: _textEditingController.text,
                 share: widget.share,
               );

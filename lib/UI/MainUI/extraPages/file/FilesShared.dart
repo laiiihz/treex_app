@@ -9,6 +9,7 @@ import 'package:provider/provider.dart';
 import 'package:treex_app/UI/MainUI/extraPages/file/widget/FileBackToolBar.dart';
 import 'package:treex_app/UI/MainUI/extraPages/file/widget/FileGridTile.dart';
 import 'package:treex_app/UI/MainUI/extraPages/file/widget/FileListTile.dart';
+import 'package:treex_app/UI/MainUI/extraPages/file/widget/NewFolder.dart';
 import 'package:treex_app/UI/MainUI/extraPages/file/widget/buildEmpty.dart';
 import 'package:treex_app/UI/widget/CardBar.dart';
 import 'package:treex_app/UI/widget/LargeIconBackground.dart';
@@ -76,16 +77,11 @@ class _FilesSharedState extends State<FilesSharedPage>
                     onSelected: (value) {
                       switch (value) {
                         case 'new':
-                          showMIUIConfirmDialog(
+                          showMIUIDialog(
                             context: context,
-                            child: TextField(),
-                            title: '新建文件夹',
-                            confirm: () {
-                              NetworkNewFolder(context).folder(
-                                folderName: null,
-                                path: null,
-                              );
-                            },
+                            dyOffset: 0.5,
+                            label: 'newFolder', 
+                            content: NewFolderWidget(share: true),
                           );
                           break;
                       }
