@@ -4,7 +4,6 @@ import 'package:flutter_miui/flutter_miui.dart';
 import 'package:provider/provider.dart';
 import 'package:treex_app/UI/auth/SignUp.dart';
 import 'package:treex_app/UI/widget/customWidgets.dart';
-import 'package:treex_app/generated/i18n.dart';
 import 'package:treex_app/network/AuthUtil.dart';
 import 'package:treex_app/network/Enums.dart';
 import 'package:treex_app/network/NetworkAvatarOrBackground.dart';
@@ -32,7 +31,6 @@ class _LoginState extends State<LoginPage> {
   void initState() {
     super.initState();
   }
-
   @override
   void dispose() {
     super.dispose();
@@ -112,7 +110,7 @@ class _LoginState extends State<LoginPage> {
               });
             },
             decoration: InputDecoration(
-              errorText: _nameNull ? I18n.of(context).authUserCantNull : null,
+              errorText: _nameNull ? '用户名不能为空' : null,
               prefixIcon: IconButton(
                 icon: Icon(Icons.account_circle),
                 onPressed: () {
@@ -123,7 +121,7 @@ class _LoginState extends State<LoginPage> {
                   });
                 },
               ),
-              labelText: I18n.of(context).authUserName,
+              labelText: '用户名',
             ),
           ),
           SizedBox(height: 20),
@@ -140,9 +138,8 @@ class _LoginState extends State<LoginPage> {
               });
             },
             decoration: InputDecoration(
-              errorText: _passwordNull
-                  ? I18n.of(context).authPasswordCantNull
-                  : _passwordWrong ? I18n.of(context).authPasswordWrong : null,
+              errorText:
+                  _passwordNull ? '密码不能为空' : _passwordWrong ? '密码错误' : null,
               prefixIcon: IconButton(
                   icon: Icon(Icons.lock),
                   onPressed: () {
@@ -153,7 +150,7 @@ class _LoginState extends State<LoginPage> {
                       _canLoginPressed = (!_nameNull && !_passwordNull);
                     });
                   }),
-              labelText: I18n.of(context).authPasswordMain,
+              labelText: '密码',
               suffixIcon: IconButton(
                 icon: AnimatedCrossFade(
                   firstChild: Icon(Icons.visibility),
@@ -171,11 +168,7 @@ class _LoginState extends State<LoginPage> {
                     leading: (_) => !_showPassword
                         ? Icon(Icons.visibility)
                         : Icon(Icons.visibility_off),
-                    title: (_) => Text(
-                      !_showPassword
-                          ? I18n.of(context).authPasswordHide
-                          : I18n.of(context).authPasswordShow,
-                    ),
+                    title: (_) => Text('密码${!_showPassword ? '不' : ''}可见'),
                   );
                 },
               ),
@@ -203,7 +196,7 @@ class _LoginState extends State<LoginPage> {
                         checkLogin(context);
                       }
                     : null,
-                child: Text(I18n.of(context).authLogin),
+                child: Text('登录'),
               ),
               Expanded(
                 child: Align(
@@ -225,7 +218,7 @@ class _LoginState extends State<LoginPage> {
                     MaterialPageRoute(builder: (context) => SignUpPage()),
                   );
                 },
-                child: Text(I18n.of(context).authNoUserCreateQ)),
+                child: Text('没有账号？现在注册')),
           ),
           SizedBox(height: 20),
           Row(
@@ -258,7 +251,7 @@ class _LoginState extends State<LoginPage> {
           showMIUIConfirmDialog(
             context: context,
             child: SizedBox(),
-            title: I18n.of(context).authCreateNewUserQ,
+            title: '创建新用户?',
             confirm: () {
               Navigator.of(context).push(
                 MaterialPageRoute(
@@ -268,6 +261,8 @@ class _LoginState extends State<LoginPage> {
                         )),
               );
             },
+            cancelString: '取消',
+            confirmString: '确定',
           );
           break;
         case LoginResult.SUCCESS:
@@ -289,8 +284,7 @@ class _LoginState extends State<LoginPage> {
           setState(() {
             _passwordWrong = true;
           });
-          BotToast.showNotification(
-              title: (_) => Text(I18n.of(context).authPasswordWrong));
+          BotToast.showNotification(title: (_) => Text('密码错误'));
           break;
       }
     });

@@ -10,7 +10,6 @@ import 'package:treex_app/UI/MainUI/tools/FullTools.dart';
 import 'package:treex_app/UI/widget/HomeLeftBarItem.dart';
 
 import 'package:treex_app/UI/widget/TransparentPageRoute.dart';
-import 'package:treex_app/generated/i18n.dart';
 import 'package:treex_app/provider/AppProvider.dart';
 
 class HomePage extends StatefulWidget {
@@ -56,7 +55,7 @@ class _HomeState extends State<HomePage> {
                   HomeLeftBarItemWidget(
                     index: 0,
                     nowIndex: _nowIndex,
-                    title: I18n.of(context).bottomHome,
+                    title: '主页',
                     leading: Icon(Icons.home),
                     onTap: () {
                       setState(() {
@@ -68,7 +67,7 @@ class _HomeState extends State<HomePage> {
                   HomeLeftBarItemWidget(
                     index: 1,
                     nowIndex: _nowIndex,
-                    title: I18n.of(context).bottomCloud,
+                    title: '文件',
                     leading: Icon(Icons.folder),
                     onTap: () {
                       setState(() {
@@ -80,7 +79,7 @@ class _HomeState extends State<HomePage> {
                   HomeLeftBarItemWidget(
                     index: 3,
                     nowIndex: _nowIndex,
-                    title: I18n.of(context).bottomMessage,
+                    title: '消息',
                     leading: Icon(Icons.message),
                     onTap: () {
                       setState(() {
@@ -92,7 +91,7 @@ class _HomeState extends State<HomePage> {
                   HomeLeftBarItemWidget(
                     index: 3,
                     nowIndex: _nowIndex,
-                    title: I18n.of(context).bottomProfile,
+                    title: '我的',
                     leading: Icon(Icons.account_circle),
                     onTap: () {
                       setState(() {
@@ -149,22 +148,22 @@ class _HomeState extends State<HomePage> {
         items: [
           BottomNavigationBarItem(
             icon: Icon(MaterialCommunityIcons.home_outline),
-            title: Text(I18n.of(context).bottomHome),
+            title: Text('主页'),
             activeIcon: Icon(MaterialCommunityIcons.home),
           ),
           BottomNavigationBarItem(
             icon: Icon(MaterialCommunityIcons.cloud_outline),
-            title: Text(I18n.of(context).bottomCloud),
+            title: Text('云盘'),
             activeIcon: Icon(MaterialCommunityIcons.cloud),
           ),
           BottomNavigationBarItem(
             icon: Icon(MaterialCommunityIcons.message_outline),
-            title: Text(I18n.of(context).bottomMessage),
+            title: Text('消息'),
             activeIcon: Icon(MaterialCommunityIcons.message),
           ),
           BottomNavigationBarItem(
             icon: Icon(MaterialCommunityIcons.account_outline),
-            title: Text(I18n.of(context).bottomProfile),
+            title: Text('我的'),
             activeIcon: Icon(MaterialCommunityIcons.account),
           ),
         ],
