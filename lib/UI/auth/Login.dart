@@ -4,6 +4,7 @@ import 'package:flutter_miui/flutter_miui.dart';
 import 'package:provider/provider.dart';
 import 'package:treex_app/UI/auth/SignUp.dart';
 import 'package:treex_app/UI/widget/customWidgets.dart';
+import 'package:treex_app/generated/i18n.dart';
 import 'package:treex_app/network/AuthUtil.dart';
 import 'package:treex_app/network/Enums.dart';
 import 'package:treex_app/network/NetworkAvatarOrBackground.dart';
@@ -31,6 +32,7 @@ class _LoginState extends State<LoginPage> {
   void initState() {
     super.initState();
   }
+
   @override
   void dispose() {
     super.dispose();
@@ -121,7 +123,7 @@ class _LoginState extends State<LoginPage> {
                   });
                 },
               ),
-              labelText: '用户名',
+              labelText: I18n.of(context).username,
             ),
           ),
           SizedBox(height: 20),
