@@ -15,7 +15,6 @@ import 'package:treex_app/UI/widget/CardBar.dart';
 import 'package:treex_app/UI/widget/LargeIconBackground.dart';
 import 'package:treex_app/network/NetworkFileEntity.dart';
 import 'package:treex_app/network/NetworkFileUtil.dart';
-import 'package:treex_app/network/NetworkNewFolder.dart';
 import 'package:treex_app/provider/AppProvider.dart';
 
 class FilesSharedPage extends StatefulWidget {

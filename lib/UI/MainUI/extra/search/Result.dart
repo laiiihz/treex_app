@@ -16,7 +16,7 @@ class ResultWidget extends StatefulWidget {
 
 class _ResultState extends State<ResultWidget> with TickerProviderStateMixin {
   List<NetFileEntity> _files = [];
-  List<File> _localFiles = [];
+  List<FileSystemEntity> _localFiles = [];
   TabController _tabController;
   @override
   void initState() {
@@ -32,6 +32,7 @@ class _ResultState extends State<ResultWidget> with TickerProviderStateMixin {
       await Directory(fileUtil.appDir.path)
           .list(recursive: true)
           .forEach((item) {
+        debugPrint(item.path);
         if (item.path.contains(widget.query)) _localFiles.add(item);
       });
     }
@@ -39,6 +40,12 @@ class _ResultState extends State<ResultWidget> with TickerProviderStateMixin {
     searchInSystem().then((_) {
       setState(() {});
     });
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _tabController.dispose();
   }
 
   @override
