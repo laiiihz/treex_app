@@ -4,9 +4,6 @@ import 'package:treex_app/UI/MainUI/extra/search/Suggest.dart';
 import 'package:treex_app/Utils/brightnessUtil.dart';
 
 class AppSearchDelegate extends SearchDelegate<String> {
-  AppSearchDelegate({@required this.hintText})
-      : super();
-  final String hintText;
   @override
   List<Widget> buildActions(BuildContext context) {
     return [
@@ -38,12 +35,11 @@ class AppSearchDelegate extends SearchDelegate<String> {
       child: SuggestWidget(query: query),
     );
   }
-  @override
-  String get searchFieldLabel => this.hintText;
 
+  @override
+  String get searchFieldLabel => '搜索';
   @override
   ThemeData appBarTheme(BuildContext context) {
     return isDark(context) ? ThemeData.dark() : ThemeData.light();
   }
 }
-

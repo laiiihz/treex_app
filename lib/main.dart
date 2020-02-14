@@ -1,7 +1,6 @@
 import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:provider/provider.dart';
 import 'package:treex_app/UI/MainUI/Home.dart';
 import 'package:treex_app/UI/MainUI/extra/DevTool.dart';
@@ -19,7 +18,6 @@ import 'package:treex_app/UI/MainUI/extraPages/file/RecycleBin.dart';
 import 'package:treex_app/UI/MainUI/tools/ScanTool.dart';
 import 'package:treex_app/UI/auth/Login.dart';
 import 'package:treex_app/UI/splash/Splash.dart';
-import 'package:treex_app/generated/i18n.dart';
 import 'package:treex_app/licenses/GPLView.dart';
 import 'package:treex_app/provider/AppProvider.dart';
 import 'package:treex_app/theme/ThemeData.dart';
@@ -65,13 +63,6 @@ class MyApp extends StatelessWidget {
         'friendsList': (context) => FriendsListPage(),
         'devTool': (context) => DevToolPage(),
       },
-      localizationsDelegates: [
-        I18n.delegate,
-        GlobalMaterialLocalizations.delegate,
-        GlobalWidgetsLocalizations.delegate,
-        GlobalCupertinoLocalizations.delegate,
-      ],
-      supportedLocales: I18n.delegate.supportedLocales,
     );
   }
 }

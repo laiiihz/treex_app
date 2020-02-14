@@ -9,7 +9,6 @@ import 'package:qr_flutter/qr_flutter.dart';
 import 'package:treex_app/UI/widget/CardBar.dart';
 import 'package:treex_app/UI/widget/LargeIconBackground.dart';
 import 'package:treex_app/Utils/SharedPreferenceUtils.dart';
-import 'package:treex_app/generated/i18n.dart';
 import 'package:treex_app/network/CheckConnection.dart';
 import 'package:treex_app/provider/AppProvider.dart';
 
@@ -96,11 +95,7 @@ class _NetworkState extends State<NetworkPage> {
               ).check().then((value) {
                 BotToast.closeAllLoading();
                 BotToast.showNotification(
-                  title: (_) => Text(
-                    value
-                        ? I18n.of(context).networkConnectionSuccess
-                        : I18n.of(context).networkConnectionFail,
-                  ),
+                  title: (_) => Text(value ? '连接成功' : '连接失败'),
                   trailing: (_) => Icon(
                     value ? Icons.check_circle : Icons.remove_circle,
                     color: value ? Colors.green : Colors.red,
@@ -121,7 +116,7 @@ class _NetworkState extends State<NetworkPage> {
               provider.changeNetworkAddr(_ipTextEditController.text);
               provider.changeNetworkPort(_portEditController.text);
             },
-            label: Text(I18n.of(context).networkSave),
+            label: Text('保存'),
             heroTag: 'fab',
           ),
         ],
@@ -137,7 +132,7 @@ class _NetworkState extends State<NetworkPage> {
                   pinned: true,
                   floating: true,
                   stretch: true,
-                  title: Text(I18n.of(context).networkSetting),
+                  title: Text('网络设置'),
                   actions: <Widget>[
                     IconButton(
                       icon: Icon(MaterialCommunityIcons.qrcode),
@@ -149,9 +144,9 @@ class _NetworkState extends State<NetworkPage> {
                           content: Container(
                             height: 200,
                             child: QrImage(
-                              data: NetworkConfig(port: '123', addr: 'asdfawef')
-                                  .toString(),
-                            ),
+                                data:
+                                    NetworkConfig(port: '123', addr: 'asdfawef')
+                                        .toString()),
                           ),
                           label: 'qrcode',
                         );
@@ -171,7 +166,7 @@ class _NetworkState extends State<NetworkPage> {
                       child: TextField(
                         controller: _ipTextEditController,
                         decoration: InputDecoration(
-                          labelText: I18n.of(context).networkIp,
+                          labelText: '服务器地址或IP',
                         ),
                       ),
                     ),
@@ -185,14 +180,12 @@ class _NetworkState extends State<NetworkPage> {
                                   _isHttpsOn = value;
                                 });
                               }),
-                          Text(I18n.of(context).networkHttps),
+                          Text('HTTPS'),
                           Spacer(),
                           Expanded(
                             child: TextField(
                               controller: _portEditController,
-                              decoration: InputDecoration(
-                                labelText: I18n.of(context).networkPort,
-                              ),
+                              decoration: InputDecoration(labelText: '端口'),
                             ),
                           ),
                         ],
