@@ -25,5 +25,8 @@
         "ip":"服务器IP或地址",
         "port":"服务器端口",
         "https":"HTTPS"
+    },
+    "search":{
+        "string":"搜索"
     }
 }

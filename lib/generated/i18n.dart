@@ -66,6 +66,8 @@ class I18n implements WidgetsLocalizations {
   String get networkPort => "服务器端口";
   /// "HTTPS"
   String get networkHttps => "HTTPS";
+  /// "搜索"
+  String get searchString => "搜索";
 }
 
 class _I18n_zh_CN extends I18n {
@@ -129,6 +131,9 @@ class _I18n_en_US extends I18n {
   /// "HTTPS"
   @override
   String get networkHttps => "HTTPS";
+  /// "Search"
+  @override
+  String get searchString => "Search";
 
   @override
   TextDirection get textDirection => TextDirection.ltr;

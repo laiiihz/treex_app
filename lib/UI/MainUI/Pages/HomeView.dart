@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_miui/flutter_miui.dart';
 import 'package:treex_app/UI/MainUI/extra/AppSearchDelegate.dart';
 import 'package:treex_app/UI/widget/LOGO.dart';
+import 'package:treex_app/generated/i18n.dart';
 
 class HomeViewWidget extends StatefulWidget {
   @override
@@ -26,7 +27,10 @@ class _HomeViewState extends State<HomeViewWidget> {
                   color: Colors.white,
                 ),
                 onPressed: () {
-                  showSearch(context: context, delegate: AppSearchDelegate());
+                  showSearch(
+                      context: context,
+                      delegate: AppSearchDelegate(
+                          hintText: I18n.of(context).searchString));
                 },
               ),
             ),

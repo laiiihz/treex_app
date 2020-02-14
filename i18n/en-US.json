@@ -25,5 +25,8 @@
         "ip":"Server IP or address",
         "port":"Server port",
         "https":"HTTPS"
+    },
+    "search":{
+        "string":"Search"
     }
 }
