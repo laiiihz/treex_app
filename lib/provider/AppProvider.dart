@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:treex_app/network/NetworkProfileUtil.dart';
 import 'package:treex_app/transferSystem/downloadFile.dart';
+import 'package:treex_app/transferSystem/uploadFile.dart';
 
 class AppProvider extends ChangeNotifier {
   ThemeMode _themeMode = ThemeMode.system;
@@ -136,7 +137,7 @@ class AppProvider extends ChangeNotifier {
 
   List<DownloadFile> _downloadFiles = [];
   List<DownloadFile> get downloadFiles => _downloadFiles;
-  int get taskNumber => _downloadFiles.length;
+  int get downloadTaskNumber => _downloadFiles.length;
   addTask(DownloadFile downloadFile) {
     _downloadFiles.add(downloadFile);
     notifyListeners();
@@ -147,9 +148,18 @@ class AppProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  
+  List<UploadFile> _uploadFiles = [];
+  List<UploadFile> get uploadFiles => _uploadFiles;
+  int get uploadTaskNumber => _uploadFiles.length;
+  addUploadTask(UploadFile uploadFile) {
+    _uploadFiles.add(uploadFile);
+    notifyListeners();
+  }
 
-
+  setUploadValue(double value, int index) {
+    _uploadFiles[index].value = value;
+    notifyListeners();
+  }
 
   String _nowShareParentPath;
   get nowShareParentPath => _nowShareParentPath;

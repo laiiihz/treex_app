@@ -18,7 +18,7 @@ class DownloadSystem {
       file.path,
       onReceiveProgress: (value, all) {
         fileUtil.provider
-            .setDownloadValue(value / all, fileUtil.provider.taskNumber - 1);
+            .setDownloadValue(value / all, fileUtil.provider.downloadTaskNumber - 1);
       },
       cancelToken: downloadFile.cancelToken,
     ).catchError((e) {

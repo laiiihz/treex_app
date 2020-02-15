@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_miui/flutter_miui.dart';
-import 'package:treex_app/UI/MainUI/extraPages/TransferDownload.dart';
-import 'package:treex_app/UI/MainUI/extraPages/TransferUpload.dart';
+import 'package:treex_app/UI/MainUI/extraPages/transfer/TransferDownload.dart';
+import 'package:treex_app/UI/MainUI/extraPages/transfer/TransferUpload.dart';
 
 class TransferPage extends StatefulWidget {
   @override
