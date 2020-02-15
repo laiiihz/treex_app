@@ -18,6 +18,10 @@ class _TransferUploadListTileWidgetState
         backgroundColor: Theme.of(context).primaryColor,
         child: Icon(MaterialCommunityIcons.file_outline),
       ),
+      title: Text(widget.file.name),
+      subtitle:LinearProgressIndicator(
+        value: widget.file.value,
+      ),
     );
   }
 }

@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:flutter_miui/flutter_miui.dart';
@@ -14,6 +15,7 @@ import 'package:treex_app/UI/widget/LargeIconBackground.dart';
 import 'package:treex_app/network/NetworkFileEntity.dart';
 import 'package:treex_app/network/NetworkFileUtil.dart';
 import 'package:treex_app/provider/AppProvider.dart';
+import 'package:treex_app/transferSystem/uploadSystem.dart';
 
 class FilesAllPage extends StatefulWidget {
   @override
@@ -71,10 +73,23 @@ class _FilesAllState extends State<FilesAllPage> {
                   switch (value) {
                     case 'new':
                       showMIUIDialog(
+                        context: context,
+                        dyOffset: 0.5,
+                        content: NewFolderWidget(share: false),
+                        label: 'test',
+                      );
+                      break;
+                    case 'upload':
+                      FilePicker.getFilePath().then((file) {
+                        UploadSystem().upload(
                           context: context,
-                          dyOffset: 0.5,
-                          content: NewFolderWidget(share: false),
-                          label: 'test');
+                          share: false,
+                          filePath: file,
+                        );
+                      });
+                      break;
+                    case 'folders':
+                      break;
                   }
                 },
               ),

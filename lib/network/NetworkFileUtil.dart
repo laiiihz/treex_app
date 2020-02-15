@@ -9,11 +9,9 @@ class NetworkUtilWithHeader {
   AppProvider provider;
   Dio dio;
   BuildContext context;
-
-  NetworkUtilWithHeader(BuildContext context) {
-    this.context = context;
+  NetworkUtilWithHeader(this.context) {
     provider = Provider.of<AppProvider>(context, listen: false);
-    bool https = provider.isHttps;
+    String https = provider.isHttps ? 'https' : 'http';
     String addr = provider.networkAddr;
     String port = (provider.networkPort as String).isEmpty
         ? '/'
@@ -26,7 +24,7 @@ class NetworkUtilWithHeader {
               clientSetting.onBadCertificate = (_) => true,
         ),
       )
-      ..options.baseUrl = 'http${https ? 's' : ''}://$addr$port'
+      ..options.baseUrl = '$https://$addr$port'
       ..options.headers = {'Authorization': provider.token};
   }
 }
@@ -78,7 +76,9 @@ class NetFiles extends NetworkUtilWithHeader {
     bool share = true,
   }) async {
     List<NetFileEntity> files = [];
-    await dio.get('/api/treex/file/search?query=$query&share=$share').then((value) {
+    await dio
+        .get('/api/treex/file/search?query=$query&share=$share')
+        .then((value) {
       dynamic raw = value.data;
       for (dynamic item in raw['search']) {
         files.add(NetFileEntity.fromDynamic(item));

@@ -1,33 +1,32 @@
-import 'dart:io';
-
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:treex_app/Utils/FileUtil.dart';
-import 'package:treex_app/network/NetworkFileUtil.dart';
+import 'package:treex_app/network/NetworkTransfer.dart';
 import 'package:treex_app/provider/AppProvider.dart';
 import 'package:treex_app/transferSystem/uploadFile.dart';
 
 class UploadSystem {
   Future upload({
-    bool share = false,
+    bool share = true,
     BuildContext context,
-    String path,
     String filePath,
   }) async {
-    UploadFile uploadFile = UploadFile(path);
-    FormData formData = FormData.fromMap({
-      'name': FileUtil.getName(filePath),
-      'file': MultipartFile.fromFile(filePath),
-      'path': path,
-    });
     final provider = Provider.of<AppProvider>(context, listen: false);
-    await NetworkUtilWithHeader(context).dio.post(
-      '/api/treex/share',
-      cancelToken: uploadFile.cancelToken,
+    UploadFile uploadFile = UploadFile(FileUtil.getName(filePath));
+    FormData formData = FormData.fromMap({
+      'file': await MultipartFile.fromFile(filePath),
+      'path': share ? provider.nowSharePath : provider.nowAllFilesPath,
+      'name': FileUtil.getName(filePath),
+      'share': share,
+    });
+    //add task before upload
+    provider.addUploadTask(uploadFile);
+    NetworkTransferUtil(context).dio.post(
+      '/api/treex/upload',
       data: formData,
       onSendProgress: (value, all) {
-        provider.setUploadValue(value / all, provider.uploadFiles.length-1);
+        provider.setUploadValue(value / all, provider.uploadTaskNumber - 1);
       },
     );
   }

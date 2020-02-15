@@ -13,12 +13,12 @@ class NetworkUtil {
 
   NetworkUtil(BuildContext context) {
     provider = Provider.of<AppProvider>(context, listen: false);
-    bool https = provider.isHttps;
+    String https = provider.isHttps ? 'https' : 'http';
     String addr = provider.networkAddr;
     String port = (provider.networkPort as String).isEmpty
         ? '/'
         : ':${provider.networkPort}/';
-    dio = Dio()..options.baseUrl = 'http${https ? 's' : ''}://$addr$port';
+    dio = Dio()..options.baseUrl = '$https://$addr$port';
     (dio.httpClientAdapter as DefaultHttpClientAdapter).onHttpClientCreate =
         (client) {
       client.badCertificateCallback = (cert, host, port) {
