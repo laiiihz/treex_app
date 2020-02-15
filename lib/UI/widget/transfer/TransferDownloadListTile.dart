@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:flutter_miui/flutter_miui.dart';
 import 'package:treex_app/UI/widget/CardBar.dart';
-import 'package:treex_app/download/downloadFile.dart';
+import 'package:treex_app/transferSystem/downloadFile.dart';
 
 class TransferDownloadListTileWidget extends StatefulWidget {
   TransferDownloadListTileWidget({

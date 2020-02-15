@@ -1,10 +1,10 @@
 import 'dart:io';
 
 import 'package:bot_toast/bot_toast.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:treex_app/Utils/FileUtil.dart';
-import 'package:treex_app/download/downloadFile.dart';
 import 'package:treex_app/network/NetworkFileUtil.dart';
+import 'package:treex_app/transferSystem/downloadFile.dart';
 
 class DownloadSystem {
   Future download(BuildContext context, String path,

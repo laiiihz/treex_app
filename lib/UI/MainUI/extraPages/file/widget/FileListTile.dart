@@ -8,10 +8,10 @@ import 'package:treex_app/UI/MainUI/extraPages/file/widget/FileRename.dart';
 import 'package:treex_app/UI/widget/CardBar.dart';
 import 'package:treex_app/Utils/FileParseUtil.dart';
 import 'package:treex_app/Utils/FileUtil.dart';
-import 'package:treex_app/download/downloadSystem.dart';
 import 'package:treex_app/network/NetworkDelete.dart';
 import 'package:treex_app/network/NetworkFileEntity.dart';
 import 'package:treex_app/provider/AppProvider.dart';
+import 'package:treex_app/transferSystem/downloadSystem.dart';
 
 class FileListTileWidget extends StatefulWidget {
   FileListTileWidget({

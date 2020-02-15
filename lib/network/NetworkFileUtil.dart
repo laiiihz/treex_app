@@ -73,9 +73,12 @@ class NetFiles extends NetworkUtilWithHeader {
     return files;
   }
 
-  Future<List<NetFileEntity>> search({@required String query}) async {
+  Future<List<NetFileEntity>> search({
+    @required String query,
+    bool share = true,
+  }) async {
     List<NetFileEntity> files = [];
-    await dio.get('/api/treex/file/search?query=$query').then((value) {
+    await dio.get('/api/treex/file/search?query=$query&share=$share').then((value) {
       dynamic raw = value.data;
       for (dynamic item in raw['search']) {
         files.add(NetFileEntity.fromDynamic(item));

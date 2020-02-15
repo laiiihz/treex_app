@@ -3,8 +3,8 @@ import 'dart:io';
 import 'package:connectivity/connectivity.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:treex_app/download/downloadFile.dart';
 import 'package:treex_app/network/NetworkProfileUtil.dart';
+import 'package:treex_app/transferSystem/downloadFile.dart';
 
 class AppProvider extends ChangeNotifier {
   ThemeMode _themeMode = ThemeMode.system;

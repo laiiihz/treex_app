@@ -2,10 +2,12 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_miui/flutter_miui.dart';
+import 'package:provider/provider.dart';
 import 'package:treex_app/Utils/FileParseUtil.dart';
 import 'package:treex_app/Utils/FileUtil.dart';
 import 'package:treex_app/network/NetworkFileEntity.dart';
 import 'package:treex_app/network/NetworkFileUtil.dart';
+import 'package:treex_app/provider/AppProvider.dart';
 
 class ResultWidget extends StatefulWidget {
   ResultWidget({Key key, @required this.query}) : super(key: key);
@@ -16,15 +18,22 @@ class ResultWidget extends StatefulWidget {
 
 class _ResultState extends State<ResultWidget> with TickerProviderStateMixin {
   List<NetFileEntity> _files = [];
+  List<NetFileEntity> _sharedFiles = [];
   List<FileSystemEntity> _localFiles = [];
   TabController _tabController;
   @override
   void initState() {
     super.initState();
     _tabController = TabController(length: 3, vsync: this);
-    NetFiles(context).search(query: widget.query).then((files) {
+    NetFiles netfiles = NetFiles(context);
+    netfiles.search(query: widget.query, share: false).then((files) {
       setState(() {
         _files = files;
+      });
+    });
+    netfiles.search(query: widget.query, share: true).then((files) {
+      setState(() {
+        _sharedFiles = files;
       });
     });
     searchInSystem() async {
@@ -50,9 +59,11 @@ class _ResultState extends State<ResultWidget> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
+    final provider = Provider.of<AppProvider>(context);
     return Column(
       children: <Widget>[
         TabBar(
+          labelColor: provider.primaryColor,
           controller: _tabController,
           tabs: [
             Tab(
@@ -74,44 +85,100 @@ class _ResultState extends State<ResultWidget> with TickerProviderStateMixin {
             controller: _tabController,
             physics: MIUIScrollPhysics(),
             children: [
-              ListView.builder(
-                physics: MIUIScrollPhysics(),
-                itemBuilder: (BuildContext context, int index) {
-                  return ListTile(
-                    title: Text(_files[index].name),
-                    leading: FileParseUtil.parseIcon(
-                      name: _files[index].name,
-                      isDir: _files[index].isDir,
-                    ),
-                    subtitle: Text(
-                        '${FileParseUtil.parseDate(_files[index].date)}'
-                        '${_files[index].isDir ? '' : '•'}'
-                        '${_files[index].isDir ? '' : FileParseUtil.parseLength(_files[index].length)}'),
-                    onTap: () {},
-                  );
-                },
-                itemCount: _files.length,
-              ),
-              ListView.builder(
-                physics: MIUIScrollPhysics(),
-                itemBuilder: (BuildContext context, int index) {
-                  return ListTile(
-                    title: Text('UNDONE'),
-                  );
-                },
-                itemCount: 1,
-              ),
-              ListView.builder(
-                physics: MIUIScrollPhysics(),
-                itemBuilder: (BuildContext context, int index) {
-                  return ListTile(
-                    title: Text(_localFiles[index].path),
-                    onTap: () {},
-                  );
-                },
-                itemCount: _localFiles.length,
-              ),
+              _buildPrivateList(context),
+              _buildSharedList(context),
+              _buildLocalList(context),
             ],
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildPrivateList(BuildContext context) {
+    return Column(
+      children: <Widget>[
+        Expanded(
+          child: ListView.builder(
+            physics: MIUIScrollPhysics(),
+            itemBuilder: (BuildContext context, int index) {
+              return ListTile(
+                title: Text(_files[index].name),
+                leading: FileParseUtil.parseIcon(
+                  name: _files[index].name,
+                  isDir: _files[index].isDir,
+                ),
+                subtitle: Text('${FileParseUtil.parseDate(_files[index].date)}'
+                    '${_files[index].isDir ? '' : '•'}'
+                    '${_files[index].isDir ? '' : FileParseUtil.parseLength(_files[index].length)}'),
+                onTap: () {},
+              );
+            },
+            itemCount: _files.length,
+          ),
+        ),
+        Container(
+          height: 60,
+          child: Center(
+            child: Text('共找到${_files.length}个文件'),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildSharedList(BuildContext context) {
+    return Column(
+      children: <Widget>[
+        Expanded(
+          child: ListView.builder(
+            physics: MIUIScrollPhysics(),
+            itemBuilder: (BuildContext context, int index) {
+              return ListTile(
+                title: Text(_sharedFiles[index].name),
+                leading: FileParseUtil.parseIcon(
+                  name: _sharedFiles[index].name,
+                  isDir: _sharedFiles[index].isDir,
+                ),
+                subtitle: Text(
+                    '${FileParseUtil.parseDate(_sharedFiles[index].date)}'
+                    '${_sharedFiles[index].isDir ? '' : '•'}'
+                    '${_sharedFiles[index].isDir ? '' : FileParseUtil.parseLength(_sharedFiles[index].length)}'),
+                onTap: () {},
+              );
+            },
+            itemCount: _sharedFiles.length,
+          ),
+        ),
+        Container(
+          height: 60,
+          child: Center(
+            child: Text('共找到${_sharedFiles.length}个文件'),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildLocalList(BuildContext context) {
+    return Column(
+      children: <Widget>[
+        Expanded(
+          child: ListView.builder(
+            physics: MIUIScrollPhysics(),
+            itemBuilder: (BuildContext context, int index) {
+              return ListTile(
+                title: Text(_localFiles[index].path),
+                onTap: () {},
+              );
+            },
+            itemCount: _localFiles.length,
+          ),
+        ),
+        Container(
+          height: 60,
+          child: Center(
+            child: Text('共找到${_localFiles.length}个文件'),
           ),
         ),
       ],
