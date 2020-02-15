@@ -9,8 +9,8 @@ import 'package:treex_app/transferSystem/uploadFile.dart';
 class UploadSystem {
   Future upload({
     bool share = true,
-    BuildContext context,
-    String filePath,
+    @required BuildContext context,
+    @required String filePath,
   }) async {
     final provider = Provider.of<AppProvider>(context, listen: false);
     UploadFile uploadFile = UploadFile(FileUtil.getName(filePath));

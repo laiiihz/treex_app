@@ -62,6 +62,12 @@ class _MessageViewState extends State<MessageViewWidget> {
           ),
           actions: <Widget>[
             IconButton(
+              icon: Icon(Icons.group),
+              onPressed: () {
+                Navigator.of(context).pushNamed('groupChannel');
+              },
+            ),
+            IconButton(
               icon: Hero(
                 tag: 'messageList',
                 child: Icon(AntDesign.solution1),

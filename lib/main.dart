@@ -14,6 +14,7 @@ import 'package:treex_app/UI/MainUI/extraPages/file/FilesType.dart';
 import 'package:treex_app/UI/MainUI/extraPages/file/FilesShared.dart';
 import 'package:treex_app/UI/MainUI/extraPages/friends/FriendsList.dart';
 import 'package:treex_app/UI/MainUI/extraPages/file/RecycleBin.dart';
+import 'package:treex_app/UI/MainUI/extraPages/friends/Group.dart';
 import 'package:treex_app/UI/MainUI/extraPages/transfer/Transfer.dart';
 import 'package:treex_app/UI/MainUI/tools/ScanTool.dart';
 import 'package:treex_app/UI/auth/Login.dart';
@@ -61,6 +62,7 @@ class MyApp extends StatelessWidget {
         'filesType': (context) => FilesTypePage(),
         'filesShared': (context) => FilesSharedPage(),
         'friendsList': (context) => FriendsListPage(),
+        'groupChannel': (context) => GroupPage(),
         'devTool': (context) => DevToolPage(),
       },
     );

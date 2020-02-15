@@ -42,6 +42,12 @@ class _FileListTileState extends State<FileListTileWidget> {
       });
     });
   }
+  @override
+  void dispose() {
+    
+    super.dispose();
+    print(widget.file.name+"dispose");
+  }
 
   @override
   Widget build(BuildContext context) {
