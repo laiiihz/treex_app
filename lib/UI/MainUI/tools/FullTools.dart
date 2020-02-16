@@ -36,6 +36,7 @@ class _FullToolsState extends State<FullToolsPage> {
 
   @override
   Widget build(BuildContext context) {
+    final provider = Provider.of<AppProvider>(context);
     return WillPopScope(
         child: Scaffold(
           backgroundColor: Colors.transparent,
