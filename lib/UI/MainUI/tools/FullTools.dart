@@ -7,6 +7,11 @@ import 'package:treex_app/Utils/brightnessUtil.dart';
 import 'package:treex_app/provider/AppProvider.dart';
 
 class FullToolsPage extends StatefulWidget {
+  FullToolsPage({
+    Key key,
+    @required this.color,
+  }) : super(key: key);
+  final Color color;
   @override
   State<StatefulWidget> createState() => _FullToolsState();
 }
@@ -17,9 +22,11 @@ class _FullToolsState extends State<FullToolsPage> {
   double _maskRadius = 300;
   double _maskOpacity = 0;
   Alignment _alignment = Alignment(0, 1.5);
+  Color _initColor;
   @override
   void initState() {
     super.initState();
+    _initColor = widget.color;
     Future.delayed(Duration.zero, () {
       setState(() {
         _maskWidth = MediaQuery.of(context).size.width;
@@ -27,6 +34,7 @@ class _FullToolsState extends State<FullToolsPage> {
         _maskRadius = 0;
         _alignment = Alignment(0, 0.9);
         _maskOpacity = 1;
+        _initColor = isDark(context) ? Colors.black87 : Colors.white70;
       });
       SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
         systemNavigationBarColor: Colors.black87,
@@ -36,7 +44,6 @@ class _FullToolsState extends State<FullToolsPage> {
 
   @override
   Widget build(BuildContext context) {
-    final provider = Provider.of<AppProvider>(context);
     return WillPopScope(
         child: Scaffold(
           backgroundColor: Colors.transparent,
@@ -62,7 +69,7 @@ class _FullToolsState extends State<FullToolsPage> {
                     ),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(_maskRadius),
-                      color: isDark(context) ? Colors.black87 : Colors.white70,
+                      color: _initColor,
                     ),
                   ),
                 ),
@@ -97,6 +104,7 @@ class _FullToolsState extends State<FullToolsPage> {
       _maskHeight = 58;
       _alignment = Alignment(0, 1.5);
       _maskOpacity = 0;
+      _initColor = widget.color;
     });
     final provider = Provider.of<AppProvider>(context, listen: false);
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(

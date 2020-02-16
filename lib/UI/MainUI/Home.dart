@@ -121,7 +121,9 @@ class _HomeState extends State<HomePage> {
               onPressed: () {
                 provider.changeFABDisplay(false);
                 Navigator.of(context).push(TransparentPageRoute(
-                  builder: (context) => FullToolsPage(),
+                  builder: (context) => FullToolsPage(
+                    color: provider.secondaryColor,
+                  ),
                 ));
               },
               heroTag: 'fab',
