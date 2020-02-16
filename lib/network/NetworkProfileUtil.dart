@@ -20,6 +20,14 @@ class NetworkProfileUtil extends NetworkUtilWithHeader {
       return UserProfile.fromDynamic(data);
     }
   }
+
+  Future setPhone(String phone) async {
+    dio.put('/api/treex/profile/phone?phone=$phone');
+  }
+
+  Future setEmail(String email) async {
+    dio.put('/api/treex/profile/email?email=$email');
+  }
 }
 
 class UserProfile {

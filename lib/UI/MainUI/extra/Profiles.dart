@@ -1,3 +1,4 @@
+import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_miui/flutter_miui.dart';
@@ -5,6 +6,7 @@ import 'package:provider/provider.dart';
 import 'package:treex_app/UI/widget/CardBar.dart';
 import 'package:treex_app/UI/widget/LOGO.dart';
 import 'package:treex_app/Utils/brightnessUtil.dart';
+import 'package:treex_app/network/NetworkProfileUtil.dart';
 import 'package:treex_app/provider/AppProvider.dart';
 
 class ProfilesPage extends StatefulWidget {
@@ -138,6 +140,7 @@ class _ProfilesState extends State<ProfilesPage> {
                   controller: _nameController,
                   decoration: InputDecoration(
                     labelText: '用户名',
+                    prefixIcon: Icon(Icons.account_circle),
                   ),
                 ),
               ),
@@ -146,7 +149,19 @@ class _ProfilesState extends State<ProfilesPage> {
                   controller: _phoneController,
                   decoration: InputDecoration(
                     labelText: '电话号码',
+                    prefixIcon: Icon(Icons.phone),
                   ),
+                  onSubmitted: (value) {
+                    NetworkProfileUtil(context).setPhone(value).then((_) {
+                      provider.setUserPhone(value);
+                      BotToast.showNotification(
+                        leading: (_) => Icon(Icons.phone),
+                        title: (_) => Text('电话号码修改成功'),
+                        trailing: (_) =>
+                            Icon(Icons.check_circle, color: Colors.green),
+                      );
+                    });
+                  },
                 ),
               ),
               TextFieldPadding(
@@ -154,7 +169,19 @@ class _ProfilesState extends State<ProfilesPage> {
                   controller: _emailController,
                   decoration: InputDecoration(
                     labelText: '邮箱',
+                    prefixIcon: Icon(Icons.email),
                   ),
+                  onSubmitted: (value) {
+                    NetworkProfileUtil(context).setEmail(value).then((_) {
+                      provider.setUserEmail(value);
+                      BotToast.showNotification(
+                        leading: (_) => Icon(Icons.email),
+                        title: (_) => Text('邮箱修改成功'),
+                        trailing: (_) =>
+                            Icon(Icons.check_circle, color: Colors.green),
+                      );
+                    });
+                  },
                 ),
               ),
               ListTile(

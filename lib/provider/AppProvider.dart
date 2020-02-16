@@ -121,6 +121,16 @@ class AppProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  setUserPhone(String phone) {
+    _userProfile.phone = phone;
+    notifyListeners();
+  }
+
+  setUserEmail(String email) {
+    _userProfile.email = email;
+    notifyListeners();
+  }
+
   File _avatarFile;
   File get avatarFile => _avatarFile;
   changeAvatarFile(File avatar) {
