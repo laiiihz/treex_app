@@ -19,6 +19,7 @@ class _ProfilesState extends State<ProfilesPage> {
   TextEditingController _phoneController = TextEditingController();
   TextEditingController _emailController = TextEditingController();
   double _avatarInitValueEdit = -50;
+  bool _phoneCheck = true;
   @override
   void initState() {
     super.initState();
@@ -150,18 +151,27 @@ class _ProfilesState extends State<ProfilesPage> {
                   decoration: InputDecoration(
                     labelText: '电话号码',
                     prefixIcon: Icon(Icons.phone),
+                    errorText: _phoneCheck ? null : '手机号码格式错误',
                   ),
-                  onSubmitted: (value) {
-                    NetworkProfileUtil(context).setPhone(value).then((_) {
-                      provider.setUserPhone(value);
-                      BotToast.showNotification(
-                        leading: (_) => Icon(Icons.phone),
-                        title: (_) => Text('电话号码修改成功'),
-                        trailing: (_) =>
-                            Icon(Icons.check_circle, color: Colors.green),
-                      );
+                  onChanged: (text) {
+                    String reg = RegExp(r'^(\+)?[0-9]{3,20}').stringMatch(text);
+                    setState(() {
+                      _phoneCheck = (reg != null && reg == text);
                     });
                   },
+                  onSubmitted: _phoneCheck
+                      ? (value) {
+                          NetworkProfileUtil(context).setPhone(value).then((_) {
+                            provider.setUserPhone(value);
+                            BotToast.showNotification( 
+                              leading: (_) => Icon(Icons.phone),
+                              title: (_) => Text('电话号码修改成功'),
+                              trailing: (_) =>
+                                  Icon(Icons.check_circle, color: Colors.green),
+                            );
+                          });
+                        }
+                      : null,
                 ),
               ),
               TextFieldPadding(
