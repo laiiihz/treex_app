@@ -34,7 +34,7 @@ class _FullToolsState extends State<FullToolsPage> {
         _maskRadius = 0;
         _alignment = Alignment(0, 0.9);
         _maskOpacity = 1;
-        _initColor = isDark(context) ? Colors.black87 : Colors.white70;
+        _initColor = isDark(context) ? Colors.black38 : Colors.white30;
       });
       SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
         systemNavigationBarColor: Colors.black87,

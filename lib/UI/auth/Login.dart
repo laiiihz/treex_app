@@ -266,18 +266,17 @@ class _LoginState extends State<LoginPage> {
           );
           break;
         case LoginResult.SUCCESS:
+        print('ok');
           final provider = Provider.of<AppProvider>(context, listen: false);
           if (provider.userProfile.avatar.isNotEmpty) {
             NetworkAvatarOrBackground(context)
                 .build(provider.userProfile.avatar, FileTypeAB.AVATAR)
                 .then((_) {
               NetworkAvatarOrBackground(context)
-                  .build(provider.userProfile.avatar, FileTypeAB.BACKGROUND)
-                  .then((_) {
-                Navigator.of(context).pushReplacementNamed('home');
-              });
+                  .build(provider.userProfile.avatar, FileTypeAB.BACKGROUND);
             });
           }
+          Navigator.of(context).pushReplacementNamed('home');
 
           break;
         case LoginResult.PASSWORD_WRONG:

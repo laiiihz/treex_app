@@ -49,6 +49,7 @@ class FileParseUtil {
         case 'png':
         case 'webp':
         case 'bmp':
+        case 'jpeg':
           return Icon(MaterialCommunityIcons.image, color: Colors.green);
         case 'txt':
           return Icon(MaterialCommunityIcons.text, color: Colors.grey);
@@ -60,6 +61,7 @@ class FileParseUtil {
         case 'mp4':
         case 'mkv':
         case 'mov':
+        case 'webm':
           return Icon(MaterialCommunityIcons.video, color: Colors.blueAccent);
         case 'apk':
         case 'xapk':
