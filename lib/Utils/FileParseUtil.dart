@@ -67,7 +67,13 @@ class FileParseUtil {
         case 'xapk':
           return Icon(MaterialCommunityIcons.android, color: Color(0xff3DDC84));
         case 'exe':
+        case 'msi':
+        case 'Appx':
           return Icon(MaterialCommunityIcons.windows, color: Colors.grey);
+        case 'deb':
+        case 'yum':
+          return Icon(MaterialCommunityIcons.package,
+              color: Colors.orangeAccent);
         case 'docx':
         case 'doc':
         case 'rtf':
@@ -89,6 +95,20 @@ class FileParseUtil {
           return Icon(MaterialCommunityIcons.file_pdf, color: Colors.grey);
         case 'cad':
           return Icon(MaterialCommunityIcons.file_cad, color: Colors.grey);
+        case 'html':
+          return Icon(MaterialCommunityIcons.language_html5,
+              color: Colors.orange);
+        case 'yaml':
+          return Icon(MaterialCommunityIcons.code_array, color: Colors.purple);
+        case 'bat':
+        case 'dll':
+          return Icon(MaterialCommunityIcons.settings_box, color: Colors.red);
+        case 'ps1':
+          return Icon(MaterialCommunityIcons.settings_box, color: Colors.blue);
+        case 'zip':
+        case 'rar':
+          return Icon(MaterialCommunityIcons.folder_zip, color: Colors.yellow);
+
         default:
           return Icon(MaterialCommunityIcons.file, color: Colors.blueGrey);
       }

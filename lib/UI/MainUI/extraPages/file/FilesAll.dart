@@ -35,7 +35,7 @@ class _FilesAllState extends State<FilesAllPage> {
     final provider = Provider.of<AppProvider>(context, listen: false);
     timer = Timer(
       Duration(milliseconds: 500),
-      () => _getFiles(context: context, path: provider.nowAllFilesPath),
+      () => _updateFiles(),
     );
   }
 
@@ -50,109 +50,122 @@ class _FilesAllState extends State<FilesAllPage> {
   Widget build(BuildContext context) {
     final provider = Provider.of<AppProvider>(context);
     return Scaffold(
-      body: CustomScrollView(
-        controller: _scrollController,
-        physics: MIUIScrollPhysics(),
-        slivers: <Widget>[
-          SliverAppBar(
-            pinned: true,
-            stretch: true,
-            floating: true,
-            actions: <Widget>[
-              PopupMenuButton<String>(
-                shape: MIUIMenuShape,
-                itemBuilder: (BuildContext context) {
-                  return [
-                    PopupMenuItem(child: Text('新建文件夹'), value: 'new'),
-                    PopupMenuItem(child: Text('上传文件'), value: 'upload'),
-                    PopupMenuItem(child: Text('上传文件夹'), value: 'folders'),
-                  ];
-                },
-                icon: Icon(MaterialCommunityIcons.cloud_upload),
-                onSelected: (value) {
-                  switch (value) {
-                    case 'new':
-                      showMIUIDialog(
-                        context: context,
-                        dyOffset: 0.5,
-                        content: NewFolderWidget(share: false),
-                        label: 'test',
-                      );
-                      break;
-                    case 'upload':
-                      FilePicker.getFilePath().then((file) {
-                        UploadSystem().upload(
+      body: RefreshIndicator(
+        child: CustomScrollView(
+          controller: _scrollController,
+          physics: MIUIScrollPhysics(),
+          slivers: <Widget>[
+            SliverAppBar(
+              pinned: true,
+              stretch: true,
+              floating: true,
+              actions: <Widget>[
+                PopupMenuButton<String>(
+                  shape: MIUIMenuShape,
+                  itemBuilder: (BuildContext context) {
+                    return [
+                      PopupMenuItem(child: Text('新建文件夹'), value: 'new'),
+                      PopupMenuItem(child: Text('上传文件'), value: 'upload'),
+                      PopupMenuItem(child: Text('上传文件夹'), value: 'folders'),
+                    ];
+                  },
+                  icon: Icon(MaterialCommunityIcons.cloud_upload),
+                  onSelected: (value) {
+                    switch (value) {
+                      case 'new':
+                        showMIUIDialog(
                           context: context,
-                          share: false,
-                          filePath: file,
+                          dyOffset: 0.5,
+                          content: NewFolderWidget(share: false),
+                          label: 'test',
                         );
-                      });
-                      break;
-                    case 'folders':
-                      break;
-                  }
-                },
-              ),
-              IconButton(
-                icon: AnimatedCrossFade(
-                  firstChild: Icon(Icons.view_list),
-                  secondChild: Icon(Icons.view_module),
-                  crossFadeState: _isGridView
-                      ? CrossFadeState.showFirst
-                      : CrossFadeState.showSecond,
-                  duration: Duration(milliseconds: 350),
+                        break;
+                      case 'upload':
+                        FilePicker.getFilePath().then((file) {
+                          UploadSystem().upload(
+                            context: context,
+                            share: false,
+                            filePath: file,
+                          );
+                        });
+                        break;
+                      case 'folders':
+                        break;
+                    }
+                  },
                 ),
-                onPressed: () {
-                  setState(() {
-                    _isGridView = !_isGridView;
-                    _buildKey = UniqueKey();
-                  });
-                },
-              ),
-            ],
-            flexibleSpace: FlexibleSpaceBar(
-              title: Text('文件管理'),
-              background: Stack(
-                children: <Widget>[
-                  LargeIconBackgroundWidget(
-                    tag: 'filesAll',
-                    icon: Icons.folder_open,
+                IconButton(
+                  icon: AnimatedCrossFade(
+                    firstChild: Icon(Icons.view_list),
+                    secondChild: Icon(Icons.view_module),
+                    crossFadeState: _isGridView
+                        ? CrossFadeState.showFirst
+                        : CrossFadeState.showSecond,
+                    duration: Duration(milliseconds: 350),
                   ),
-                  Positioned(
-                    left: 50,
-                    top: MediaQuery.of(context).padding.top + 10,
-                    child: AnimatedSwitcher(
-                      duration: Duration(milliseconds: 200),
-                      child:
-                          _loading ? CircularProgressIndicator() : Container(),
+                  onPressed: () {
+                    setState(() {
+                      _isGridView = !_isGridView;
+                      _buildKey = UniqueKey();
+                    });
+                  },
+                ),
+              ],
+              flexibleSpace: FlexibleSpaceBar(
+                title: Text('文件管理'),
+                background: Stack(
+                  children: <Widget>[
+                    LargeIconBackgroundWidget(
+                      tag: 'filesAll',
+                      icon: Icons.folder_open,
                     ),
-                  ),
-                ],
+                    Positioned(
+                      left: 50,
+                      top: MediaQuery.of(context).padding.top + 10,
+                      child: AnimatedSwitcher(
+                        duration: Duration(milliseconds: 200),
+                        child: _loading
+                            ? CircularProgressIndicator()
+                            : Container(),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              expandedHeight: 200,
+            ),
+            FileBackToolBarWidget(
+              showToolBar: provider.nowAllFilesParentPath != null,
+              goBack: () {
+                _getFiles(
+                    context: context, path: provider.nowAllFilesParentPath);
+              },
+              goRoot: () {
+                _getFiles(context: context, path: '.');
+              },
+              nowPath: provider.nowAllFilesPath,
+            ),
+            buildEmpty(_files.length == 0),
+            SliverToBoxAdapter(
+              child: AnimatedSwitcher(
+                duration: Duration(milliseconds: 300),
+                child: AnimationLimiter(
+                  key: _buildKey,
+                  child:
+                      _isGridView ? _buildGrid(context) : _buildList(context),
+                ),
               ),
             ),
-            expandedHeight: 200,
-          ),
-          FileBackToolBarWidget(
-            showToolBar: provider.nowAllFilesParentPath != null,
-            goBack: () {
-              _getFiles(context: context, path: provider.nowAllFilesParentPath);
-            },
-            goRoot: () {
-              _getFiles(context: context, path: '.');
-            },
-            nowPath: provider.nowAllFilesPath,
-          ),
-          buildEmpty(_files.length == 0),
-          SliverToBoxAdapter(
-            child: AnimatedSwitcher(
-              duration: Duration(milliseconds: 300),
-              child: AnimationLimiter(
-                key: _buildKey,
-                child: _isGridView ? _buildGrid(context) : _buildList(context),
-              ),
-            ),
-          ),
-        ],
+          ],
+        ),
+        onRefresh: () async {
+          await _getFiles(
+            context: context,
+            path: provider.nowAllFilesPath,
+          );
+        },
+        displacement: 100,
+        backgroundColor: provider.secondaryColor,
       ),
     );
   }
@@ -204,20 +217,19 @@ class _FilesAllState extends State<FilesAllPage> {
     );
   }
 
-  _getFiles({BuildContext context, String path}) {
+  _updateFiles() {
     _scrollController.animateTo(
-      -100,
+      -200,
       duration: Duration(milliseconds: 300),
       curve: Curves.easeInOutCubic,
     );
-    setState(() {
-      _loading = true;
-    });
-    NetFiles(context).files(path: path, share: false).then((filesFetch) {
+  }
+
+  _getFiles({BuildContext context, String path}) async {
+    await NetFiles(context).files(path: path, share: false).then((filesFetch) {
       setState(() {
         _files = filesFetch;
         _buildKey = UniqueKey();
-        _loading = false;
       });
     });
   }
