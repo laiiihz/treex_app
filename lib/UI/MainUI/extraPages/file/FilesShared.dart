@@ -32,11 +32,9 @@ class _FilesSharedState extends State<FilesSharedPage>
   bool _showSelectTool = false;
   Key _listKey = UniqueKey();
   Timer timer;
-  bool _loading = false;
   @override
   void initState() {
     super.initState();
-    final provider = Provider.of<AppProvider>(context, listen: false);
     timer = Timer(
       Duration(milliseconds: 500),
       () => _updateFiles(),
@@ -115,22 +113,8 @@ class _FilesSharedState extends State<FilesSharedPage>
                   ],
                   flexibleSpace: FlexibleSpaceBar(
                     title: Text('文件共享'),
-                    background: Stack(
-                      children: <Widget>[
-                        LargeIconBackgroundWidget(
-                            tag: 'share', icon: Icons.people),
-                        Positioned(
-                          left: 50,
-                          top: MediaQuery.of(context).padding.top + 10,
-                          child: AnimatedSwitcher(
-                            duration: Duration(milliseconds: 200),
-                            child: _loading
-                                ? CircularProgressIndicator()
-                                : Container(),
-                          ),
-                        ),
-                      ],
-                    ),
+                    background: LargeIconBackgroundWidget(
+                        tag: 'share', icon: Icons.people),
                   ),
                 ),
                 FileBackToolBarWidget(

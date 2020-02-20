@@ -28,11 +28,9 @@ class _FilesAllState extends State<FilesAllPage> {
   Key _buildKey = UniqueKey();
   ScrollController _scrollController = ScrollController();
   Timer timer;
-  bool _loading = false;
   @override
   void initState() {
     super.initState();
-    final provider = Provider.of<AppProvider>(context, listen: false);
     timer = Timer(
       Duration(milliseconds: 500),
       () => _updateFiles(),
@@ -113,23 +111,9 @@ class _FilesAllState extends State<FilesAllPage> {
               ],
               flexibleSpace: FlexibleSpaceBar(
                 title: Text('文件管理'),
-                background: Stack(
-                  children: <Widget>[
-                    LargeIconBackgroundWidget(
-                      tag: 'filesAll',
-                      icon: Icons.folder_open,
-                    ),
-                    Positioned(
-                      left: 50,
-                      top: MediaQuery.of(context).padding.top + 10,
-                      child: AnimatedSwitcher(
-                        duration: Duration(milliseconds: 200),
-                        child: _loading
-                            ? CircularProgressIndicator()
-                            : Container(),
-                      ),
-                    ),
-                  ],
+                background: LargeIconBackgroundWidget(
+                  tag: 'filesAll',
+                  icon: Icons.folder_open,
                 ),
               ),
               expandedHeight: 200,
