@@ -20,6 +20,7 @@ class _ProfilesState extends State<ProfilesPage> {
   TextEditingController _emailController = TextEditingController();
   double _avatarInitValueEdit = -50;
   bool _phoneCheck = true;
+  bool _emailCheck = true;
   @override
   void initState() {
     super.initState();
@@ -163,7 +164,7 @@ class _ProfilesState extends State<ProfilesPage> {
                       ? (value) {
                           NetworkProfileUtil(context).setPhone(value).then((_) {
                             provider.setUserPhone(value);
-                            BotToast.showNotification( 
+                            BotToast.showNotification(
                               leading: (_) => Icon(Icons.phone),
                               title: (_) => Text('电话号码修改成功'),
                               trailing: (_) =>
@@ -180,18 +181,28 @@ class _ProfilesState extends State<ProfilesPage> {
                   decoration: InputDecoration(
                     labelText: '邮箱',
                     prefixIcon: Icon(Icons.email),
+                    errorText: _emailCheck ? null : '邮箱格式错误',
                   ),
-                  onSubmitted: (value) {
-                    NetworkProfileUtil(context).setEmail(value).then((_) {
-                      provider.setUserEmail(value);
-                      BotToast.showNotification(
-                        leading: (_) => Icon(Icons.email),
-                        title: (_) => Text('邮箱修改成功'),
-                        trailing: (_) =>
-                            Icon(Icons.check_circle, color: Colors.green),
-                      );
+                  onChanged: (text) {
+                    String reg = RegExp(r'[\s\S]+[@][\s\S]+[.][\s\S]+')
+                        .stringMatch(text);
+                    setState(() {
+                      _emailCheck = (reg != null && reg == text);
                     });
                   },
+                  onSubmitted: _emailCheck
+                      ? (value) {
+                          NetworkProfileUtil(context).setEmail(value).then((_) {
+                            provider.setUserEmail(value);
+                            BotToast.showNotification(
+                              leading: (_) => Icon(Icons.email),
+                              title: (_) => Text('邮箱修改成功'),
+                              trailing: (_) =>
+                                  Icon(Icons.check_circle, color: Colors.green),
+                            );
+                          });
+                        }
+                      : null,
                 ),
               ),
               ListTile(
