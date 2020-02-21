@@ -11,6 +11,7 @@ import 'package:treex_app/UI/widget/LargeIconBackground.dart';
 import 'package:treex_app/Utils/SharedPreferenceUtils.dart';
 import 'package:treex_app/network/CheckConnection.dart';
 import 'package:treex_app/provider/AppProvider.dart';
+import 'package:vibration/vibration.dart';
 
 class NetworkPage extends StatefulWidget {
   @override
@@ -85,6 +86,7 @@ class _NetworkState extends State<NetworkPage> {
         children: <Widget>[
           FloatingActionButton(
             onPressed: () {
+              Vibration.vibrate(duration: 10);
               BotToast.showCustomLoading(toastBuilder: (_) {
                 return CircularProgressIndicator();
               });

@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:treex_app/UI/widget/ToolGridItem.dart';
 import 'package:treex_app/Utils/brightnessUtil.dart';
 import 'package:treex_app/provider/AppProvider.dart';
+import 'package:vibration/vibration.dart';
 
 class FullToolsPage extends StatefulWidget {
   FullToolsPage({
@@ -65,6 +66,7 @@ class _FullToolsState extends State<FullToolsPage> {
                         willPopFunc().then((_) {
                           Navigator.of(context).pop();
                         });
+                        Vibration.vibrate(pattern: [200, 20, 300, 10]);
                       },
                     ),
                     decoration: BoxDecoration(
@@ -110,7 +112,9 @@ class _FullToolsState extends State<FullToolsPage> {
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
       systemNavigationBarColor: provider.primaryColor,
     ));
-    provider.changeFABDisplay(true);
+    Future.delayed(Duration(milliseconds: 200), () {
+      provider.changeFABDisplay(true);
+    });
     await Future.delayed(Duration(milliseconds: 520), () {});
     return true;
   }

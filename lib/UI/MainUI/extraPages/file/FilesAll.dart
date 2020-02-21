@@ -16,6 +16,7 @@ import 'package:treex_app/network/NetworkFileEntity.dart';
 import 'package:treex_app/network/NetworkFileUtil.dart';
 import 'package:treex_app/provider/AppProvider.dart';
 import 'package:treex_app/transferSystem/uploadSystem.dart';
+import 'package:vibration/vibration.dart';
 
 class FilesAllPage extends StatefulWidget {
   @override
@@ -207,6 +208,7 @@ class _FilesAllState extends State<FilesAllPage> {
       duration: Duration(milliseconds: 300),
       curve: Curves.easeInOutCubic,
     );
+    Vibration.vibrate(pattern: [0, 10, 250, 20]);
   }
 
   _getFiles({BuildContext context, String path}) async {
@@ -215,6 +217,8 @@ class _FilesAllState extends State<FilesAllPage> {
         _files = filesFetch;
         _buildKey = UniqueKey();
       });
+    }).then((_) {
+      Vibration.vibrate(duration: 20);
     });
   }
 }

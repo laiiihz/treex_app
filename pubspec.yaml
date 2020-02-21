@@ -48,6 +48,7 @@ dependencies:
   dio_http2_adapter:
   open_file:
   sticky_headers:
+  vibration:
 
 dev_dependencies:
   flutter_test:

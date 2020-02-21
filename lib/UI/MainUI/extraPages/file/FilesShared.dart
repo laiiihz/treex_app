@@ -18,6 +18,7 @@ import 'package:treex_app/network/NetworkFileEntity.dart';
 import 'package:treex_app/network/NetworkFileUtil.dart';
 import 'package:treex_app/provider/AppProvider.dart';
 import 'package:treex_app/transferSystem/uploadSystem.dart';
+import 'package:vibration/vibration.dart';
 
 class FilesSharedPage extends StatefulWidget {
   @override
@@ -242,6 +243,7 @@ class _FilesSharedState extends State<FilesSharedPage>
       duration: Duration(milliseconds: 300),
       curve: Curves.easeInOutCubic,
     );
+    Vibration.vibrate(pattern: [0,10,250,20]);
   }
 
   Future _getFiles({BuildContext context, String path}) async {
@@ -250,6 +252,8 @@ class _FilesSharedState extends State<FilesSharedPage>
         files = filesFetch;
         _listKey = UniqueKey();
       });
+    }).then((_) {
+      Vibration.vibrate(duration: 20);
     });
   }
 }

@@ -9,6 +9,7 @@ import 'package:treex_app/network/Enums.dart';
 import 'package:treex_app/network/NetworkAvatarOrBackground.dart';
 import 'package:treex_app/provider/AppProvider.dart';
 import 'package:treex_app/theme/Iconfont.dart';
+import 'package:vibration/vibration.dart';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -193,6 +194,7 @@ class _LoginState extends State<LoginPage> {
                 ),
                 onPressed: _canLoginPressed
                     ? () {
+                      Vibration.vibrate(duration: 30);
                         checkLogin(context);
                       }
                     : null,

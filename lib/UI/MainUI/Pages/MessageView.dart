@@ -3,6 +3,7 @@ import 'package:flutter_icons/flutter_icons.dart';
 import 'package:flutter_miui/flutter_miui.dart';
 import 'package:treex_app/UI/MainUI/extraPages/friends/SingleFriendView.dart';
 import 'package:treex_app/UI/widget/LargeIconBackground.dart';
+import 'package:vibration/vibration.dart';
 
 class MessageViewWidget extends StatefulWidget {
   @override
@@ -30,6 +31,7 @@ class _MessageViewState extends State<MessageViewWidget> {
         }
       } else {
         if (!lockDown) {
+          Vibration.vibrate(duration: 10);
           lockDown = true;
           setState(() {
             showIcon = true;
