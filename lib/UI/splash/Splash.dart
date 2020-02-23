@@ -14,7 +14,7 @@ class _SplashState extends State<SplashPage> {
     super.initState();
     //Time to Live func
     functionInit() async {
-      await Shared.init(context).then((share) {
+      await Shared.init(context).then((share) async {
         _shared = share;
         _shared
           ..readTransparent()
@@ -29,8 +29,11 @@ class _SplashState extends State<SplashPage> {
           ..readToken()
           ..readVibrationState()
           ..readDevTools();
-      }).then((_) async {
-        await Future.delayed(Duration(seconds: 3));
+        await _shared.readFastInit().then((state) async {
+          if (!state) {
+            await Future.delayed(Duration(seconds: 3));
+          }
+        });
       });
 
       return;

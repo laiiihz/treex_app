@@ -185,6 +185,16 @@ class _SettingsState extends State<SettingsPage> {
                 },
               ),
               ListTitleWidget(title: '其他'),
+              SwitchListTile(
+                contentPadding: edgeInsetsGeometryCurved(context),
+                value: provider.fastInit,
+                title: Text('Quick Startup™'),
+                subtitle: Text('快速启动'),
+                onChanged: (state) {
+                  provider.setFastInit(state);
+                  _shared.writeFastInit(state);
+                },
+              ),
               ListTile(
                 onTap: () {
                   BotToast.showText(text: 'IN DEVELOPMENT');
