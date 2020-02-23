@@ -47,7 +47,36 @@ class _SafetySettingsState extends State<SafetySettingsPage> {
                   '清空所有云端数据',
                   style: TextStyle(color: Colors.pink),
                 ),
-                onTap: () {},
+                onTap: () {
+                  showDialog(
+                    context: context,
+                    child: AlertDialog(
+                      shape: MIUIMenuShape,
+                      title: Text(
+                        '清空所有云端数据',
+                        style: TextStyle(
+                          color: Colors.pink,
+                        ),
+                      ),
+                      actions: <Widget>[
+                        FlatButton(
+                          onPressed: () {},
+                          child: Text(
+                            '取消',
+                            style: TextStyle(
+                              color: Colors.pink,
+                            ),
+                          ),
+                        ),
+                        RaisedButton(
+                          color: Colors.pink,
+                          onPressed: () {},
+                          child: Text('确认'),
+                        ),
+                      ],
+                    ),
+                  );
+                },
               ),
             ]),
           ),

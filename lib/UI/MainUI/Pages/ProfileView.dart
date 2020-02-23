@@ -153,7 +153,14 @@ class _ProfileViewState extends State<ProfileViewWidget> {
                         },
                         text: '安全设置'),
                     ProfileGridWidget(
-                        icon: Icon(Icons.message), onTap: () {}, text: '消息设置'),
+                        icon: Hero(
+                          tag: 'message',
+                          child: Icon(Icons.message),
+                        ),
+                        onTap: () {
+                          Navigator.of(context).pushNamed('message');
+                        },
+                        text: '消息设置'),
                     ProfileGridWidget(
                         icon: Hero(
                           tag: 'settings',
