@@ -8,3 +8,15 @@ class DownloadFile {
     cancelToken = CancelToken();
   }
 }
+
+class MultiPartDownloadFile {
+  int length;
+  List<MultiSinglePart> parts;
+  make(){
+    //TODO make part
+  }
+}
+
+class MultiSinglePart{
+
+}

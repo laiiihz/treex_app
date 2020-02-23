@@ -17,8 +17,8 @@ class DownloadSystem {
       '/api/treex/${share ? 'share' : 'file'}/download?path=$path',
       file.path,
       onReceiveProgress: (value, all) {
-        fileUtil.provider
-            .setDownloadValue(value / all, fileUtil.provider.downloadTaskNumber - 1);
+        fileUtil.provider.setDownloadValue(
+            value / all, fileUtil.provider.downloadTaskNumber - 1);
       },
       cancelToken: downloadFile.cancelToken,
     ).catchError((e) {
