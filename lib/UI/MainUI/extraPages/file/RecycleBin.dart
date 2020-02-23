@@ -9,6 +9,7 @@ import 'package:treex_app/UI/widget/LargeIconBackground.dart';
 import 'package:treex_app/network/NetworkFileEntity.dart';
 import 'package:treex_app/network/NetworkFileUtil.dart';
 import 'package:treex_app/provider/AppProvider.dart';
+import 'package:vibration/vibration.dart';
 
 class RecycleBinPage extends StatefulWidget {
   @override
@@ -80,6 +81,7 @@ class _RecycleBinState extends State<RecycleBinPage> {
                               looping: true,
                               onSelectedItemChanged: (value) {
                                 print(value);
+                                Vibration.vibrate(duration: 5);
                               },
                               children: [
                                 Text('5天'),
@@ -132,7 +134,8 @@ class _RecycleBinState extends State<RecycleBinPage> {
           ],
         ),
         onRefresh: () async => await _getRecycleFiles(),
-        color: provider.secondaryColor,
+        color: provider.primaryColor,
+        backgroundColor: provider.secondaryColor,
       ),
     );
   }
@@ -143,12 +146,18 @@ class _RecycleBinState extends State<RecycleBinPage> {
       duration: Duration(milliseconds: 500),
       curve: Curves.easeInOutCubic,
     );
+    Vibration.vibrate(pattern: [0, 10, 250, 20]);
   }
 
-  Future _getRecycleFiles() async => NetFiles(context).recycleFiles().then(
-        (files) => setState(() {
-          _files = files;
-          _listKey = UniqueKey();
-        }),
-      );
+  Future _getRecycleFiles() async => NetFiles(context)
+          .recycleFiles()
+          .then(
+            (files) => setState(() {
+              _files = files;
+              _listKey = UniqueKey();
+            }),
+          )
+          .then((_) {
+        Vibration.vibrate(duration: 20);
+      });
 }

@@ -150,6 +150,7 @@ class _FilesAllState extends State<FilesAllPage> {
           );
         },
         displacement: 100,
+        color: provider.primaryColor,
         backgroundColor: provider.secondaryColor,
       ),
     );

@@ -144,6 +144,7 @@ class _FilesSharedState extends State<FilesSharedPage>
             onRefresh: () async {
               await _getFiles(context: context, path: provider.nowSharePath);
             },
+            color: provider.primaryColor,
             backgroundColor: provider.secondaryColor,
           ),
           //SELECTION TOOLS
@@ -243,7 +244,7 @@ class _FilesSharedState extends State<FilesSharedPage>
       duration: Duration(milliseconds: 300),
       curve: Curves.easeInOutCubic,
     );
-    Vibration.vibrate(pattern: [0,10,250,20]);
+    Vibration.vibrate(pattern: [0, 10, 250, 20]);
   }
 
   Future _getFiles({BuildContext context, String path}) async {
