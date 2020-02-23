@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_miui/flutter_miui.dart';
 import 'package:provider/provider.dart';
+import 'package:treex_app/UI/MainUI/extraPages/friends/widget/TreexChatBox.dart';
 import 'package:treex_app/Utils/HideSoftKeyboard.dart';
 import 'package:treex_app/provider/AppProvider.dart';
 
@@ -47,7 +48,9 @@ class _GroupState extends State<GroupPage> {
               reverse: true,
               controller: _scrollController,
               itemBuilder: (BuildContext context, int index) {
-                return Text(_chatMessages[index]);
+                return TreexChatBox(
+                  message: _chatMessages[index],
+                );
               },
               itemCount: _chatMessages.length,
             ),
