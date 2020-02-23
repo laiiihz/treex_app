@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_miui/flutter_miui.dart';
 import 'package:treex_app/UI/MainUI/extraPages/transfer/TransferDownload.dart';
 import 'package:treex_app/UI/MainUI/extraPages/transfer/TransferUpload.dart';
+import 'package:treex_app/transferSystem/downloadSystem.dart';
 
 class TransferPage extends StatefulWidget {
   @override
@@ -30,6 +31,13 @@ class _TransferState extends State<TransferPage> with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          DownloadSystemV2(context: context).downloadInit(path: './ph1oto.ps1');
+          DownloadSystemV2().downloadV2();
+        },
+        child: Icon(Icons.developer_mode),
+      ),
       appBar: AppBar(
         title: Text('传输列表'),
         bottom: TabBar(

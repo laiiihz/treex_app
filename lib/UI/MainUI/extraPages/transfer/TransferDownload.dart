@@ -13,7 +13,7 @@ class _TransferDownloadState extends State<TransferDownloadPage> {
   @override
   Widget build(BuildContext context) {
     final provider = Provider.of<AppProvider>(context);
-    return provider.downloadTaskNumber == 0
+    return provider.downloadingFiles.length == 0
         ? Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
@@ -25,10 +25,10 @@ class _TransferDownloadState extends State<TransferDownloadPage> {
             physics: MIUIScrollPhysics(),
             itemBuilder: (BuildContext context, int index) {
               return TransferDownloadListTileWidget(
-                downloadFile: provider.downloadFiles[index],
+                downloadFile: provider.downloadingFiles[index],
               );
             },
-            itemCount: provider.downloadTaskNumber,
+            itemCount: provider.downloadingFiles.length,
           );
   }
 }

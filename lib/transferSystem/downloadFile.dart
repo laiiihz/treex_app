@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:flutter/material.dart';
 
 class DownloadFile {
   double value;
@@ -11,12 +12,21 @@ class DownloadFile {
 
 class MultiPartDownloadFile {
   int length;
+  String name;
+  String path;
+  double value;
+  CancelToken cancelToken;
   List<MultiSinglePart> parts;
-  make(){
+  MultiPartDownloadFile({
+    @required this.length,
+    @required this.name,
+    @required this.path,
+    @required this.cancelToken,
+  }) {}
+
+  make() {
     //TODO make part
   }
 }
 
-class MultiSinglePart{
-
-}
+class MultiSinglePart {}

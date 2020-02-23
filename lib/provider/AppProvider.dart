@@ -207,4 +207,16 @@ class AppProvider extends ChangeNotifier {
     _vibrationIsOpen = state;
     notifyListeners();
   }
+
+  List<MultiPartDownloadFile> _downloadingFiles = [];
+  List<MultiPartDownloadFile> get downloadingFiles => _downloadingFiles;
+  addDownloadTask(MultiPartDownloadFile file) {
+    _downloadingFiles.add(file);
+    notifyListeners();
+  }
+
+  deleteDownloadTaskAt(MultiPartDownloadFile file) {
+    _downloadingFiles.remove(file);
+    notifyListeners();
+  }
 }
