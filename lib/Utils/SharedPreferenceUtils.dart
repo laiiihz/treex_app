@@ -136,6 +136,16 @@ class Shared extends SharedBase {
   Future readVibrationState() async {
     provider.setVibrationState(_sharedPreferences.getBool('vibration') ?? true);
   }
+
+  Future writeFastInit(bool state) async {
+    _sharedPreferences.setBool('fastInit', state);
+  }
+
+  Future<bool> readFastInit() async {
+    bool state = _sharedPreferences.getBool('fastInit') ?? false;
+    provider.setFastInit(state);
+    return state;
+  }
 }
 
 ///system 0

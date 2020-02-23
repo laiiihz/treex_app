@@ -201,6 +201,13 @@ class AppProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  bool _fastInit = false;
+  get fastInit => _fastInit;
+  setFastInit(bool state) {
+    _fastInit = state;
+    notifyListeners();
+  }
+
   bool _vibrationIsOpen = true;
   get vibrationIsOpen => _vibrationIsOpen;
   setVibrationState(bool state) {
