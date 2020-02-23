@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:flutter_miui/flutter_miui.dart';
 import 'package:provider/provider.dart';
+import 'package:treex_app/UI/MainUI/extra/Network.dart';
 import 'package:treex_app/UI/MainUI/tools/QRCodeProfile.dart';
 import 'package:treex_app/UI/widget/CardBar.dart';
 import 'package:treex_app/UI/widget/ProfileGrid.dart';
@@ -132,7 +133,9 @@ class _ProfileViewState extends State<ProfileViewWidget> {
                   children: <Widget>[
                     ProfileGridWidget(
                       onTap: () {
-                        Navigator.of(context).pushNamed('network');
+                        Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) => NetworkPage(enabled: false),
+                        ));
                       },
                       icon: Hero(
                         tag: 'network',

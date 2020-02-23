@@ -14,6 +14,11 @@ import 'package:treex_app/provider/AppProvider.dart';
 import 'package:vibration/vibration.dart';
 
 class NetworkPage extends StatefulWidget {
+  NetworkPage({
+    Key key,
+    this.enabled = true,
+  }) : super(key: key);
+  final bool enabled;
   @override
   State<StatefulWidget> createState() => _NetworkState();
 }
@@ -109,18 +114,20 @@ class _NetworkState extends State<NetworkPage> {
             heroTag: 'test',
           ),
           SizedBox(width: 10),
-          FloatingActionButton.extended(
-            onPressed: () {
-              _shared.writeIsHttps(_isHttpsOn);
-              _shared.writeNetworkAddr(_ipTextEditController.text);
-              _shared.writeNetworkPort(_portEditController.text);
-              provider.changeHttpsStatus(_isHttpsOn);
-              provider.changeNetworkAddr(_ipTextEditController.text);
-              provider.changeNetworkPort(_portEditController.text);
-            },
-            label: Text('保存'),
-            heroTag: 'fab',
-          ),
+          widget.enabled
+              ? FloatingActionButton.extended(
+                  onPressed: () {
+                    _shared.writeIsHttps(_isHttpsOn);
+                    _shared.writeNetworkAddr(_ipTextEditController.text);
+                    _shared.writeNetworkPort(_portEditController.text);
+                    provider.changeHttpsStatus(_isHttpsOn);
+                    provider.changeNetworkAddr(_ipTextEditController.text);
+                    provider.changeNetworkPort(_portEditController.text);
+                  },
+                  label: Text('保存'),
+                  heroTag: 'fab',
+                )
+              : SizedBox(),
         ],
       ),
       body: Column(
@@ -166,6 +173,7 @@ class _NetworkState extends State<NetworkPage> {
                   delegate: SliverChildListDelegate([
                     TextFieldPadding(
                       child: TextField(
+                        enabled: widget.enabled,
                         controller: _ipTextEditController,
                         decoration: InputDecoration(
                           labelText: '服务器地址或IP',
@@ -176,16 +184,20 @@ class _NetworkState extends State<NetworkPage> {
                       child: Row(
                         children: <Widget>[
                           Checkbox(
-                              value: _isHttpsOn,
-                              onChanged: (value) {
-                                setState(() {
-                                  _isHttpsOn = value;
-                                });
-                              }),
+                            value: _isHttpsOn,
+                            onChanged: widget.enabled
+                                ? (value) {
+                                    setState(() {
+                                      _isHttpsOn = value;
+                                    });
+                                  }
+                                : null,
+                          ),
                           Text('HTTPS'),
                           Spacer(),
                           Expanded(
                             child: TextField(
+                              enabled: widget.enabled,
                               controller: _portEditController,
                               decoration: InputDecoration(labelText: '端口'),
                             ),
