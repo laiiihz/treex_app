@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:flutter_miui/flutter_miui.dart';
+import 'package:provider/provider.dart';
 import 'package:treex_app/UI/MainUI/extraPages/friends/SingleFriendView.dart';
 import 'package:treex_app/UI/widget/LargeIconBackground.dart';
+import 'package:treex_app/provider/AppProvider.dart';
 import 'package:vibration/vibration.dart';
 
 class MessageViewWidget extends StatefulWidget {
@@ -19,6 +21,11 @@ class _MessageViewState extends State<MessageViewWidget> {
     super.initState();
     bool lockUp = false;
     bool lockDown = false;
+    AppProvider provider;
+    Future.delayed(
+      Duration.zero,
+      () => provider = Provider.of<AppProvider>(context, listen: false),
+    );
     _scrollController.addListener(() {
       var offset = _scrollController.offset;
       if (offset < 145) {
@@ -31,7 +38,7 @@ class _MessageViewState extends State<MessageViewWidget> {
         }
       } else {
         if (!lockDown) {
-          Vibration.vibrate(duration: 10);
+          if (provider.vibrationIsOpen) Vibration.vibrate(duration: 10);
           lockDown = true;
           setState(() {
             showIcon = true;

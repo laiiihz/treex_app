@@ -9,6 +9,7 @@ import 'package:treex_app/UI/widget/ListTitle.dart';
 import 'package:treex_app/Utils/SharedPreferenceUtils.dart';
 import 'package:treex_app/Utils/brightnessUtil.dart';
 import 'package:treex_app/provider/AppProvider.dart';
+import 'package:vibration/vibration.dart';
 
 class SettingsPage extends StatefulWidget {
   @override
@@ -166,6 +167,21 @@ class _SettingsState extends State<SettingsPage> {
                 onChanged: (platform) {
                   provider.changeIOSPlatform(platform);
                   _shared.writeSlideBackMode(platform);
+                },
+              ),
+              ListTitleWidget(title: '体感'),
+              SwitchListTile(
+                contentPadding: edgeInsetsGeometryCurved(context),
+                title: Text('Motion Sense™'),
+                subtitle: Text('动态调节震动水平'),
+                value: provider.vibrationIsOpen,
+                onChanged: (value) {
+                  if (value) {
+                    Vibration.vibrate(
+                        pattern: [0, 20, 100, 20, 300, 10, 100, 20]);
+                  }
+                  provider.setVibrationState(value);
+                  _shared.writeVibrationState(value);
                 },
               ),
               ListTitleWidget(title: '其他'),

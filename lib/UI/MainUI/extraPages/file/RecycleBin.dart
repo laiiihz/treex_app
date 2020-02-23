@@ -141,23 +141,27 @@ class _RecycleBinState extends State<RecycleBinPage> {
   }
 
   _updateRecycleBin() {
+    final provider = Provider.of<AppProvider>(context, listen: false);
     _scrollController.animateTo(
       -200,
       duration: Duration(milliseconds: 500),
       curve: Curves.easeInOutCubic,
     );
-    Vibration.vibrate(pattern: [0, 10, 250, 20]);
+    if (provider.vibrationIsOpen) Vibration.vibrate(pattern: [0, 10, 250, 20]);
   }
 
-  Future _getRecycleFiles() async => NetFiles(context)
-          .recycleFiles()
-          .then(
-            (files) => setState(() {
-              _files = files;
-              _listKey = UniqueKey();
-            }),
-          )
-          .then((_) {
-        Vibration.vibrate(duration: 20);
-      });
+  Future _getRecycleFiles() async {
+    final provider = Provider.of<AppProvider>(context, listen: false);
+    NetFiles(context)
+        .recycleFiles()
+        .then(
+          (files) => setState(() {
+            _files = files;
+            _listKey = UniqueKey();
+          }),
+        )
+        .then((_) {
+      if (provider.vibrationIsOpen) Vibration.vibrate(duration: 20);
+    });
+  }
 }

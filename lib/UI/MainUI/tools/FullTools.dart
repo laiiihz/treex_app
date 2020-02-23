@@ -45,6 +45,7 @@ class _FullToolsState extends State<FullToolsPage> {
 
   @override
   Widget build(BuildContext context) {
+    final provider = Provider.of<AppProvider>(context);
     return WillPopScope(
         child: Scaffold(
           backgroundColor: Colors.transparent,
@@ -66,7 +67,8 @@ class _FullToolsState extends State<FullToolsPage> {
                         willPopFunc().then((_) {
                           Navigator.of(context).pop();
                         });
-                        Vibration.vibrate(pattern: [200, 20, 300, 10]);
+                        if (provider.vibrationIsOpen)
+                          Vibration.vibrate(pattern: [200, 20, 300, 10]);
                       },
                     ),
                     decoration: BoxDecoration(
