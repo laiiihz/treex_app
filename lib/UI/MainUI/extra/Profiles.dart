@@ -2,6 +2,7 @@ import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_miui/flutter_miui.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 import 'package:treex_app/UI/widget/CardBar.dart';
 import 'package:treex_app/UI/widget/LOGO.dart';
@@ -222,18 +223,41 @@ class _ProfilesState extends State<ProfilesPage> {
 
   showAvatarChooser() {
     showMIUIDialog(
-        context: context,
-        dyOffset: 0.5,
-        content: Container(
-          height: 100,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: <Widget>[
-              IconButton(icon: Icon(Icons.insert_photo), onPressed: () {}),
-              IconButton(icon: Icon(Icons.camera_alt), onPressed: () {}),
-            ],
-          ),
+      context: context,
+      dyOffset: 0.5,
+      content: Container(
+        height: 100,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: <Widget>[
+            IconButton(
+              icon: Icon(Icons.insert_photo),
+              onPressed: () {
+                ImagePicker.pickImage(source: ImageSource.gallery).then((pic) {
+                  if (pic == null)
+                    BotToast.showNotification(
+                      leading: (_) => Icon(Icons.warning),
+                      title: (_) => Text('未选择图片'),
+                    );
+                });
+              },
+            ),
+            IconButton(
+              icon: Icon(Icons.camera_alt),
+              onPressed: () {
+                ImagePicker.pickImage(source: ImageSource.camera).then((pic) {
+                  if (pic == null)
+                    BotToast.showNotification(
+                      leading: (_) => Icon(Icons.warning),
+                      title: (_) => Text('未拍摄图片'),
+                    );
+                });
+              },
+            ),
+          ],
         ),
-        label: 'edit');
+      ),
+      label: 'edit',
+    );
   }
 }
