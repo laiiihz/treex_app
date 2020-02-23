@@ -120,7 +120,8 @@ class _HomeState extends State<HomePage> {
               child: Icon(Icons.add),
               key: _customKey,
               onPressed: () {
-                Vibration.vibrate(pattern: [0,10,400,5]);
+                if (provider.vibrationIsOpen)
+                  Vibration.vibrate(pattern: [0, 10, 400, 5]);
                 provider.changeFABDisplay(false);
                 Navigator.of(context).push(TransparentPageRoute(
                   builder: (context) => FullToolsPage(

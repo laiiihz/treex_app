@@ -204,22 +204,24 @@ class _FilesAllState extends State<FilesAllPage> {
   }
 
   _updateFiles() {
+    final provider = Provider.of<AppProvider>(context, listen: false);
     _scrollController.animateTo(
       -200,
       duration: Duration(milliseconds: 300),
       curve: Curves.easeInOutCubic,
     );
-    Vibration.vibrate(pattern: [0, 10, 250, 20]);
+    if (provider.vibrationIsOpen) Vibration.vibrate(pattern: [0, 10, 250, 20]);
   }
 
   _getFiles({BuildContext context, String path}) async {
+    final provider = Provider.of<AppProvider>(context, listen: false);
     await NetFiles(context).files(path: path, share: false).then((filesFetch) {
       setState(() {
         _files = filesFetch;
         _buildKey = UniqueKey();
       });
     }).then((_) {
-      Vibration.vibrate(duration: 20);
+      if (provider.vibrationIsOpen) Vibration.vibrate(duration: 20);
     });
   }
 }

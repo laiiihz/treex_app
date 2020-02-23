@@ -128,6 +128,14 @@ class Shared extends SharedBase {
   Future readToken() async {
     provider.setToken(_sharedPreferences.getString('token') ?? '');
   }
+
+  Future writeVibrationState(bool state) async {
+    _sharedPreferences.setBool('vibration', state);
+  }
+
+  Future readVibrationState() async {
+    provider.setVibrationState(_sharedPreferences.getBool('vibration') ?? true);
+  }
 }
 
 ///system 0

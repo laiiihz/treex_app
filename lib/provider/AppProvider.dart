@@ -200,4 +200,11 @@ class AppProvider extends ChangeNotifier {
     _nowAllFilesPath = path;
     notifyListeners();
   }
+
+  bool _vibrationIsOpen = true;
+  get vibrationIsOpen => _vibrationIsOpen;
+  setVibrationState(bool state) {
+    _vibrationIsOpen = state;
+    notifyListeners();
+  }
 }

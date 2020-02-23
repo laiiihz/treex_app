@@ -27,6 +27,7 @@ class _SplashState extends State<SplashPage> {
           ..readNetworkAddr()
           ..readNetworkPort()
           ..readToken()
+          ..readVibrationState()
           ..readDevTools();
       }).then((_) async {
         await Future.delayed(Duration(seconds: 3));
