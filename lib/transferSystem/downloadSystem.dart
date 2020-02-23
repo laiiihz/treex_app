@@ -36,12 +36,33 @@ class DownloadSystem {
 
 class DownloadSystemV2 {
   BuildContext context;
-  DownloadSystemV2({this.context}) {}
+  DownloadSystemV2({this.context});
+  MultiPartDownloadFile _multiPartDownloadFile;
   Future downloadV2({
-    BuildContext context,
     String path,
     bool share = false,
-  }) async {}
+  }) async {
+    NetworkUtilWithHeader networkUtilWithHeader =
+        NetworkUtilWithHeader(context);
+    AppProvider provider = networkUtilWithHeader.provider;
+    final nowFile = provider.downloadingFiles[
+        provider.downloadingFiles.indexOf(_multiPartDownloadFile)];
+    if (nowFile.single) {
+      //single file download
+      FileUtil fileUtil = await FileUtil.build(context);
+      File file = await fileUtil.getFile(path, share: share);
+      networkUtilWithHeader.dio.download(
+        '/api/treex/${share ? 'share' : 'file'}/download?path=$path',
+        file.path,
+        onReceiveProgress: (value, all) {
+          provider.setSingleFileDownloadValue(value / all,
+              provider.downloadingFiles.indexOf(_multiPartDownloadFile));
+        },
+      );
+    } else {
+      //multipart file
+    }
+  }
 
   Future downloadInit({
     @required String path,
@@ -65,13 +86,14 @@ class DownloadSystemV2 {
     dio.options.headers.addEntries([MapEntry('Range', 'bytes=0-0')]);
     await dio.get('/api/treex/file/download?path=$path').then((response) {
       String rawRange = response.headers['content-range'][0];
-      MultiPartDownloadFile multiPartDownloadFile = MultiPartDownloadFile(
+      _multiPartDownloadFile = MultiPartDownloadFile(
         length: _parseRange(rawRange),
         name: 'ph1oto.ps1',
         cancelToken: CancelToken(),
         path: path,
       );
-      networkUtilWithHeader.provider.addDownloadTask(multiPartDownloadFile);
+
+      networkUtilWithHeader.provider.addDownloadTask(_multiPartDownloadFile);
       BotToast.showNotification(title: (_) => Text('创建下载任务成功'));
     });
   }

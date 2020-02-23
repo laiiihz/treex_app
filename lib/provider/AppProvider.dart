@@ -219,4 +219,9 @@ class AppProvider extends ChangeNotifier {
     _downloadingFiles.remove(file);
     notifyListeners();
   }
+
+  setSingleFileDownloadValue(double value, int index) {
+    _downloadingFiles[index].value = value;
+    notifyListeners();
+  }
 }

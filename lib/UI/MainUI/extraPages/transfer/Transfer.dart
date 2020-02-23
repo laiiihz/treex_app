@@ -33,8 +33,12 @@ class _TransferState extends State<TransferPage> with TickerProviderStateMixin {
     return Scaffold(
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          DownloadSystemV2(context: context).downloadInit(path: './ph1oto.ps1');
-          DownloadSystemV2().downloadV2();
+          DownloadSystemV2 downloadSystemV2 =
+              DownloadSystemV2(context: context);
+
+          downloadSystemV2.downloadInit(path: './30.bin').then((_) {
+            downloadSystemV2.downloadV2(path: './30.bin');
+          });
         },
         child: Icon(Icons.developer_mode),
       ),
