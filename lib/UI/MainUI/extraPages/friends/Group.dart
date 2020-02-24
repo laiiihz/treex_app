@@ -45,6 +45,7 @@ class _GroupState extends State<GroupPage> {
           Expanded(
             child: ListView.builder(
               physics: MIUIScrollPhysics(),
+              padding: EdgeInsets.only(bottom: 10),
               reverse: true,
               controller: _scrollController,
               itemBuilder: (BuildContext context, int index) {
@@ -57,11 +58,12 @@ class _GroupState extends State<GroupPage> {
           ),
           Material(
             child: Container(
-              height: 60,
               child: Row(
                 children: <Widget>[
                   Expanded(
                     child: TextField(
+                      minLines: 1,
+                      maxLines: 3,
                       controller: _textEditingController,
                       focusNode: _focusNode,
                       onSubmitted: (value) {

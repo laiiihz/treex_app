@@ -14,6 +14,7 @@ import 'package:treex_app/UI/MainUI/extraPages/file/widget/NewFolder.dart';
 import 'package:treex_app/UI/MainUI/extraPages/file/widget/buildEmpty.dart';
 import 'package:treex_app/UI/widget/CardBar.dart';
 import 'package:treex_app/UI/widget/LargeIconBackground.dart';
+import 'package:treex_app/Utils/TreexVibration.dart';
 import 'package:treex_app/network/NetworkFileEntity.dart';
 import 'package:treex_app/network/NetworkFileUtil.dart';
 import 'package:treex_app/provider/AppProvider.dart';
@@ -106,10 +107,16 @@ class _FilesSharedState extends State<FilesSharedPage>
                             : CrossFadeState.showSecond,
                         duration: Duration(milliseconds: 350),
                       ),
-                      onPressed: () => setState(() {
-                        _isGridView = !_isGridView;
-                        _listKey = UniqueKey();
-                      }),
+                      onPressed: () {
+                        TreexVibration(context: context).fileVib(
+                          isList: _isGridView,
+                          size: files.length,
+                        );
+                        setState(() {
+                          _isGridView = !_isGridView;
+                          _listKey = UniqueKey();
+                        });
+                      },
                     ),
                   ],
                   flexibleSpace: FlexibleSpaceBar(

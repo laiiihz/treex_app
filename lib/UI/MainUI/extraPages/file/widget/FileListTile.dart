@@ -49,8 +49,9 @@ class _FileListTileState extends State<FileListTileWidget> {
     return SlideAnimation(
       horizontalOffset: 50,
       verticalOffset: 100,
+      delay: Duration(milliseconds: 50),
       child: FadeInAnimation(
-        delay: Duration(milliseconds: 100),
+        delay: Duration(milliseconds: 50),
         child: ListTile(
           onLongPress: widget.onLongPress,
           onTap: () {
