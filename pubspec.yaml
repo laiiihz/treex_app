@@ -49,6 +49,7 @@ dependencies:
   open_file:
   sticky_headers:
   vibration:
+  web_socket_channel:
 
 dev_dependencies:
   flutter_test:

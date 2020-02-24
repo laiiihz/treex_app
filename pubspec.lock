@@ -513,6 +513,13 @@ packages:
       url: "https://github.com/i-protoss/wave"
     source: git
     version: "0.0.8"
+  web_socket_channel:
+    dependency: "direct main"
+    description:
+      name: web_socket_channel
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "1.1.0"
   xml:
     dependency: transitive
     description:
