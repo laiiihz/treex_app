@@ -4,6 +4,7 @@ import 'package:flutter_miui/flutter_miui.dart';
 import 'package:provider/provider.dart';
 import 'package:treex_app/UI/widget/CardBar.dart';
 import 'package:treex_app/UI/widget/ProfileGrid.dart';
+import 'package:treex_app/Utils/FileParseUtil.dart';
 import 'package:treex_app/provider/AppProvider.dart';
 import 'package:treex_app/transferSystem/downloadFile.dart';
 
@@ -21,22 +22,36 @@ class _TransferDownloadListTileState
     extends State<TransferDownloadListTileWidget> {
   @override
   Widget build(BuildContext context) {
+    final provider = Provider.of<AppProvider>(context);
     return ListTile(
       leading: CircleAvatar(
         backgroundColor: Theme.of(context).primaryColor,
-        child: Icon(MaterialCommunityIcons.file_outline),
+        child: FileParseUtil.parseIcon(
+            isDir: false, name: widget.downloadFile.name),
       ),
-      trailing: IconButton(
-        icon: Icon(widget.downloadFile.cancelToken.isCancelled
-            ? Icons.play_arrow
-            : Icons.pause),
-        onPressed: () {
-          widget.downloadFile.cancelToken.cancel("cancelled");
-        },
+      trailing: widget.downloadFile.value == 1.0
+          ? Chip(
+              label: Text('下载完成'),
+              backgroundColor: provider.primaryColor,
+            )
+          : IconButton(
+              icon: Icon(widget.downloadFile.cancelToken.isCancelled
+                  ? Icons.play_arrow
+                  : Icons.pause),
+              onPressed: () {
+                if (!widget.downloadFile.cancelToken.isCancelled) {
+                  widget.downloadFile.cancelToken.cancel("cancelled");
+                }
+              },
+            ),
+      title: Text(
+        widget.downloadFile.name,
+        overflow: TextOverflow.fade,
+        softWrap: false,
       ),
-      title: Text(widget.downloadFile.name),
       subtitle: LinearProgressIndicator(
         value: widget.downloadFile.value,
+        valueColor: AlwaysStoppedAnimation<Color>(provider.primaryColor),
       ),
       contentPadding: edgeInsetsGeometryCurved(context),
       onTap: () {
@@ -53,9 +68,10 @@ class _TransferDownloadListTileState
                   onTap: () {
                     final provider =
                         Provider.of<AppProvider>(context, listen: false);
-                    widget.downloadFile.cancelToken.cancel();
+                    if (!widget.downloadFile.cancelToken.isCancelled) {
+                      widget.downloadFile.cancelToken.cancel();
+                    }
                     provider.deleteDownloadTaskAt(widget.downloadFile);
-                    //TODO delete local file
                     Navigator.of(context).pop();
                   },
                 ),

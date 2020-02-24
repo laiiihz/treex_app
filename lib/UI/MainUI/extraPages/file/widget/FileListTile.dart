@@ -123,8 +123,15 @@ class _FileListTileState extends State<FileListTileWidget> {
             onSelected: (value) {
               switch (value) {
                 case 'download':
-                  DownloadSystem()
-                      .download(context, widget.file.path, share: widget.share);
+                  DownloadSystemV2 downloadSystemV2 =
+                      DownloadSystemV2(context: context);
+                  downloadSystemV2
+                      .downloadInit(path: widget.file.path, share: widget.share)
+                      .then((value) {
+                    if (value)
+                      downloadSystemV2.downloadV2(
+                          path: widget.file.path, share: widget.share);
+                  });
                   break;
                 case 'downloadAll':
                   BotToast.showText(text: 'IN DEVELOPMENT❤');

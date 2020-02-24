@@ -35,9 +35,8 @@ class _TransferState extends State<TransferPage> with TickerProviderStateMixin {
         onPressed: () {
           DownloadSystemV2 downloadSystemV2 =
               DownloadSystemV2(context: context);
-
-          downloadSystemV2.downloadInit(path: './30.bin').then((_) {
-            downloadSystemV2.downloadV2(path: './30.bin');
+          downloadSystemV2.downloadInit(path: './30.bin').then((value) {
+            if (value) downloadSystemV2.downloadV2(path: './30.bin');
           });
         },
         child: Icon(Icons.developer_mode),

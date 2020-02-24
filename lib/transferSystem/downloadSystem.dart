@@ -36,10 +36,10 @@ class DownloadSystem {
 
 class DownloadSystemV2 {
   BuildContext context;
-  DownloadSystemV2({this.context});
+  DownloadSystemV2({@required this.context});
   MultiPartDownloadFile _multiPartDownloadFile;
   Future downloadV2({
-    String path,
+    @required String path,
     bool share = false,
   }) async {
     NetworkUtilWithHeader networkUtilWithHeader =
@@ -54,17 +54,25 @@ class DownloadSystemV2 {
       networkUtilWithHeader.dio.download(
         '/api/treex/${share ? 'share' : 'file'}/download?path=$path',
         file.path,
+        cancelToken: _multiPartDownloadFile.cancelToken,
         onReceiveProgress: (value, all) {
           provider.setSingleFileDownloadValue(value / all,
               provider.downloadingFiles.indexOf(_multiPartDownloadFile));
         },
-      );
+      ).catchError((e) {
+        if (_multiPartDownloadFile.cancelToken.isCancelled) {
+          BotToast.showNotification(
+            title: (_) => Text('下载被取消'),
+            subtitle: (_) => Text(_multiPartDownloadFile.name),
+          );
+        }
+      });
     } else {
       //multipart file
     }
   }
 
-  Future downloadInit({
+  Future<bool> downloadInit({
     @required String path,
     bool share = false,
   }) async {
@@ -81,24 +89,29 @@ class DownloadSystemV2 {
         endTag = true;
       }
     });
-    if (endTag) return;
+    if (endTag) return false;
     Dio dio = networkUtilWithHeader.dio;
     dio.options.headers.addEntries([MapEntry('Range', 'bytes=0-0')]);
     await dio.get('/api/treex/file/download?path=$path').then((response) {
       String rawRange = response.headers['content-range'][0];
       _multiPartDownloadFile = MultiPartDownloadFile(
         length: _parseRange(rawRange),
-        name: 'ph1oto.ps1',
+        name: _path2Name(path),
         cancelToken: CancelToken(),
         path: path,
       );
-
+      print(_multiPartDownloadFile.cancelToken.hashCode);
       networkUtilWithHeader.provider.addDownloadTask(_multiPartDownloadFile);
       BotToast.showNotification(title: (_) => Text('创建下载任务成功'));
     });
+    return true;
   }
 
   int _parseRange(String rawRange) {
     return int.parse(rawRange.split('/')[1]);
+  }
+
+  String _path2Name(String path) {
+    return path.substring(path.lastIndexOf('/') + 1);
   }
 }

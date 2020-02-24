@@ -1,8 +1,10 @@
 import 'dart:io';
 
+import 'package:bot_toast/bot_toast.dart';
 import 'package:connectivity/connectivity.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:treex_app/Utils/FileParseUtil.dart';
 import 'package:treex_app/network/NetworkProfileUtil.dart';
 import 'package:treex_app/transferSystem/downloadFile.dart';
 import 'package:treex_app/transferSystem/uploadFile.dart';
@@ -229,6 +231,17 @@ class AppProvider extends ChangeNotifier {
 
   setSingleFileDownloadValue(double value, int index) {
     _downloadingFiles[index].value = value;
+    if (value == 1.0) {
+      BotToast.showNotification(
+        leading: (_) => FileParseUtil.parseIcon(
+            name: _downloadingFiles[index].name, isDir: false),
+        title: (_) => Text('下载完成'),
+        subtitle: (_) => Text(
+          _downloadingFiles[index].name,
+          overflow: TextOverflow.fade,
+        ),
+      );
+    }
     notifyListeners();
   }
 }
