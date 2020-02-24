@@ -61,10 +61,27 @@ class _TransferDownloadListTileState
           content: Container(
             height: 100,
             child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: <Widget>[
                 ProfileGridWidget(
                   text: '删除该下载项',
                   icon: Icon(Icons.clear),
+                  onTap: () {
+                    final provider =
+                        Provider.of<AppProvider>(context, listen: false);
+                    if (!widget.downloadFile.cancelToken.isCancelled) {
+                      widget.downloadFile.cancelToken.cancel();
+                    }
+                    provider.deleteDownloadTaskAt(widget.downloadFile);
+                    Navigator.of(context).pop();
+                  },
+                ),
+                ProfileGridWidget(
+                  text: '删除本地文件',
+                  icon: Icon(
+                    Icons.delete,
+                    color: Colors.pink,
+                  ),
                   onTap: () {
                     final provider =
                         Provider.of<AppProvider>(context, listen: false);
