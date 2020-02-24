@@ -23,7 +23,7 @@ class NetworkTransferUtil {
         (client) {
       client.badCertificateCallback = (cert, host, port) {
         return true;
-        //Self sign file check here
+        //TODO Self sign file check here
       };
     };
     this.dio

@@ -35,7 +35,6 @@ class _ProfileViewState extends State<ProfileViewWidget> {
       physics: MIUIScrollPhysics(),
       slivers: <Widget>[
         SliverAppBar(
-          backgroundColor: provider.userProfile.backgroundColor,
           stretch: true,
           pinned: true,
           expandedHeight: 350,

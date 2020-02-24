@@ -32,6 +32,7 @@ class _LoginState extends State<LoginPage> {
   void initState() {
     super.initState();
   }
+
   @override
   void dispose() {
     super.dispose();
@@ -194,7 +195,7 @@ class _LoginState extends State<LoginPage> {
                 ),
                 onPressed: _canLoginPressed
                     ? () {
-                      Vibration.vibrate(duration: 30);
+                        Vibration.vibrate(duration: 30);
                         checkLogin(context);
                       }
                     : null,
@@ -268,17 +269,16 @@ class _LoginState extends State<LoginPage> {
           );
           break;
         case LoginResult.SUCCESS:
-        print('ok');
           final provider = Provider.of<AppProvider>(context, listen: false);
-          if (provider.userProfile.avatar.isNotEmpty) {
-            NetworkAvatarOrBackground(context)
-                .build(provider.userProfile.avatar, FileTypeAB.AVATAR)
-                .then((_) {
-              NetworkAvatarOrBackground(context)
-                  .build(provider.userProfile.avatar, FileTypeAB.BACKGROUND);
-            });
+          buildAvatar() async {
+            if (provider.userProfile.avatar.isNotEmpty) {
+              await NetworkAvatarOrBackground(context)
+                  .build(provider.userProfile.avatar);
+            }
           }
-          Navigator.of(context).pushReplacementNamed('home');
+          buildAvatar().then((_) {
+            Navigator.of(context).pushReplacementNamed('home');
+          });
 
           break;
         case LoginResult.PASSWORD_WRONG:

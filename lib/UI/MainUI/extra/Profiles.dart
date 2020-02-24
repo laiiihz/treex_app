@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -6,7 +8,9 @@ import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 import 'package:treex_app/UI/widget/CardBar.dart';
 import 'package:treex_app/UI/widget/LOGO.dart';
+import 'package:treex_app/Utils/FileParseUtil.dart';
 import 'package:treex_app/Utils/brightnessUtil.dart';
+import 'package:treex_app/network/NetworkAvatar.dart';
 import 'package:treex_app/network/NetworkProfileUtil.dart';
 import 'package:treex_app/provider/AppProvider.dart';
 
@@ -55,17 +59,24 @@ class _ProfilesState extends State<ProfilesPage> {
             flexibleSpace: FlexibleSpaceBar(
               background: Stack(
                 children: <Widget>[
-                  AnimatedContainer(
-                    duration: Duration(milliseconds: 350),
+                  Container(
                     decoration: BoxDecoration(
                         color: provider.userProfile.backgroundColor),
                     width: MediaQuery.of(context).size.width,
-                    child: provider.userProfile.background.isEmpty
+                    child: provider.userProfile.avatar.isEmpty
                         ? SizedBox()
                         : Image.file(
-                            provider.backgroundFile,
+                            provider.avatarFile,
                             fit: BoxFit.cover,
                           ),
+                  ),
+                  ClipRect(
+                    child: BackdropFilter(
+                      filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
+                      child: Container(
+                        color: Colors.transparent,
+                      ),
+                    ),
                   ),
                   Center(
                     child: Padding(
@@ -206,14 +217,6 @@ class _ProfilesState extends State<ProfilesPage> {
                       : null,
                 ),
               ),
-              ListTile(
-                contentPadding: edgeInsetsGeometryCurved(context),
-                onTap: () {},
-                title: Text('我的主题色'),
-                trailing: CircleAvatar(
-                  backgroundColor: provider.userProfile.backgroundColor,
-                ),
-              ),
             ]),
           ),
         ],
@@ -233,24 +236,48 @@ class _ProfilesState extends State<ProfilesPage> {
             IconButton(
               icon: Icon(Icons.insert_photo),
               onPressed: () {
-                ImagePicker.pickImage(source: ImageSource.gallery).then((pic) {
+                final provider =
+                    Provider.of<AppProvider>(context, listen: false);
+                ImagePicker.pickImage(
+                  source: ImageSource.gallery,
+                  maxWidth: 500,
+                  maxHeight: 500,
+                ).then((pic) {
                   if (pic == null)
                     BotToast.showNotification(
                       leading: (_) => Icon(Icons.warning),
                       title: (_) => Text('未选择图片'),
                     );
+                  else {
+                    String type = FileNameClass.fromName(pic.path).suffix;
+                    NetworkAvatar(context).set(pic, type);
+                    provider.changeAvatarFile(pic);
+                  }
                 });
               },
             ),
             IconButton(
               icon: Icon(Icons.camera_alt),
               onPressed: () {
-                ImagePicker.pickImage(source: ImageSource.camera).then((pic) {
+                final provider =
+                    Provider.of<AppProvider>(context, listen: false);
+                ImagePicker.pickImage(
+                  source: ImageSource.camera,
+                  maxHeight: 500,
+                  maxWidth: 500,
+                ).then((pic) {
+                  pic.length().then((value) {
+                    print(value / 1024 / 1024);
+                  });
                   if (pic == null)
                     BotToast.showNotification(
                       leading: (_) => Icon(Icons.warning),
                       title: (_) => Text('未拍摄图片'),
                     );
+                  else {
+                    NetworkAvatar(context).set(pic, 'jpg');
+                    provider.changeAvatarFile(pic);
+                  }
                 });
               },
             ),
