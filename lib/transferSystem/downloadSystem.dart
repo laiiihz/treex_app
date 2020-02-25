@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:bot_toast/bot_toast.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:treex_app/Utils/FileUtil.dart';
 import 'package:treex_app/network/NetworkFileUtil.dart';
 import 'package:treex_app/provider/AppProvider.dart';
@@ -52,7 +53,7 @@ class DownloadSystemV2 {
       FileUtil fileUtil = await FileUtil.build(context);
       File file = await fileUtil.getFile(path, share: share);
       networkUtilWithHeader.dio.download(
-        '/api/treex/${share ? 'share' : 'file'}/download?path=$path',
+        '/api/treex/file/download?path=$path&share=$share',
         file.path,
         cancelToken: _multiPartDownloadFile.cancelToken,
         onReceiveProgress: (value, all) {
@@ -69,6 +70,40 @@ class DownloadSystemV2 {
       });
     } else {
       //multipart file
+      _multipartsDownload() async {
+        int partsCount = _multiPartDownloadFile.parts.length;
+        FileUtil fileUtil = await FileUtil.build(context);
+        NetworkUtilWithHeader _networkUtilWithHeader =
+            NetworkUtilWithHeader(context);
+        Map<String, dynamic> myheaders =
+            _networkUtilWithHeader.dio.options.headers;
+        for (int i = 0; i < partsCount; i++) {
+          int start = _multiPartDownloadFile.parts[i].start;
+          int end = _multiPartDownloadFile.parts[i].end;
+          File file = await fileUtil.getFile(path + '.$i', share: share);
+          Dio dio = _networkUtilWithHeader.dio;
+          dio.options.headers = myheaders;
+          dio.options.headers
+              .addEntries([MapEntry('Range', 'bytes=$start-$end')]);
+          print(context.hashCode);
+          await dio.download(
+            '/api/treex/file/download?path=$path&share=$share',
+            file.path,
+            cancelToken: _multiPartDownloadFile.cancelToken,
+            onReceiveProgress: (value, all) {
+              provider.testSingleFileDownload(
+                (value + FILESIZE.serverMaxSize * i) /
+                    _multiPartDownloadFile.length,
+                provider.downloadingFiles.indexOf(_multiPartDownloadFile),
+              );
+            },
+          );
+        }
+      }
+
+      _multipartsDownload().then((_) {
+        print("download done");
+      });
     }
   }
 
@@ -92,7 +127,9 @@ class DownloadSystemV2 {
     if (endTag) return false;
     Dio dio = networkUtilWithHeader.dio;
     dio.options.headers.addEntries([MapEntry('Range', 'bytes=0-0')]);
-    await dio.get('/api/treex/file/download?path=$path').then((response) {
+    await dio
+        .get('/api/treex/file/download?path=$path&share=$share')
+        .then((response) {
       String rawRange = response.headers['content-range'][0];
       _multiPartDownloadFile = MultiPartDownloadFile(
         length: _parseRange(rawRange),

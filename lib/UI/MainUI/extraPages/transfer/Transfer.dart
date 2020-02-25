@@ -1,3 +1,4 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_miui/flutter_miui.dart';
 import 'package:treex_app/UI/MainUI/extraPages/transfer/TransferDownload.dart';
@@ -32,13 +33,7 @@ class _TransferState extends State<TransferPage> with TickerProviderStateMixin {
   Widget build(BuildContext context) {
     return Scaffold(
       floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          DownloadSystemV2 downloadSystemV2 =
-              DownloadSystemV2(context: context);
-          downloadSystemV2.downloadInit(path: './30.bin').then((value) {
-            if (value) downloadSystemV2.downloadV2(path: './30.bin');
-          });
-        },
+        onPressed: () {},
         child: Icon(Icons.developer_mode),
       ),
       appBar: AppBar(

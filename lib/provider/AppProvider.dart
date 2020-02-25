@@ -244,4 +244,9 @@ class AppProvider extends ChangeNotifier {
     }
     notifyListeners();
   }
+
+  testSingleFileDownload(double a, int index) {
+    _downloadingFiles[index].value = a;
+    notifyListeners();
+  }
 }
