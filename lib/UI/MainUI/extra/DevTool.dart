@@ -6,7 +6,6 @@ import 'package:treex_app/UI/widget/CardBar.dart';
 import 'package:treex_app/Utils/SharedPreferenceUtils.dart';
 import 'package:treex_app/network/AuthUtil.dart';
 import 'package:treex_app/provider/AppProvider.dart';
-import 'package:treex_app/transferSystem/downloadSystem.dart';
 
 enum _DevOp {
   GET,
@@ -130,14 +129,17 @@ class _DevToolState extends State<DevToolPage> {
                               Future<Response> getResponse() async {
                                 switch (_nowOp) {
                                   case _DevOp.GET:
-                                    return await dio
-                                        .get(_textEditingController.text,cancelToken: _cancelToken);
+                                    return await dio.get(
+                                        _textEditingController.text,
+                                        cancelToken: _cancelToken);
                                   case _DevOp.DELETE:
-                                    return await dio
-                                        .delete(_textEditingController.text,cancelToken: _cancelToken);
+                                    return await dio.delete(
+                                        _textEditingController.text,
+                                        cancelToken: _cancelToken);
                                   case _DevOp.PUT:
-                                    return await dio
-                                        .put(_textEditingController.text,cancelToken: _cancelToken);
+                                    return await dio.put(
+                                        _textEditingController.text,
+                                        cancelToken: _cancelToken);
                                 }
                                 return null;
                               }
@@ -174,12 +176,6 @@ class _DevToolState extends State<DevToolPage> {
                       RaisedButton(
                         onPressed: () {},
                         child: Text('Upload Test'.toUpperCase()),
-                      ),
-                      RaisedButton(
-                        onPressed: () {
-                          DownloadSystem().download(context, "./1.zip");
-                        },
-                        child: Text('Download Test'.toUpperCase()),
                       ),
                     ],
                   ),

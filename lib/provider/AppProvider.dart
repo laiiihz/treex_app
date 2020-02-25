@@ -147,19 +147,6 @@ class AppProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  List<DownloadFile> _downloadFiles = [];
-  List<DownloadFile> get downloadFiles => _downloadFiles;
-  int get downloadTaskNumber => _downloadFiles.length;
-  addTask(DownloadFile downloadFile) {
-    _downloadFiles.add(downloadFile);
-    notifyListeners();
-  }
-
-  setDownloadValue(double value, int index) {
-    _downloadFiles[index].value = value;
-    notifyListeners();
-  }
-
   List<UploadFile> _uploadFiles = [];
   List<UploadFile> get uploadFiles => _uploadFiles;
   int get uploadTaskNumber => _uploadFiles.length;
@@ -242,11 +229,6 @@ class AppProvider extends ChangeNotifier {
         ),
       );
     }
-    notifyListeners();
-  }
-
-  testSingleFileDownload(double a, int index) {
-    _downloadingFiles[index].value = a;
     notifyListeners();
   }
 }

@@ -3,37 +3,12 @@ import 'dart:io';
 import 'package:bot_toast/bot_toast.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:treex_app/Utils/FileUtil.dart';
 import 'package:treex_app/network/NetworkFileUtil.dart';
 import 'package:treex_app/provider/AppProvider.dart';
 import 'package:treex_app/transferSystem/downloadFile.dart';
 
-class DownloadSystem {
-  Future download(
-    BuildContext context,
-    String path, {
-    bool share = false,
-  }) async {
-    FileUtil fileUtil = await FileUtil.build(context);
-    File file = await fileUtil.getFile(path, share: share);
-    DownloadFile downloadFile = DownloadFile(path);
-    fileUtil.provider.addTask(downloadFile);
-    await NetworkUtilWithHeader(context).dio.download(
-      '/api/treex/${share ? 'share' : 'file'}/download?path=$path',
-      file.path,
-      onReceiveProgress: (value, all) {
-        fileUtil.provider.setDownloadValue(
-            value / all, fileUtil.provider.downloadTaskNumber - 1);
-      },
-      cancelToken: downloadFile.cancelToken,
-    ).catchError((e) {
-      if (downloadFile.cancelToken.isCancelled) {
-        BotToast.showText(text: 'cancelled');
-      }
-    });
-  }
-}
+
 
 class DownloadSystemV2 {
   BuildContext context;
@@ -78,6 +53,7 @@ class DownloadSystemV2 {
         Map<String, dynamic> myheaders =
             _networkUtilWithHeader.dio.options.headers;
         for (int i = 0; i < partsCount; i++) {
+          bool breakTag = false;
           int start = _multiPartDownloadFile.parts[i].start;
           int end = _multiPartDownloadFile.parts[i].end;
           File file = await fileUtil.getFile(path + '.$i', share: share);
@@ -91,13 +67,25 @@ class DownloadSystemV2 {
             file.path,
             cancelToken: _multiPartDownloadFile.cancelToken,
             onReceiveProgress: (value, all) {
-              provider.testSingleFileDownload(
+              provider.setSingleFileDownloadValue(
                 (value + FILESIZE.serverMaxSize * i) /
                     _multiPartDownloadFile.length,
                 provider.downloadingFiles.indexOf(_multiPartDownloadFile),
               );
             },
-          );
+          ).catchError((e) {
+            if (_multiPartDownloadFile.cancelToken.isCancelled) {
+              BotToast.showNotification(
+                title: (_) => Text('下载被取消'),
+                subtitle: (_) => Text(_multiPartDownloadFile.name),
+              );
+            }
+          }).whenComplete(() {
+            if (_multiPartDownloadFile.cancelToken.isCancelled) {
+              breakTag = true;
+            }
+          });
+          if (breakTag) break;
         }
       }
 

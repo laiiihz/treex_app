@@ -1,15 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 
-class DownloadFile {
-  double value;
-  String name;
-  CancelToken cancelToken;
-  DownloadFile(this.name) {
-    cancelToken = CancelToken();
-  }
-}
-
 ///init MultiPartDownloadFile
 ///
 ///split file when file larger than 40MB(default)
