@@ -64,6 +64,8 @@ flutter:
   uses-material-design: true
   assets:
     - assets/animation/logo.flr
+    - assets/animation/cloud.flr
+    - assets/animation/message.flr
     - assets/imgs/logo.png
     - assets/imgs/nasa-1.webp
     - assets/imgs/nasa-2.webp

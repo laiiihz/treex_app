@@ -1,3 +1,4 @@
+import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:flutter_miui/flutter_miui.dart';
@@ -18,6 +19,7 @@ class _FileViewState extends State<FileViewWidget> {
     super.dispose();
     _scrollController.dispose();
   }
+
   @override
   Widget build(BuildContext context) {
     return CustomScrollView(
@@ -45,8 +47,13 @@ class _FileViewState extends State<FileViewWidget> {
           ],
           flexibleSpace: FlexibleSpaceBar(
             title: Text('云盘'),
-            background: LargeIconBackgroundWidget(
-                tag: 'file_background', icon: Icons.cloud),
+            background: Opacity(
+              opacity: 0.5,
+              child: FlareActor(
+                'assets/animation/cloud.flr',
+                animation: 'cloud',
+              ),
+            ),
           ),
         ),
         SliverToBoxAdapter(

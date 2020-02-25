@@ -1,3 +1,4 @@
+import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:flutter_miui/flutter_miui.dart';
@@ -88,8 +89,10 @@ class _MessageViewState extends State<MessageViewWidget> {
           ],
           flexibleSpace: FlexibleSpaceBar(
             title: Text('消息'),
-            background:
-                LargeIconBackgroundWidget(tag: 'message', icon: Icons.message),
+            background: FlareActor(
+              'assets/animation/message.flr',
+              animation: 'message',
+            ),
           ),
           expandedHeight: 200,
         ),
