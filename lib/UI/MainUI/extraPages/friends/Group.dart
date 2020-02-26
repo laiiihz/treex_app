@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_icons/flutter_icons.dart';
 import 'package:flutter_miui/flutter_miui.dart';
 import 'package:provider/provider.dart';
 import 'package:treex_app/UI/MainUI/extraPages/friends/widget/TreexChatBox.dart';
+import 'package:treex_app/UI/widget/ProfileGrid.dart';
 import 'package:treex_app/Utils/HideSoftKeyboard.dart';
 import 'package:treex_app/provider/AppProvider.dart';
 
@@ -66,10 +68,10 @@ class _GroupState extends State<GroupPage> {
                       maxLines: 3,
                       controller: _textEditingController,
                       focusNode: _focusNode,
-                      onSubmitted: (value) {
+                      onEditingComplete: () {
                         FocusScope.of(context).requestFocus(_focusNode);
                         setState(() {
-                          _chatMessages.insert(0, value);
+                          _chatMessages.insert(0, _textEditingController.text);
                         });
                         _textEditingController.clear();
                         _scrollController.animateTo(
@@ -81,7 +83,30 @@ class _GroupState extends State<GroupPage> {
                       },
                     ),
                   ),
-                  IconButton(icon: Icon(Icons.camera_alt), onPressed: () {}),
+                  IconButton(
+                    icon: Icon(Icons.camera_alt),
+                    onPressed: () {
+                      showMIUIDialog(
+                          context: context,
+                          dyOffset: 0.2,
+                          content: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            children: <Widget>[
+                              ProfileGridWidget(
+                                text: '相册',
+                                icon: Icon(MaterialCommunityIcons.image),
+                                onTap: () {},
+                              ),
+                              ProfileGridWidget(
+                                text: '相机',
+                                icon: Icon(MaterialCommunityIcons.camera),
+                                onTap: () {},
+                              ),
+                            ],
+                          ),
+                          label: 'camera');
+                    },
+                  ),
                   IconButton(
                       icon: Icon(Icons.attach_file),
                       onPressed: () {
@@ -89,8 +114,31 @@ class _GroupState extends State<GroupPage> {
                         showMIUIDialog(
                           context: context,
                           dyOffset: 0.4,
-                          content: Container(
-                            height: 150,
+                          content: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            children: <Widget>[
+                              ProfileGridWidget(
+                                text: '文件',
+                                icon: Icon(MaterialCommunityIcons.file),
+                                onTap: () {},
+                              ),
+                              ProfileGridWidget(
+                                text: '文档',
+                                icon:
+                                    Icon(MaterialCommunityIcons.file_document),
+                                onTap: () {},
+                              ),
+                              ProfileGridWidget(
+                                text: '二维码',
+                                icon: Icon(MaterialCommunityIcons.qrcode),
+                                onTap: () {},
+                              ),
+                              ProfileGridWidget(
+                                text: '链接',
+                                icon: Icon(MaterialCommunityIcons.link),
+                                onTap: () {},
+                              ),
+                            ],
                           ),
                           label: 'extra',
                         );
