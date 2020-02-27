@@ -14,7 +14,8 @@ class _ScanToolState extends State<ScanToolPage> {
   String _qrText = '';
   bool _openTag = true;
   bool _flashOn = false;
-   
+  bool _backCamera = true;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -36,10 +37,23 @@ class _ScanToolState extends State<ScanToolPage> {
               _qrViewController.toggleFlash();
             },
           ),
-          SizedBox(width: 20),
+          SizedBox(width: 10),
           FloatingActionButton(
             heroTag: 'fab',
-            onPressed: () {},
+            child: AnimatedCrossFade(
+              firstChild: Icon(Icons.camera_rear),
+              secondChild: Icon(Icons.camera_front),
+              crossFadeState: _backCamera
+                  ? CrossFadeState.showSecond
+                  : CrossFadeState.showFirst,
+              duration: Duration(milliseconds: 300),
+            ),
+            onPressed: () {
+              setState(() {
+                _backCamera = !_backCamera;
+              });
+              _qrViewController.flipCamera();
+            },
           ),
         ],
       ),
@@ -67,7 +81,7 @@ class _ScanToolState extends State<ScanToolPage> {
         Vibration.vibrate(pattern: [0, 10, 50, 10]);
         Navigator.of(context).pushReplacement(
           MaterialPageRoute(
-            builder: (context) => ScanResultPage(),
+            builder: (context) => ScanResultPage(text: text),
           ),
         );
       }

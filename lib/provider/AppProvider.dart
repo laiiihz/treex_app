@@ -4,6 +4,7 @@ import 'package:bot_toast/bot_toast.dart';
 import 'package:connectivity/connectivity.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:treex_app/UI/MainUI/extra/Network.dart';
 import 'package:treex_app/Utils/FileParseUtil.dart';
 import 'package:treex_app/network/NetworkProfileUtil.dart';
 import 'package:treex_app/transferSystem/downloadFile.dart';
@@ -106,6 +107,13 @@ class AppProvider extends ChangeNotifier {
   get networkPort => _networkPort;
   changeNetworkPort(String port) {
     _networkPort = port;
+    notifyListeners();
+  }
+
+  changeNetworkConfig(NetworkConfig config) {
+    _networkAddr = config.addr;
+    _networkPort = config.port;
+    _isHttps = config.https;
     notifyListeners();
   }
 

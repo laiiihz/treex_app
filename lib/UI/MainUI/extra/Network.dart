@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:convert';
 import 'package:bot_toast/bot_toast.dart';
 import 'package:connectivity/connectivity.dart';
 import 'package:flutter/material.dart';
@@ -89,6 +90,16 @@ class _NetworkState extends State<NetworkPage> {
       floatingActionButton: Row(
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
+          widget.enabled
+              ? FloatingActionButton(
+                  onPressed: () {
+                    Navigator.of(context).pushReplacementNamed('scan');
+                  },
+                  child: Icon(MaterialCommunityIcons.qrcode_scan),
+                  heroTag: 'scan',
+                )
+              : SizedBox(),
+          SizedBox(width: 10),
           FloatingActionButton(
             onPressed: () {
               Vibration.vibrate(duration: 10);
@@ -153,9 +164,11 @@ class _NetworkState extends State<NetworkPage> {
                           content: Container(
                             height: 200,
                             child: QrImage(
-                                data:
-                                    NetworkConfig(port: '123', addr: 'asdfawef')
-                                        .toString()),
+                                data: NetworkConfig(
+                              port: _portEditController.text,
+                              addr: _ipTextEditController.text,
+                              https: _isHttpsOn,
+                            ).toString()),
                           ),
                           label: 'qrcode',
                         );
@@ -232,18 +245,31 @@ class _NetworkState extends State<NetworkPage> {
 class NetworkConfig {
   String port;
   String addr;
+  bool https;
   NetworkConfig({
-    this.port,
-    this.addr,
+    @required this.port,
+    @required this.addr,
+    @required this.https,
   });
-  Map<String, dynamic> toJSON() {
-    return {
-      'network': {'port': port, 'addr': addr}
-    };
+  String toJSON() {
+    return jsonEncode({
+      'tag': 'network',
+      'network': {
+        'port': port,
+        'addr': addr,
+        'https': https,
+      },
+    });
   }
 
   @override
   String toString() {
     return this.toJSON().toString();
+  }
+
+  NetworkConfig.build(Map<String, dynamic> json) {
+    this.port = json['network']['port'];
+    this.addr = json['network']['addr'];
+    this.https = json['network']['https'];
   }
 }
