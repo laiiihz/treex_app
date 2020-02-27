@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_miui/flutter_miui.dart';
 import 'package:provider/provider.dart';
 import 'package:treex_app/UI/widget/CardBar.dart';
@@ -41,6 +42,11 @@ class _DevToolState extends State<DevToolPage> {
   Widget build(BuildContext context) {
     final provider = Provider.of<AppProvider>(context);
     return Scaffold(
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          SystemChrome.setEnabledSystemUIOverlays([]);
+        }, 
+      ),
       body: CustomScrollView(
         physics: MIUIScrollPhysics(),
         slivers: <Widget>[

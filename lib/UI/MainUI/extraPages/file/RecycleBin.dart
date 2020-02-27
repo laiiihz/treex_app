@@ -6,6 +6,7 @@ import 'package:flutter_miui/flutter_miui.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:provider/provider.dart';
 import 'package:treex_app/UI/widget/LargeIconBackground.dart';
+import 'package:treex_app/Utils/brightnessUtil.dart';
 import 'package:treex_app/network/NetworkFileEntity.dart';
 import 'package:treex_app/network/NetworkFileUtil.dart';
 import 'package:treex_app/provider/AppProvider.dart';
@@ -77,6 +78,7 @@ class _RecycleBinState extends State<RecycleBinPage> {
                           child: Container(
                             height: 200,
                             child: CupertinoPicker(
+                              backgroundColor: Colors.transparent,
                               itemExtent: 30,
                               looping: true,
                               onSelectedItemChanged: (value) {
@@ -84,12 +86,12 @@ class _RecycleBinState extends State<RecycleBinPage> {
                                 Vibration.vibrate(duration: 5);
                               },
                               children: [
-                                Text('5天'),
-                                Text('10天'),
-                                Text('15天'),
-                                Text('20天'),
-                                Text('25天'),
-                                Text('30天'),
+                                _autoDeleteText('5天'),
+                                _autoDeleteText('10天'),
+                                _autoDeleteText('15天'),
+                                _autoDeleteText('20天'),
+                                _autoDeleteText('25天'),
+                                _autoDeleteText('30天'),
                               ],
                             ),
                           ),
@@ -163,5 +165,13 @@ class _RecycleBinState extends State<RecycleBinPage> {
         .then((_) {
       if (provider.vibrationIsOpen) Vibration.vibrate(duration: 20);
     });
+  }
+
+  Widget _autoDeleteText(String text) {
+    return Text(
+      text,
+      style:
+          TextStyle(color: isDark(context) ? Colors.white60 : Colors.black87),
+    );
   }
 }

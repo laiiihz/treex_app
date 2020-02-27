@@ -163,6 +163,7 @@ class _SettingsState extends State<SettingsPage> {
               SwitchListTile(
                 contentPadding: edgeInsetsGeometryCurved(context),
                 title: Text('滑动返回'),
+                subtitle: Text('可能与全面屏手势冲突'),
                 value: provider.iOSPlatform,
                 onChanged: (platform) {
                   provider.changeIOSPlatform(platform);
