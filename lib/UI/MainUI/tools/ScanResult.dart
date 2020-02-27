@@ -33,6 +33,15 @@ class _ScanResultState extends State<ScanResultPage> {
             provider.changeNetworkConfig(networkConfig);
             Navigator.of(context).pushReplacementNamed('network');
             break;
+          case 'profile':
+            if (jsonObject['profile']['name'] == provider.userProfile.name) {
+              Navigator.of(context).pushReplacementNamed('profile');
+            } else {
+              Navigator.of(context).pop();
+            }
+            print(
+                '${jsonObject['profile']['name']}@@@@@@${provider.userProfile.name}');
+            break;
           default:
         }
       } else if (RegExp(r'[\s]').hasMatch(widget.text)) {

@@ -142,6 +142,17 @@ class _HomeState extends State<HomePage> {
         currentIndex: _nowIndex,
         showUnselectedLabels: false,
         onTap: (index) {
+          if (provider.vibrationIsOpen) {
+            List<int> pattern = [];
+            for (int i = 0; i < (_nowIndex - index).abs() + 1; i++) {
+              if (i == 0)
+                pattern.addAll([0, 5]);
+              else
+                pattern
+                    .addAll([(300 / ((_nowIndex - index).abs())).floor(), 5]);
+            }
+            Vibration.vibrate(pattern: pattern);
+          }
           setState(() {
             _customKey = UniqueKey();
           });

@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:provider/provider.dart';
@@ -17,37 +19,39 @@ class _QRCodeProfileState extends State<QRCodeProfilePage> {
     return Scaffold(
       appBar: AppBar(
         title: Text('二维码名片'),
-        centerTitle: true,
       ),
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () {},
         label: Text('扫一扫'),
-        icon: Icon(AntDesign.scan1),
+        icon: Icon(MaterialCommunityIcons.qrcode_scan),
         heroTag: 'fab',
       ),
       body: Column(
         children: <Widget>[
           Row(
             children: <Widget>[
-              Hero(
-                tag: 'avatar',
-                child: Material(
-                  borderRadius: BorderRadius.circular(40),
-                  elevation: 10,
-                  child: CircleAvatar(
-                    backgroundImage: provider.avatarFile == null
-                        ? null
-                        : FileImage(provider.avatarFile),
-                    backgroundColor: isDark(context)
-                        ? null
-                        : provider.userProfile.backgroundColor,
-                    maxRadius: 40,
-                    child: provider.userProfile.avatar.isEmpty
-                        ? Text(
-                            provider.userProfile.name[0],
-                            style: TextStyle(fontSize: 30),
-                          )
-                        : SizedBox(),
+              Padding(
+                padding: EdgeInsets.all(5),
+                child: Hero(
+                  tag: 'avatar',
+                  child: Material(
+                    borderRadius: BorderRadius.circular(40),
+                    elevation: 10,
+                    child: CircleAvatar(
+                      backgroundImage: provider.avatarFile == null
+                          ? null
+                          : FileImage(provider.avatarFile),
+                      backgroundColor: isDark(context)
+                          ? null
+                          : provider.userProfile.backgroundColor,
+                      maxRadius: 40,
+                      child: provider.userProfile.avatar.isEmpty
+                          ? Text(
+                              provider.userProfile.name[0],
+                              style: TextStyle(fontSize: 30),
+                            )
+                          : SizedBox(),
+                    ),
                   ),
                 ),
               ),
@@ -72,7 +76,7 @@ class _QRCodeProfileState extends State<QRCodeProfilePage> {
                 child: QrImage(
                   foregroundColor: Colors.black,
                   backgroundColor: Colors.white,
-                  data: 'treex://user:${provider.userProfile.name}',
+                  data: ProfileConfig(provider.userProfile.name).toString(),
                 ),
               ),
             ),
@@ -80,5 +84,24 @@ class _QRCodeProfileState extends State<QRCodeProfilePage> {
         ],
       ),
     );
+  }
+}
+
+class ProfileConfig {
+  String name;
+  ProfileConfig(this.name);
+
+  String toJSON() {
+    return jsonEncode({
+      'tag': 'profile',
+      'profile': {
+        'name': name,
+      }
+    });
+  }
+
+  @override
+  String toString() {
+    return this.toJSON();
   }
 }
