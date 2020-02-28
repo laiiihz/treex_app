@@ -1,4 +1,5 @@
 import 'package:bot_toast/bot_toast.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_material_color_picker/flutter_material_color_picker.dart';
 import 'package:flutter_miui/flutter_miui.dart';
@@ -51,7 +52,7 @@ class _SettingsState extends State<SettingsPage> {
           SliverList(
             delegate: SliverChildListDelegate([
               ListTitleWidget(title: '界面显示'),
-              SwitchListTile(
+              SwitchListTile.adaptive(
                 contentPadding: edgeInsetsGeometryCurved(context),
                 title: Text('自动切换夜间模式'),
                 subtitle: Text('根据系统设置切换夜间模式'),
@@ -66,7 +67,7 @@ class _SettingsState extends State<SettingsPage> {
                   }
                 },
               ),
-              SwitchListTile(
+              SwitchListTile.adaptive(
                 contentPadding: edgeInsetsGeometryCurved(context),
                 title: Text('夜间模式'),
                 subtitle: Text('手动切换夜间模式'),
@@ -83,7 +84,7 @@ class _SettingsState extends State<SettingsPage> {
                         }
                       },
               ),
-              SwitchListTile(
+              SwitchListTile.adaptive(
                 contentPadding: edgeInsetsGeometryCurved(context),
                 title: Text('曲面屏优化'),
                 subtitle: Text('针对曲面屏优化界面布局'),
@@ -93,7 +94,7 @@ class _SettingsState extends State<SettingsPage> {
                   _shared.writeCurvedMode(value);
                 },
               ),
-              SwitchListTile(
+              SwitchListTile.adaptive(
                 contentPadding: edgeInsetsGeometryCurved(context),
                 title: Text('沉浸式状态栏'),
                 value: provider.immersiveStatusBar,
@@ -102,7 +103,7 @@ class _SettingsState extends State<SettingsPage> {
                   _shared.writeTransparent(status);
                 },
               ),
-              SwitchListTile(
+              SwitchListTile.adaptive(
                 contentPadding: edgeInsetsGeometryCurved(context),
                 title: Text('开启导航栏背景色'),
                 onChanged: (value) {
@@ -159,10 +160,10 @@ class _SettingsState extends State<SettingsPage> {
                   backgroundColor: provider.secondaryColor,
                 ),
               ),
-              ListTitleWidget(title: '手势'),
-              SwitchListTile(
+              ListTitleWidget(title: '风格'),
+              SwitchListTile.adaptive(
                 contentPadding: edgeInsetsGeometryCurved(context),
-                title: Text('滑动返回'),
+                title: Text('Cupertino'),
                 subtitle: Text('可能与全面屏手势冲突'),
                 value: provider.iOSPlatform,
                 onChanged: (platform) {
@@ -171,7 +172,7 @@ class _SettingsState extends State<SettingsPage> {
                 },
               ),
               ListTitleWidget(title: '体感'),
-              SwitchListTile(
+              SwitchListTile.adaptive(
                 contentPadding: edgeInsetsGeometryCurved(context),
                 title: Text('Motion Sense™'),
                 subtitle: Text('动态调节震动水平'),
@@ -186,7 +187,7 @@ class _SettingsState extends State<SettingsPage> {
                 },
               ),
               ListTitleWidget(title: '其他'),
-              SwitchListTile(
+              SwitchListTile.adaptive(
                 contentPadding: edgeInsetsGeometryCurved(context),
                 value: provider.fastInit,
                 title: Text('Quick Startup™'),
