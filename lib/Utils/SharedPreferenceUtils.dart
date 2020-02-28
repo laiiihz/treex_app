@@ -146,6 +146,14 @@ class Shared extends SharedBase {
     provider.setFastInit(state);
     return state;
   }
+
+  bool readAppFirstInit() {
+    return _sharedPreferences.getBool('firstInit') ?? true;
+  }
+
+  writeFirstInit() {
+    _sharedPreferences.setBool('firstInit', false);
+  }
 }
 
 ///system 0

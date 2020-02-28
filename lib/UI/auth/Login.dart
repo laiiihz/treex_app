@@ -32,6 +32,11 @@ class _LoginState extends State<LoginPage> {
   @override
   void initState() {
     super.initState();
+    Future.delayed(Duration.zero, () {
+      Shared.init(context).then((shared) async {
+        if (shared.readAppFirstInit()) Navigator.of(context).pushNamed('first');
+      });
+    });
   }
 
   @override
@@ -206,7 +211,10 @@ class _LoginState extends State<LoginPage> {
                 child: Align(
                   alignment: Alignment.centerRight,
                   child: IconButton(
-                    icon: Icon(Icons.settings),
+                    icon: Hero(
+                      tag: 'fab',
+                      child: Icon(Icons.settings),
+                    ),
                     onPressed: () {
                       Navigator.of(context).pushNamed('network');
                     },

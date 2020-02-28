@@ -19,6 +19,7 @@ import 'package:treex_app/UI/MainUI/extraPages/friends/Group.dart';
 import 'package:treex_app/UI/MainUI/extraPages/transfer/Transfer.dart';
 import 'package:treex_app/UI/MainUI/tools/ScanTool.dart';
 import 'package:treex_app/UI/auth/Login.dart';
+import 'package:treex_app/UI/splash/FirstInit.dart';
 import 'package:treex_app/UI/splash/Splash.dart';
 import 'package:treex_app/licenses/GPLView.dart';
 import 'package:treex_app/provider/AppProvider.dart';
@@ -46,6 +47,7 @@ class MyApp extends StatelessWidget {
       themeMode: provider.themeMode,
       initialRoute: 'splash',
       routes: {
+        'first': (context) => FirstInitPage(),
         'splash': (context) => SplashPage(),
         'login': (context) => LoginPage(),
         'home': (context) => HomePage(),

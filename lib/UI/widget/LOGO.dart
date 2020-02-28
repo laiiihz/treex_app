@@ -14,7 +14,11 @@ class _LOGOState extends State<LOGOWidget> {
           fontSize: 30,
         ),
         children: [
-          TextSpan(text: 'Tree'),
+          TextSpan(
+              text: 'Tree',
+              style: TextStyle(
+                color: Theme.of(context).textTheme.caption.color,
+              )),
           TextSpan(text: 'x', style: TextStyle(color: Colors.red)),
         ],
       ),
