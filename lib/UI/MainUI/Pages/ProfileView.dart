@@ -1,4 +1,5 @@
 import 'package:flip_card/flip_card.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:flutter_miui/flutter_miui.dart';
@@ -177,21 +178,25 @@ class _ProfileViewState extends State<ProfileViewWidget> {
             CardPadding10(
               child: Padding(
                 padding: EdgeInsets.only(left: 4, right: 4),
-                child: FlatButton(
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  onPressed: () {
-                    Shared.init(context).then((shared) {
-                      shared.writeToken('');
-                    });
-                    Navigator.of(context).pushReplacementNamed('login');
-                  },
-                  child: Text('退出登录'),
-                  textColor: Colors.red,
-                ),
+                child: provider.iOSPlatform
+                    ? CupertinoButton(
+                        child: Text(
+                          '退出登录',
+                          style: TextStyle(color: Colors.pink),
+                        ),
+                        onPressed: _logout,
+                      )
+                    : FlatButton(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        onPressed: _logout,
+                        child: Text('退出登录'),
+                        textColor: Colors.red,
+                      ),
               ),
             ),
+            
             ListTile(
               contentPadding: edgeInsetsGeometryCurved(context),
               leading:
@@ -227,6 +232,13 @@ class _ProfileViewState extends State<ProfileViewWidget> {
         ),
       ],
     );
+  }
+
+  _logout() {
+    Shared.init(context).then((shared) {
+      shared.writeToken('');
+    });
+    Navigator.of(context).pushReplacementNamed('login');
   }
 }
 
