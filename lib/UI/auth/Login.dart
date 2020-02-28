@@ -4,6 +4,7 @@ import 'package:flutter_miui/flutter_miui.dart';
 import 'package:provider/provider.dart';
 import 'package:treex_app/UI/auth/SignUp.dart';
 import 'package:treex_app/UI/widget/customWidgets.dart';
+import 'package:treex_app/Utils/SharedPreferenceUtils.dart';
 import 'package:treex_app/network/AuthUtil.dart';
 import 'package:treex_app/network/Enums.dart';
 import 'package:treex_app/network/NetworkAvatarOrBackground.dart';
@@ -239,6 +240,7 @@ class _LoginState extends State<LoginPage> {
   }
 
   checkLogin(BuildContext context) {
+    //Loading Before login
     BotToast.showCustomLoading(toastBuilder: (_) {
       final provider = Provider.of<AppProvider>(context);
       return CircularProgressIndicator(
@@ -270,13 +272,17 @@ class _LoginState extends State<LoginPage> {
           break;
         case LoginResult.SUCCESS:
           final provider = Provider.of<AppProvider>(context, listen: false);
+
           buildAvatar() async {
             if (provider.userProfile.avatar.isNotEmpty) {
               await NetworkAvatarOrBackground(context)
                   .build(provider.userProfile.avatar);
             }
           }
-          buildAvatar().then((_) {
+          buildAvatar().then((_) async {
+            await Shared.init(context).then((shared) {
+              shared.writeToken(provider.token);
+            });
             Navigator.of(context).pushReplacementNamed('home');
           });
 

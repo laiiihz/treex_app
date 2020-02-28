@@ -7,6 +7,7 @@ import 'package:treex_app/UI/MainUI/extra/Network.dart';
 import 'package:treex_app/UI/MainUI/tools/QRCodeProfile.dart';
 import 'package:treex_app/UI/widget/CardBar.dart';
 import 'package:treex_app/UI/widget/ProfileGrid.dart';
+import 'package:treex_app/Utils/SharedPreferenceUtils.dart';
 import 'package:treex_app/Utils/brightnessUtil.dart';
 import 'package:treex_app/provider/AppProvider.dart';
 import 'package:wave/config.dart';
@@ -180,7 +181,12 @@ class _ProfileViewState extends State<ProfileViewWidget> {
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10),
                   ),
-                  onPressed: () {},
+                  onPressed: () {
+                    Shared.init(context).then((shared) {
+                      shared.writeToken('');
+                    });
+                    Navigator.of(context).pushReplacementNamed('login');
+                  },
                   child: Text('退出登录'),
                   textColor: Colors.red,
                 ),
