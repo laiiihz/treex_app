@@ -42,28 +42,31 @@ class SloganWidget extends StatefulWidget {
 }
 
 class _SloganState extends State<SloganWidget> {
-  List<TextSpan> _displayList = [];
+  List<Text> _displayList = [];
   @override
   void initState() {
     super.initState();
-    for (int i = 0; i < 20; i++) {
+    for (int i = 0; i < 2; i++) {
       _displayList.add(
-        TextSpan(
-            style: TextStyle(fontWeight: int2Font[Random().nextInt(8)]),
-            text: slogan[Random().nextInt(slogan.length)].toUpperCase()),
+        Text(
+          slogan[Random().nextInt(slogan.length)].toUpperCase(),
+          style: TextStyle(
+            fontSize: 50,
+            fontWeight: int2Font[Random().nextInt(8)],
+          ),
+          overflow: TextOverflow.fade,
+          softWrap: false,
+          textAlign: TextAlign.left,
+        ),
       );
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    return Text.rich(
-      TextSpan(
-        children: _displayList,
-      ),
-      style: TextStyle(fontSize: 40),
-      overflow: TextOverflow.fade,
-      textAlign: TextAlign.left,
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: _displayList,
     );
   }
 }

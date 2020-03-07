@@ -17,7 +17,6 @@ class _FirstInitState extends State<FirstInitPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
       body: Column(
         children: <Widget>[
           Container(
@@ -94,6 +93,7 @@ class _FirstInitState extends State<FirstInitPage> {
                     },
                     cancelString: '拒绝',
                     confirmString: '同意',
+                    color: Theme.of(context).appBarTheme.color,
                   );
                 },
                 child: Padding(
