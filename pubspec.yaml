@@ -50,6 +50,7 @@ dependencies:
   sticky_headers:
   vibration:
   web_socket_channel:
+  waterfall_flow:
 
 dev_dependencies:
   flutter_test:

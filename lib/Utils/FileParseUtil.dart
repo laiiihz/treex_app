@@ -129,6 +129,10 @@ class FileParseUtil {
         return false;
     }
   }
+
+  static String parseLocalPath(String path) {
+    return path.split('/').last;
+  }
 }
 
 class TimeMillisecond {

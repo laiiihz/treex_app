@@ -1,8 +1,17 @@
+import 'dart:io';
+import 'dart:math';
+import 'dart:ui';
+
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_miui/flutter_miui.dart';
 import 'package:treex_app/UI/MainUI/extra/AppSearchDelegate.dart';
+import 'package:treex_app/UI/MainUI/extraPages/file/widget/buildEmpty.dart';
 import 'package:treex_app/UI/widget/LOGO.dart';
+import 'package:treex_app/UI/widget/ProfileGrid.dart';
+import 'package:treex_app/Utils/FileParseUtil.dart';
+import 'package:treex_app/Utils/FileUtil.dart';
+import 'package:waterfall_flow/waterfall_flow.dart';
 
 class HomeViewWidget extends StatefulWidget {
   @override
@@ -10,12 +19,97 @@ class HomeViewWidget extends StatefulWidget {
 }
 
 class _HomeViewState extends State<HomeViewWidget> {
+  List<Widget> _displayWidget = [];
+  @override
+  void initState() {
+    super.initState();
+    FileUtil.build(context).then((fileUtil) async {
+      List<FileSystemEntity> fileList =
+          fileUtil.appDir.listSync(recursive: true);
+      for (int i = 0; i < fileList.length; i++) {
+        await FileSystemEntity.isDirectory(fileList[i].path)
+            .then((state) async {
+          if (!state) {
+            switch (FileNameClass.fromName(fileList[i].path).suffix) {
+              case 'webp':
+              case 'jpg':
+              case 'jpeg':
+              case 'png':
+                await decodeImageFromList(
+                        File(fileList[i].path).readAsBytesSync())
+                    .then((image) {
+                  _displayWidget.add(
+                    Padding(
+                      padding: EdgeInsets.all(5),
+                      child: AspectRatio(
+                        aspectRatio: image.width / image.height,
+                        child: Stack(
+                          children: <Widget>[
+                            Image.file(fileList[i]),
+                            Container(
+                              padding: EdgeInsets.all(5),
+                              decoration: BoxDecoration(
+                                color: Colors.black38,
+                                borderRadius: BorderRadius.only(
+                                  bottomRight: Radius.circular(10),
+                                ),
+                              ),
+                              child: Text('${image.width}x${image.height}'),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  );
+                });
+                break;
+              default:
+                Icon icon = FileParseUtil.parseIcon(
+                    name: fileList[i].path, isDir: false);
+                _displayWidget.add(
+                  AspectRatio(
+                    aspectRatio: 1,
+                    child: Card(
+                      child: InkWell(
+                        onTap: () {},
+                        child: Column(
+                          children: <Widget>[
+                            Spacer(),
+                            Icon(
+                              icon.icon,
+                              color: icon.color,
+                              size: 50,
+                            ),
+                            Text(
+                              FileParseUtil.parseLocalPath(fileList[i].path),
+                              overflow: TextOverflow.fade,
+                            ),
+                            Spacer(),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                );
+                break;
+            }
+          }
+        });
+        if (i == (fileList.length - 1)) {
+          setState(() {});
+        }
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return CustomScrollView(
       physics: MIUIScrollPhysics(),
       slivers: <Widget>[
         SliverAppBar(
+          floating: true,
+          pinned: true,
           title: LOGOWidget(),
           actions: <Widget>[
             Material(
@@ -52,6 +146,30 @@ class _HomeViewState extends State<HomeViewWidget> {
             ),
           ),
           expandedHeight: 200,
+        ),
+        SliverToBoxAdapter(
+          child: _displayWidget.length == 0
+              ? Container(
+                  height: 200,
+                  child: buildEmptyNormal(
+                    _displayWidget.length == 0,
+                    value: '无可显示项目',
+                  ),
+                )
+              : SizedBox(),
+        ),
+        SliverToBoxAdapter(
+          child: WaterfallFlow.builder(
+            shrinkWrap: true,
+            physics: NeverScrollableScrollPhysics(),
+            gridDelegate: SliverWaterfallFlowDelegate(
+              crossAxisCount: 3,
+            ),
+            itemBuilder: (context, index) {
+              return _displayWidget[index];
+            },
+            itemCount: _displayWidget.length,
+          ),
         ),
       ],
     );

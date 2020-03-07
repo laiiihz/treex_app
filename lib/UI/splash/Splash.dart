@@ -56,6 +56,7 @@ class _SplashState extends State<SplashPage> {
                 });
               }
             }).then((_) {
+              print('push');
               Navigator.of(context).pushReplacementNamed('home');
             });
           } else {

@@ -8,8 +8,6 @@ import 'package:treex_app/network/NetworkFileUtil.dart';
 import 'package:treex_app/provider/AppProvider.dart';
 import 'package:treex_app/transferSystem/downloadFile.dart';
 
-
-
 class DownloadSystemV2 {
   BuildContext context;
   DownloadSystemV2({@required this.context});
