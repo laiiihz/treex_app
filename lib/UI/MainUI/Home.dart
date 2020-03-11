@@ -153,6 +153,7 @@ class _HomeState extends State<HomePage> {
             }
             Vibration.vibrate(pattern: pattern);
           }
+          provider.changeFABDisplay(true);
           setState(() {
             _customKey = UniqueKey();
           });

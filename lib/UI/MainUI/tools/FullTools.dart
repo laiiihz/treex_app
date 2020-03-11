@@ -1,7 +1,10 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:provider/provider.dart';
+import 'package:treex_app/UI/MainUI/tools/QRCodeProfile.dart';
 import 'package:treex_app/UI/widget/ToolGridItem.dart';
 import 'package:treex_app/Utils/brightnessUtil.dart';
 import 'package:treex_app/provider/AppProvider.dart';
@@ -17,17 +20,27 @@ class FullToolsPage extends StatefulWidget {
   State<StatefulWidget> createState() => _FullToolsState();
 }
 
-class _FullToolsState extends State<FullToolsPage> {
+class _FullToolsState extends State<FullToolsPage>
+    with TickerProviderStateMixin {
   double _maskHeight = 0;
   double _maskWidth = 0;
   double _maskRadius = 300;
   double _maskOpacity = 0;
   Alignment _alignment = Alignment(0, 1.5);
   Color _initColor;
+  AnimationController _animationController;
+  Animation _blurAnimation;
   @override
   void initState() {
     super.initState();
     _initColor = widget.color;
+    _animationController =
+        AnimationController(vsync: this, duration: Duration(milliseconds: 600));
+    _blurAnimation = Tween(begin: 0.0, end: 5.0).animate(_animationController);
+    Future.delayed(Duration(milliseconds: 500), () {
+      _animationController.fling(velocity: 1.0);
+    });
+
     Future.delayed(Duration.zero, () {
       setState(() {
         _maskWidth = MediaQuery.of(context).size.width;
@@ -62,14 +75,29 @@ class _FullToolsState extends State<FullToolsPage> {
                     duration: Duration(milliseconds: 500),
                     height: _maskHeight,
                     width: _maskWidth,
-                    child: InkWell(
-                      onTap: () {
-                        willPopFunc().then((_) {
-                          Navigator.of(context).pop();
-                        });
-                        if (provider.vibrationIsOpen)
-                          Vibration.vibrate(pattern: [200, 20, 300, 10]);
-                      },
+                    child: ClipRect(
+                      child: AnimatedBuilder(
+                        animation: _blurAnimation,
+                        builder: (BuildContext context, Widget child) {
+                          return BackdropFilter(
+                            filter: ImageFilter.blur(
+                              sigmaX: _blurAnimation.value,
+                              sigmaY: _blurAnimation.value,
+                            ),
+                            child: child,
+                          );
+                        },
+                        child: InkWell(
+                          child: Text(' '),
+                          onTap: () {
+                            willPopFunc().then((_) {
+                              Navigator.of(context).pop();
+                            });
+                            if (provider.vibrationIsOpen)
+                              Vibration.vibrate(pattern: [200, 20, 300, 10]);
+                          },
+                        ),
+                      ),
                     ),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(_maskRadius),
@@ -87,9 +115,27 @@ class _FullToolsState extends State<FullToolsPage> {
                   children: <Widget>[
                     ToolGridItemWidget(
                       title: '扫一扫',
-                      icon: AntDesign.scan1,
+                      icon: MaterialCommunityIcons.qrcode_scan,
                       onTap: () {
-                        Navigator.of(context).pushNamed('scan');
+                        Navigator.of(context).pushReplacementNamed('scan');
+                        provider.changeFABDisplay(true);
+                      },
+                    ),
+                    ToolGridItemWidget(
+                      title: '我的二维码名片',
+                      icon: MaterialCommunityIcons.qrcode,
+                      onTap: () {
+                        Navigator.of(context).pushReplacement(MaterialPageRoute(
+                          builder: (context) => QRCodeProfilePage(),
+                        ));
+                        provider.changeFABDisplay(true);
+                      },
+                    ),
+                    ToolGridItemWidget(
+                      title: '添加好友',
+                      icon: MaterialCommunityIcons.account_plus,
+                      onTap: () {
+                        Navigator.of(context).pop();
                       },
                     ),
                   ],

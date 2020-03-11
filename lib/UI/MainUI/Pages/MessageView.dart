@@ -4,7 +4,6 @@ import 'package:flutter_icons/flutter_icons.dart';
 import 'package:flutter_miui/flutter_miui.dart';
 import 'package:provider/provider.dart';
 import 'package:treex_app/UI/MainUI/extraPages/friends/SingleFriendView.dart';
-import 'package:treex_app/UI/widget/LargeIconBackground.dart';
 import 'package:treex_app/provider/AppProvider.dart';
 import 'package:vibration/vibration.dart';
 
@@ -17,6 +16,7 @@ class _MessageViewState extends State<MessageViewWidget> {
   ScrollController _scrollController =
       ScrollController(initialScrollOffset: -500);
   bool showIcon = false;
+  double _offset = 0;
   @override
   void initState() {
     super.initState();
@@ -58,77 +58,86 @@ class _MessageViewState extends State<MessageViewWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return CustomScrollView(
-      controller: _scrollController,
-      physics: MIUIScrollPhysics(),
-      slivers: <Widget>[
-        SliverAppBar(
-          pinned: true,
-          stretch: true,
-          leading: AnimatedOpacity(
-            opacity: showIcon ? 1 : 0,
-            duration: Duration(milliseconds: 300),
-            child: Icon(Icons.message),
-          ),
-          actions: <Widget>[
-            IconButton(
-              icon: Icon(Icons.group),
-              onPressed: () {
-                Navigator.of(context).pushNamed('groupChannel');
-              },
+    return Listener(
+      onPointerDown: (value) {
+        _offset = value.position.dy;
+      },
+      onPointerUp: (value) {
+        final provider = Provider.of<AppProvider>(context, listen: false);
+        provider.changeFABDisplay((value.position.dy - _offset) > 0);
+      },
+      child: CustomScrollView(
+        controller: _scrollController,
+        physics: MIUIScrollPhysics(),
+        slivers: <Widget>[
+          SliverAppBar(
+            pinned: true,
+            stretch: true,
+            leading: AnimatedOpacity(
+              opacity: showIcon ? 1 : 0,
+              duration: Duration(milliseconds: 300),
+              child: Icon(Icons.message),
             ),
-            IconButton(
-              icon: Hero(
-                tag: 'messageList',
-                child: Icon(AntDesign.solution1),
-              ),
-              onPressed: () {
-                Navigator.of(context).pushNamed('friendsList');
-              },
-            ),
-          ],
-          flexibleSpace: FlexibleSpaceBar(
-            title: Text('消息'),
-            background: FlareActor(
-              'assets/animation/message.flr',
-              animation: 'message',
-            ),
-          ),
-          expandedHeight: 200,
-        ),
-        SliverList(
-          delegate: SliverChildBuilderDelegate(
-            (context, index) {
-              return ListTile(
-                leading: Hero(
-                  tag: 'friend$index',
-                  child: CircleAvatar(),
-                ),
-                title: Hero(
-                  tag: 'friendName$index',
-                  child: Material(
-                    color: Colors.transparent,
-                    child: Text('friend 0$index'),
-                  ),
-                ),
-                onTap: () {
-                  Future.delayed(Duration(milliseconds: 100), () {
-                    Navigator.of(context).push(
-                      MaterialPageRoute(
-                        builder: (context) => SingleFriendViewPage(
-                          heroTagAvatar: 'friend$index',
-                          heroTagTitle: 'friendName$index',
-                        ),
-                      ),
-                    );
-                  });
+            actions: <Widget>[
+              IconButton(
+                icon: Icon(Icons.group),
+                onPressed: () {
+                  Navigator.of(context).pushNamed('groupChannel');
                 },
-              );
-            },
-            childCount: 50,
+              ),
+              IconButton(
+                icon: Hero(
+                  tag: 'messageList',
+                  child: Icon(AntDesign.solution1),
+                ),
+                onPressed: () {
+                  Navigator.of(context).pushNamed('friendsList');
+                },
+              ),
+            ],
+            flexibleSpace: FlexibleSpaceBar(
+              title: Text('消息'),
+              background: FlareActor(
+                'assets/animation/message.flr',
+                animation: 'message',
+              ),
+            ),
+            expandedHeight: 200,
           ),
-        ),
-      ],
+          SliverList(
+            delegate: SliverChildBuilderDelegate(
+              (context, index) {
+                return ListTile(
+                  leading: Hero(
+                    tag: 'friend$index',
+                    child: CircleAvatar(),
+                  ),
+                  title: Hero(
+                    tag: 'friendName$index',
+                    child: Material(
+                      color: Colors.transparent,
+                      child: Text('friend 0$index'),
+                    ),
+                  ),
+                  onTap: () {
+                    Future.delayed(Duration(milliseconds: 100), () {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (context) => SingleFriendViewPage(
+                            heroTagAvatar: 'friend$index',
+                            heroTagTitle: 'friendName$index',
+                          ),
+                        ),
+                      );
+                    });
+                  },
+                );
+              },
+              childCount: 50,
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
